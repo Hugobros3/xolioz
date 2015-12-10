@@ -1,0 +1,24 @@
+ #Copyright 2014 XolioWare Interactive
+ 
+ name: DogeZ-Plugin
+ version: 1.4
+ description: Plugin gerant DogeZ
+ 
+ author: Sir_Gobrosse
+ website: http://xol.io
+ 
+ main: io.xol.dogez.plugin.DogeZPlugin
+ 
+ commands:
+   dogez:
+     description: Commandes usuelles de DogeZ
+     aliases: [dz,xz,xolioz]
+     usage: |
+       /<command> [player]
+       Example: /dogez
+   m:
+     aliases: [msg,tell,mp]
+     description:
+   r:
+     aliases: [reply]
+     description:
