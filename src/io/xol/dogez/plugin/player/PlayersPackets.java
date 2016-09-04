@@ -1,13 +1,8 @@
 package io.xol.dogez.plugin.player;
 
-import net.minecraft.server.v1_8_R3.PacketPlayOutNamedSoundEffect;
-
-import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-
 public class PlayersPackets {
-	public static void playSound(Location loc, String soundName, float soundVolume, float soundPitch)
+	
+	/*public static void playSound(Location loc, String soundName, float soundVolume, float soundPitch)
 	{
 		if(soundVolume >= 0)
 		{
@@ -41,5 +36,5 @@ public class PlayersPackets {
 				p.sendBlockChange(loc, i, b);
 			}
 		}
-	}
+	}*/
 }

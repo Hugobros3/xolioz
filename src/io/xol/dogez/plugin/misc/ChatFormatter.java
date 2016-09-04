@@ -1,8 +1,8 @@
 package io.xol.dogez.plugin.misc;
 
-//(c) 2014 XolioWare Interactive
+import io.xol.chunkstories.api.compatibility.ChatColor;
 
-import org.bukkit.ChatColor;
+//(c) 2014 XolioWare Interactive
 
 public class ChatFormatter {
 

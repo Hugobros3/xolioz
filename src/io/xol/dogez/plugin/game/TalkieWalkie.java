@@ -1,37 +1,42 @@
 package io.xol.dogez.plugin.game;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import io.xol.chunkstories.api.compatibility.ChatColor;
+import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
+import io.xol.chunkstories.api.entity.interfaces.EntityWithInventory;
+import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.item.ItemPile;
+import io.xol.chunkstories.server.Server;
 
 //(c) 2015 XolioWare Interactive
 
 public class TalkieWalkie {
 	//Helper class for talkie walkie
 	
-	public static boolean hasPlayerGear(Player p)
+	public static boolean hasPlayerGear(Player player)
 	{
-		for(ItemStack i : p.getInventory().getContents())
+		EntityWithInventory p = (EntityWithInventory) player.getControlledEntity();
+		
+		for(ItemPile i : p.getInventory().iterator())
 		{
-			if(i != null && i.getType().equals(Material.NETHER_BRICK_ITEM))
+			if(i != null && i.getItem().getInternalName().equals("dz_talkie_walkie"))
 				return true;
 		}
 		return false;
 	}
 	
-	public static boolean canPlayerUse(Player p)
+	public static boolean canPlayerUse(Player player)
 	{
-		if(p.getGameMode().equals(GameMode.CREATIVE))
+		EntityCreative p = (EntityCreative) player.getControlledEntity();
+		
+		if(p.getCreativeModeComponent().isCreativeMode())
+		//if(p.getGameMode().equals(GameMode.CREATIVE))
 			return true;
-		return hasPlayerGear(p);
+		return hasPlayerGear(player);
 	}
 	
 	public static void notifyListenersAdmins(String from, String to, String msg)
 	{
-		for(Player p : Bukkit.getOnlinePlayers())
+		for(Player p : Server.getInstance().getConnectedPlayers())
 		{
 			if(!from.equals(p.getName()) && p.hasPermission("dogez.socialspy"))
 			{

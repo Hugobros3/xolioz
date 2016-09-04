@@ -1,5 +1,11 @@
 package io.xol.dogez.plugin.loot;
 
+import io.xol.chunkstories.api.Location;
+import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.api.voxel.Voxel;
+import io.xol.chunkstories.api.world.World;
+import io.xol.chunkstories.core.voxel.VoxelChest;
+import io.xol.chunkstories.voxel.Voxels;
 import io.xol.dogez.plugin.player.PlayerProfile;
 
 import java.io.BufferedReader;
@@ -16,28 +22,25 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
 //Copyright 2014 XolioWare Interactive
 
 public class LootPlaces {
 	//This class takes care of holding all the places on the world where the loot do spawns.
 	
-	static Map<String,LootPlace> placesChernarus = new HashMap<String,LootPlace>();
-	static Map<String,LootPlace> placesNamalsk = new HashMap<String,LootPlace>();
-	static Map<String,LootPlace> placesOther = new HashMap<String,LootPlace>();
+	static Map<String,LootPlace> places = new HashMap<String,LootPlace>();	
+	//static Map<String,LootPlace> placesChernarus = new HashMap<String,LootPlace>();
+	//static Map<String,LootPlace> placesNamalsk = new HashMap<String,LootPlace>();
+	//static Map<String,LootPlace> placesOther = new HashMap<String,LootPlace>();
 	
 	public static Map<String,LootPlace> getData(World w)
 	{
-		if(w.getName().equals("world"))
+		/*if(w.getName().equals("world"))
 			return placesChernarus;
 		if(w.getName().equals("namalsk-map"))
 			return placesNamalsk;
-		return placesOther;
+		return placesOther;*/
+		
+		return places;
 	}
 	
 	public static int respawnLoot(World w)
@@ -80,11 +83,13 @@ public class LootPlaces {
 	
 	private static String getPrefix(World w)
 	{
-		if(w.getName().equals("world"))
+		return "";
+		
+		/*if(w.getName().equals("world"))
 			return "";
 		if(w.getName().equals("namalsk-map"))
 			return "-namalsk";
-		return "-other";
+		return "-other";*/
 	}
 	
 	
@@ -155,26 +160,29 @@ public class LootPlaces {
 
 	public static void update(String coords, World w) {
 		Map<String,LootPlace> places = getData(w);
+		//System.out.println("so ?"+coords);
 		if(places.containsKey(coords))
 			places.get(coords).update();
 	}
 
 	public static int lootArroundPlayer(Player player, int radius, boolean forceReplace) {
-		Map<String,LootPlace> places = getData(player.getWorld());
+		Map<String,LootPlace> places = getData(player.getControlledEntity().getWorld());
 		int count = 0;
-		PlayerProfile pp = PlayerProfile.getPlayerProfile(player.getUniqueId().toString());
+		PlayerProfile pp = PlayerProfile.getPlayerProfile(player.getUUID());
 		Location loc = player.getLocation();
-		for(int x = loc.getBlockX()-radius; x < loc.getBlockX()+radius; x++ )
+		for(int x = (int) (loc.getX()-radius); x < loc.getX()+radius; x++ )
 		{
-			for(int z = loc.getBlockZ()-radius; z < loc.getBlockZ()+radius; z++ )
+			for(int z = (int) (loc.getZ()-radius); z < loc.getZ()+radius; z++ )
 			{
 				for(int y = 0; y < 255; y ++)
 				{
-					Block b = player.getWorld().getBlockAt(x, y, z);
-					if(b != null && b.getType().equals(Material.CHEST) && pp.activeCategory != null)
+					//Block b = player.getWorld().getBlockAt(x, y, z);
+					Voxel v = Voxels.get(player.getControlledEntity().getWorld().getVoxelData(x, y, z));
+					if(v != null && v instanceof VoxelChest && pp.activeCategory != null)
+					//if(b != null && b.getType().equals(Material.CHEST) && pp.activeCategory != null)
 					{
 						String coords = x+":"+y+":"+z;
-						LootPlace lp = new LootPlace(coords+":"+pp.activeCategory+":"+pp.currentMin+":"+pp.currentMax,player.getWorld());
+						LootPlace lp = new LootPlace(coords+":"+pp.activeCategory+":"+pp.currentMin+":"+pp.currentMax,player.getControlledEntity().getWorld());
 						if(forceReplace || !places.containsKey(coords))
 						{
 							if(places.containsKey(coords))

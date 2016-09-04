@@ -4,6 +4,16 @@ package io.xol.dogez.plugin.game;
 
 import java.util.UUID;
 
+import io.xol.chunkstories.api.Location;
+import io.xol.chunkstories.api.compatibility.ChatColor;
+import io.xol.chunkstories.api.entity.EntityLiving;
+import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
+import io.xol.chunkstories.api.entity.interfaces.EntityWithInventory;
+import io.xol.chunkstories.api.plugin.commands.Command;
+import io.xol.chunkstories.api.plugin.commands.CommandEmitter;
+import io.xol.chunkstories.api.plugin.commands.CommandHandler;
+import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.item.ItemPile;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.game.special.SafeTeleporter;
 import io.xol.dogez.plugin.loot.LootCategory;
@@ -22,22 +32,10 @@ import io.xol.dogez.plugin.player.PlayersPackets;
 import io.xol.dogez.plugin.weapon.ChunksCleaner;
 import io.xol.dogez.plugin.zombies.ZombieType;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 //import ru.tehkode.permissions.PermissionUser;
 //import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-public class CommandsHandler implements CommandExecutor, HttpRequester{
+public class CommandsHandler implements CommandHandler, HttpRequester{
 
 	DogeZPlugin plugin;
 	
@@ -46,10 +44,12 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 	}
 
 	@SuppressWarnings("deprecation")
+	//public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
+	public boolean handleCommand(CommandEmitter sender, Command cmd, String[] args) {
+		// TODO Auto-generated method stub
 		//System.out.println(arg2);
-		if(cmd.getLabel().equals("m") || cmd.getName().equals("m"))
+		if(cmd.getName().equals("m"))
 		{
 			if(!(sender instanceof Player))
 			{
@@ -57,7 +57,7 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 				return true;
 			}
 			Player player = (Player)sender;
-			PlayerProfile pp = PlayerProfile.getPlayerProfile(player.getUniqueId().toString());
+			PlayerProfile pp = PlayerProfile.getPlayerProfile(player.getUUID());
 			if(args.length < 2)
 			{
 				sender.sendMessage(ChatColor.RED+"Syntaxe correcte : /m <joueur> <message>");
@@ -66,12 +66,12 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 			{
 				String toSend = "";
 				String destination = args[0];
-				Player destPlayer = Bukkit.getPlayer(destination);
-				if(TalkieWalkie.canPlayerUse(player) || (destPlayer != null && destPlayer.isOp()))
+				Player destPlayer = plugin.getServer().getPlayer(destination);//Bukkit.getPlayer(destination);
+				if(TalkieWalkie.canPlayerUse(player) || (destPlayer != null && destPlayer.hasPermission("dogez.talkie.receiveAnyway")))
 				{
 					if(destPlayer != null)
 					{
-						PlayerProfile pp2 = PlayerProfile.getPlayerProfile(destPlayer.getUniqueId().toString());
+						PlayerProfile pp2 = PlayerProfile.getPlayerProfile(destPlayer.getUUID());
 						boolean canReply = TalkieWalkie.canPlayerUse(destPlayer);
 						for(int i = 1; i < args.length-1; i++)
 							toSend+=args[i]+" ";
@@ -96,7 +96,7 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 			}
 			return true;
 		}
-		if(cmd.getName().equals("r") || cmd.getLabel().equals("r"))
+		if(cmd.getName().equals("r"))
 		{
 			if(!(sender instanceof Player))
 			{
@@ -104,7 +104,7 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 				return true;
 			}
 			Player player = (Player)sender;
-			PlayerProfile pp = PlayerProfile.getPlayerProfile(player.getUniqueId().toString());
+			PlayerProfile pp = PlayerProfile.getPlayerProfile(player.getUUID());
 			if(args.length < 1)
 			{
 				sender.sendMessage(ChatColor.RED+"Syntaxe correcte : /r <message>");
@@ -120,10 +120,10 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 						return true;
 					}
 					String destination = pp.talkingTo;
-					Player destPlayer = Bukkit.getPlayer(destination);
+					Player destPlayer = plugin.getServer().getPlayer(destination);//Bukkit.getPlayer(destination);
 					if(destPlayer != null)
 					{
-						PlayerProfile pp2 = PlayerProfile.getPlayerProfile(destPlayer.getUniqueId().toString());
+						PlayerProfile pp2 = PlayerProfile.getPlayerProfile(destPlayer.getUUID());
 						boolean canReply = TalkieWalkie.canPlayerUse(destPlayer);
 						for(int i = 0; i < args.length-1; i++)
 							toSend+=args[i]+" ";
@@ -182,26 +182,29 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 			{
 				Player player2 = player;
 				if(args.length > 1 && sender.hasPermission("dogez.spawn.as"))
-					player2 = Bukkit.getPlayer(args[1]);
+					player2 = plugin.getServer().getPlayer(args[1]); //Bukkit.getPlayer(args[1]);
 				if(player2 == null)
 					return false;
-				PlayerProfile profile = PlayerProfile.getPlayerProfile(player2.getUniqueId().toString());
+				PlayerProfile profile = PlayerProfile.getPlayerProfile(player2.getUUID());
 				if(profile.inGame)
 					player2.sendMessage(ChatColor.RED+"Vous êtes déjà en jeu !");
 				else
 				{
 					int[] coords = SpawnPoints.getRandomSpawn();
-					player2.getInventory().clear();
-					player2.setGameMode(GameMode.SURVIVAL);
+					((EntityWithInventory) player2.getControlledEntity()).getInventory().clear();
+					//player2.setGameMode(GameMode.SURVIVAL);
+					((EntityCreative) player2.getControlledEntity()).getCreativeModeComponent().setCreativeMode(false);
 					LootCategory spawnGear = LootTypes.getCategory("spawn");
-					for(ItemStack i : spawnGear.getAllItems())
+					
+					for(ItemPile i : spawnGear.getAllItems())
 					{
-						player2.getInventory().addItem(i);
+						((EntityWithInventory) player2.getControlledEntity()).getInventory().addItemPile(i);
 					}
-					player2.updateInventory();
+					//player2.updateInventory();
 					profile.inGame=true;
-					player2.setHealth(20);
-					player2.setFoodLevel(20);
+					((EntityLiving) player2.getControlledEntity()).setHealth(100f);
+					//player2.setHealth(20);
+					//player2.setFoodLevel(20);
 					player2.sendMessage(ChatColor.DARK_AQUA+"Vous venez de commencer une partie, bonne chance !");
 					
 					SafeTeleporter.safeTeleport(player2, new Location(DogeZPlugin.config.getWorld(),coords[0],coords[1]+2,coords[2]));
@@ -211,16 +214,18 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 			}
 			if(args[0].equals("suicide"))
 			{
-				player.setHealth(0d);
+				((EntityLiving) player.getControlledEntity()).setHealth(0f);
 			}
 			if(args[0].equals("stats"))
 			{
-				PlayerProfile profile = PlayerProfile.getPlayerProfile(player.getUniqueId().toString());
+				PlayerProfile profile = PlayerProfile.getPlayerProfile(player.getUUID());
 				if(args.length == 2)
 				{
 					String requestedPlayerName = args[1];
-					OfflinePlayer requestedPlayer = Bukkit.getOfflinePlayer(requestedPlayerName);
-					profile = PlayerProfile.getPlayerProfile(requestedPlayer.getUniqueId().toString());
+					
+					Player requestedPlayer = plugin.getServer().getPlayer(requestedPlayerName);
+					//OfflinePlayer requestedPlayer = Bukkit.getOfflinePlayer(requestedPlayerName);
+					profile = PlayerProfile.getPlayerProfile(requestedPlayer.getUUID());
 				}
 				if(profile == null)
 				{
@@ -244,7 +249,7 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 			}
 			if(args[0].equals("money") && args.length == 1)
 			{
-				double xc = PlayerProfile.getPlayerProfile(player.getUniqueId().toString()).xcBalance;
+				double xc = PlayerProfile.getPlayerProfile(player.getUUID()).xcBalance;
 				xc*=100;
 				xc = Math.floor(xc);
 				xc/=100;
@@ -253,10 +258,11 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 			}
 			if(args[0].equals("money") && args.length == 2)
 			{
-				OfflinePlayer target = plugin.getServer().getOfflinePlayer(args[1]);
+				//OfflinePlayer target = plugin.getServer().getOfflinePlayer(args[1]);
+				Player target = plugin.getServer().getPlayer(args[1]);
 				if(player != null)
 				{
-					double xc = PlayerProfile.getPlayerProfile(target.getUniqueId().toString()).xcBalance;
+					double xc = PlayerProfile.getPlayerProfile(target.getUUID()).xcBalance;
 					xc*=100;
 					xc = Math.floor(xc);
 					xc/=100;
@@ -274,7 +280,7 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 						player.sendMessage(ChatColor.RED+"Vous ne pouvez pas envoyer moins de 1 centime.");
 						return true;
 					}
-					new HttpRequestThread(this,"sendMoney:"+player.getUniqueId().toString(),"http://dz.xol.io/api/playerProfile.php","a=pay&uuid="+player.getUniqueId().toString()+"&amount="+amount+"&who="+args[1]).run();
+					new HttpRequestThread(this,"sendMoney:"+player.getUUID(),"http://dz.xol.io/api/playerProfile.php","a=pay&uuid="+player.getUUID()+"&amount="+amount+"&who="+args[1]).run();
 					return true;
 				}
 				else
@@ -292,7 +298,7 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 					{
 						if(password.length() >= 6)
 						{
-							new HttpRequestThread(this,"setPW:"+player.getUniqueId().toString(),"http://dz.xol.io/api/playerProfile.php","a=setpw&uuid="+player.getUniqueId().toString()+"&pw="+password).run();
+							new HttpRequestThread(this,"setPW:"+player.getUUID(),"http://dz.xol.io/api/playerProfile.php","a=setpw&uuid="+player.getUUID()+"&pw="+password).run();
 							return true;
 						}
 						else
@@ -350,7 +356,7 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 							String category = args[2];
 							if(LootTypes.categories.keySet().contains(category))
 							{
-								PlayerProfile pp = PlayerProfile.getPlayerProfile(player.getUniqueId().toString());
+								PlayerProfile pp = PlayerProfile.getPlayerProfile(player.getUUID());
 								pp.activeCategory = category;
 								pp.adding = true;
 								if(args.length >= 4)
@@ -367,14 +373,14 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 						}
 						if(args[1].equals("remove"))
 						{
-							PlayerProfile pp = PlayerProfile.getPlayerProfile(player.getUniqueId().toString());
+							PlayerProfile pp = PlayerProfile.getPlayerProfile(player.getUUID());
 							pp.adding = false;
 							player.sendMessage(ChatColor.AQUA+"Vous supprimmez désormais des points de loot");
 							return true;
 						}
 						if(args[1].equals("stats"))
 						{
-							player.sendMessage(ChatColor.AQUA+"Il existe "+LootPlaces.count(player.getWorld())+" points de loot dans le fichier.");
+							player.sendMessage(ChatColor.AQUA+"Il existe "+LootPlaces.count(player.getControlledEntity().getWorld())+" points de loot dans le fichier.");
 							return true;
 						}
 						if(args[1].equals("list"))
@@ -390,19 +396,19 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 						}
 						if(args[1].equals("reload"))
 						{
-							LootPlaces.loadLootFile(player.getWorld());
+							LootPlaces.loadLootFile(player.getControlledEntity().getWorld());
 							player.sendMessage(ChatColor.AQUA+"Fichier de loot rechargé.");
 							return true;
 						}
 						if(args[1].equals("save"))
 						{
-							LootPlaces.saveLootFile(player.getWorld());
+							LootPlaces.saveLootFile(player.getControlledEntity().getWorld());
 							player.sendMessage(ChatColor.AQUA+"Fichier de loot sauvegardé.");
 							return true;
 						}
 						if(args[1].equals("reloot"))
 						{
-							player.sendMessage(ChatColor.AQUA+""+LootPlaces.respawnLoot(player.getWorld())+" points de loot respawnés.");
+							player.sendMessage(ChatColor.AQUA+""+LootPlaces.respawnLoot(player.getControlledEntity().getWorld())+" points de loot respawnés.");
 							return true;
 						}
 						if(args[1].equals("arround"))
@@ -459,7 +465,7 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 								if(page*10+i < keys.length)
 								{
 									LootItem li = LootItems.getItem((String)keys[page*10+i]);
-									player.sendMessage(ChatColor.AQUA+li.internalName+" "+li.typeId+":"+li.metaData+" => "+li.name);
+									player.sendMessage(ChatColor.AQUA+li.internalName+" "+li.type+" => "+li.name);
 									lol++;
 								}
 							}
@@ -471,10 +477,10 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 								int amount = 1;
 								if(args.length == 4)
 									amount = Integer.parseInt(args[3]);
-								ItemStack gimme = LootItems.getItem(args[2]).getItem();
+								ItemPile gimme = LootItems.getItem(args[2]).getItem();
 								gimme.setAmount(amount);
-								player.getInventory().addItem(gimme);
-								player.updateInventory();
+								((EntityWithInventory) player.getControlledEntity()).getInventory().addItemPile(gimme);
+								//player.updateInventory();
 								sender.sendMessage(ChatColor.AQUA+"Item "+args[2]+" donné en "+amount+" exemplaire(s).");
 									
 							}
@@ -490,18 +496,21 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 			//debug
 			if(args[0].equals("cc") && player.hasPermission("dogez.admin.cc"))
 			{
-				ChunksCleaner.cleanAllChunks(player.getWorld());
+				ChunksCleaner.cleanAllChunks(player.getControlledEntity().getWorld());
 				sender.sendMessage(ChatColor.AQUA+"Toutes les chunks ont étés nettoyés");
 				return true;
 			}
 			if(args[0].equals("snd") && player.hasPermission("dogez.admin.snd"))
 			{
 				if(args.length == 2)
-					PlayersPackets.playSound(player.getLocation(),args[1],1f,1f);
+					player.getControlledEntity().getWorld().getSoundManager().playSoundEffect(args[1], player.getLocation(), 1f, 1f);
+					//PlayersPackets.playSound(player.getLocation(),args[1],1f,1f);
 				else if(args.length == 3)
-					PlayersPackets.playSound(player.getLocation(),args[1],1f,Float.parseFloat(args[2]));
+					player.getControlledEntity().getWorld().getSoundManager().playSoundEffect(args[1], player.getLocation(), Float.parseFloat(args[2]), 1f);
+					//PlayersPackets.playSound(player.getLocation(),args[1],1f,Float.parseFloat(args[2]));
 				else if(args.length == 4)
-					PlayersPackets.playSound(player.getLocation(),args[1],Float.parseFloat(args[3]),Float.parseFloat(args[2]));
+					player.getControlledEntity().getWorld().getSoundManager().playSoundEffect(args[1], player.getLocation(), Float.parseFloat(args[3]), Float.parseFloat(args[2]));
+					//PlayersPackets.playSound(player.getLocation(),args[1],Float.parseFloat(args[3]),Float.parseFloat(args[2]));
 				else
 					sender.sendMessage(ChatColor.RED+"Syntaxe : /dz snd node.du.son [pitch] [volume]");
 				return true;
@@ -511,27 +520,18 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 				DogeZPlugin.spawner.spawnZombie(player.getLocation(), ZombieType.values()[Integer.parseInt(args[1])]);
 				return true;
 			}
-			if(args[0].equals("torch")  && player.hasPermission("dogez.admin.debug"))
-			{
-				player.sendBlockChange(player.getLocation(), Material.TORCH, Byte.parseByte(args[1]));
-				//HeadsUpDisplay.displayTextBar("mdr", player);
-				//HeadsUpDisplay.displayLoadingBar("gdf", "gfdgdf", player, 5, 500l, false);
-				//StatusBarAPI.removeStatusBar(player);
-				//StatusBarAPI.setStatusBar(player, ChatColor.GREEN+"ntm :D"+args[2], Integer.parseInt(args[1])/100f);
-				return true;
-			}
 			if(args[0].equals("fli") && player.hasPermission("dogez.admin"))
 			{
 				/*PermissionUser user = PermissionsEx.getUser(player);
 				String prefix = user.getPrefix();*/
-				Bukkit.getServer().broadcastMessage(ChatColor.DARK_GRAY+"["+ChatColor.GREEN+"+"+ChatColor.DARK_GRAY+"] "+player.getDisplayName()+ChatColor.GRAY+" vient de se connecter.");
+				plugin.getServer().broadcastMessage(ChatColor.DARK_GRAY+"["+ChatColor.GREEN+"+"+ChatColor.DARK_GRAY+"] "+player.getDisplayName()+ChatColor.GRAY+" vient de se connecter.");
 				return true;
 			}
 			if(args[0].equals("flo") && player.hasPermission("dogez.admin"))
 			{
 				/*PermissionUser user = PermissionsEx.getUser(player);
 				String prefix = user.getPrefix();*/
-				Bukkit.getServer().broadcastMessage(ChatColor.DARK_GRAY+"["+ChatColor.RED+"-"+ChatColor.DARK_GRAY+"] "+player.getDisplayName()+ChatColor.GRAY+" vient de se déconnecter.");
+				plugin.getServer().broadcastMessage(ChatColor.DARK_GRAY+"["+ChatColor.RED+"-"+ChatColor.DARK_GRAY+"] "+player.getDisplayName()+ChatColor.GRAY+" vient de se déconnecter.");
 				return true;
 			}
 			if(args[0].equals("pn") && player.hasPermission("dogez.admin.debug"))
@@ -556,24 +556,24 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 			if(args[0].equals("load")  && player.hasPermission("dogez.admin.debug"))
 			{
 				sender.sendMessage("Forcing reload of profile");
-				PlayerProfile.getPlayerProfile(player.getUniqueId().toString()).reloadProfile();
+				PlayerProfile.getPlayerProfile(player.getUUID()).reloadProfile();
 				return true;
 			}
 			if(args[0].equals("save")  && player.hasPermission("dogez.admin.debug"))
 			{
 				sender.sendMessage("Forcing save of profile");
-				PlayerProfile.getPlayerProfile(player.getUniqueId().toString()).saveProfile();
+				PlayerProfile.getPlayerProfile(player.getUUID()).saveProfile();
 				return true;
 			}
 			/*if(args[0].equals("timediff")  && player.hasPermission("dogez.admin.debug"))
 			{
-				sender.sendMessage(PlayerProfile.getPlayerProfile(player.getUniqueId().toString()).timeCalc()+" seconds since last time :)");
+				sender.sendMessage(PlayerProfile.getPlayerProfile(player.getUUID()).timeCalc()+" seconds since last time :)");
 				return true;
 			}
 			if(args[0].equals("http")  && player.hasPermission("dogez.admin.debug"))
 			{
 				sender.sendMessage("mdr");
-				new HttpRequestThread(this,"reloadProfile","http://dz.xol.io/api/playerProfile.php","a=load&uuid="+player.getUniqueId().toString()+"&name="+player.getName()).run();
+				new HttpRequestThread(this,"reloadProfile","http://dz.xol.io/api/playerProfile.php","a=load&uuid="+player.getUUID()+"&name="+player.getName()).run();
 				return true;
 			}*/
 			
@@ -595,7 +595,7 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 		if(info.startsWith("sendMoney"))
 		{
 			String uuid = info.split(":")[1];
-			Player player = Bukkit.getPlayer(UUID.fromString(uuid));
+			Player player = plugin.getServer().getPlayerByUUID(Long.parseLong(uuid));//Bukkit.getPlayer(UUID.fromString(uuid));
 			if(player != null)
 			{
 				if(result.startsWith("success"))
@@ -603,11 +603,11 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 					String amount = result.split(":")[2];
 					String receiver = result.split(":")[1];
 					
-					PlayerProfile.getPlayerProfile(player.getUniqueId().toString()).reloadProfile();
-					Player receiverP = Bukkit.getPlayer(receiver);
+					PlayerProfile.getPlayerProfile(player.getUUID()).reloadProfile();
+					Player receiverP = plugin.getServer().getPlayer(receiver);//Bukkit.getPlayer(receiver);
 					if(receiverP != null)
 					{
-						PlayerProfile.getPlayerProfile(receiverP.getUniqueId().toString()).reloadProfile();
+						PlayerProfile.getPlayerProfile(receiverP.getUUID()).reloadProfile();
 						receiverP.sendMessage(ChatColor.DARK_AQUA+"Vous avez reçu "+ChatColor.AQUA+ChatColor.BOLD+amount+ChatColor.DARK_AQUA+" XolioCoins de la part de "+ChatColor.AQUA+ChatColor.BOLD+player.getName());
 					}
 					
@@ -639,12 +639,12 @@ public class CommandsHandler implements CommandExecutor, HttpRequester{
 			else
 				System.out.println("[DogeZ][Debug] null player :/ "+uuid);
 			
-			//player.sendMessage(ChatColor.DARK_AQUA+"Votre compte est actuellement crédité de "+PlayerProfile.getPlayerProfile(player.getUniqueId().toString()).xcBalance+" XolioCoins.");
+			//player.sendMessage(ChatColor.DARK_AQUA+"Votre compte est actuellement crédité de "+PlayerProfile.getPlayerProfile(player.getUUID()).xcBalance+" XolioCoins.");
 		}
 		if(info.startsWith("setPW"))
 		{
 			String uuid = info.split(":")[1];
-			Player player = Bukkit.getPlayer(UUID.fromString(uuid));
+			Player player = plugin.getServer().getPlayerByUUID(Long.parseLong(uuid));
 			if(player != null)
 			{
 				if(result.equals("password set"))

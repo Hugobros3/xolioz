@@ -2,10 +2,9 @@ package io.xol.dogez.plugin.loot;
 
 import java.util.List;
 
+import io.xol.chunkstories.api.item.ItemType;
+import io.xol.chunkstories.item.ItemPile;
 import io.xol.dogez.plugin.misc.ChatFormatter;
-
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 //Copyright 2014 XolioWare Interactive
 
@@ -14,28 +13,32 @@ public class LootItem {
 	public String name;
 	public List<String> description;
 	public String internalName;
-	public int typeId = 1;
-	public int metaData = 0;
 	
-	public LootItem(String n, String in, int ti, int me)
+	public ItemType type;
+	//public int typeId = 1;
+	//public int metaData = 0;
+	
+	public LootItem(String n, String in, ItemType type)
 	{
 		name = ChatFormatter.convertString(n);
 		internalName = in;
-		typeId = ti;
-		metaData = me;
+		this.type = type;
+		//typeId = ti;
+		//metaData = me;
 	}
 
-	public ItemStack getItem() {
-		@SuppressWarnings("deprecation")
-		ItemStack item = new ItemStack(typeId);
-		item.setDurability((short)metaData);
-		ItemMeta m = item.getItemMeta();
-		m.setDisplayName(name);
+	public ItemPile getItem() {
+		ItemPile item = new ItemPile(type);// new ItemStack(typeId);
+		
+		//item.setDurability((short)metaData);
+		//ItemMeta m = item.getItemMeta();
+		
+		/*m.setDisplayName(name);
 		if(description != null)
 		{
 			m.setLore(description);
 		}
-		item.setItemMeta(m);
+		item.setItemMeta(m);*/
 		return item;
 	}
 }

@@ -12,8 +12,8 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import io.xol.chunkstories.api.Location;
+import io.xol.chunkstories.api.server.Player;
 
 //(c) 2014 XolioWare Interactive
 
@@ -57,7 +57,7 @@ public class PlacesNames {
 		Location loc = player.getLocation();
 		if(isInMap(loc))
 		{
-			int rgb = placesImage.getRGB((loc.getBlockX()+2000)/2, (loc.getBlockZ()+1000)/2);
+			int rgb = 0;//placesImage.getRGB((int)(loc.getX()+2000)/2, (int)(loc.getZ()+1000)/2);
 			rgb+=16777216;
 			//System.out.println("rgb"+rgb);
 			if(rgb == 0)
@@ -75,7 +75,7 @@ public class PlacesNames {
 	
 	public static boolean isInMap(Location loc)
 	{
-		return (loc.getBlockX() > -2000 && loc.getBlockX() < 1000 && loc.getBlockZ() > -1000 && loc.getBlockZ() < 1000 );
+		return true; //(loc.getBlockX() > -2000 && loc.getBlockX() < 1000 && loc.getBlockZ() > -1000 && loc.getBlockZ() < 1000 );
 	}
 	
 	//Hex tools from DoP

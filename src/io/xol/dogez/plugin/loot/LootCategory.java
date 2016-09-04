@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.bukkit.inventory.ItemStack;
+import io.xol.chunkstories.item.ItemPile;
 
 public class LootCategory {
 	
@@ -70,8 +70,8 @@ public class LootCategory {
 		return null;
 	}
 
-	public List<ItemStack> getAllItems() {
-		List<ItemStack> items = new ArrayList<ItemStack>();
+	public List<ItemPile> getAllItems() {
+		List<ItemPile> items = new ArrayList<ItemPile>();
 		for(String n : namesTable)
 		{
 			LootType lt = types.get(n);

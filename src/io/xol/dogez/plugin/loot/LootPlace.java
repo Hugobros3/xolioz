@@ -4,12 +4,12 @@ package io.xol.dogez.plugin.loot;
 
 import java.util.Random;
 
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
-import org.bukkit.inventory.Inventory;
-
+import io.xol.chunkstories.api.entity.Inventory;
+import io.xol.chunkstories.api.voxel.Voxel;
+import io.xol.chunkstories.api.world.World;
+import io.xol.chunkstories.core.entity.voxel.EntityChest;
+import io.xol.chunkstories.core.voxel.VoxelChest;
+import io.xol.chunkstories.voxel.Voxels;
 import io.xol.dogez.plugin.DogeZPlugin;
 
 public class LootPlace {
@@ -50,17 +50,22 @@ public class LootPlace {
 	
 	private Inventory getContainerInv()
 	{
-		Block b = w.getBlockAt(x, y, z);
-		if(b.getType().equals(Material.CHEST))
+		Voxel v = Voxels.get(w.getVoxelData(x, y, z));
+		
+		//Block b = w.getBlockAt(x, y, z);
+		//if(b.getType().equals(Material.CHEST))
+		if(v instanceof VoxelChest)
 		{
-			Chest c = (Chest)b.getState();
-			return c.getBlockInventory();
+			VoxelChest chest = (VoxelChest)v;
+			EntityChest c = chest.getVoxelEntity(w, x, y, z);
+			return c.getInventory();
 		}
 		return null;
 	}
 	
 	public void update()
 	{
+		//System.out.println("Updating place "+this);
 		if(shouldReloot())
 		{
 			Inventory inv = getContainerInv();
@@ -74,8 +79,13 @@ public class LootPlace {
 				LootType lt = LootTypes.getCategory(type).getRandomSpawn();
 				if(lt != null)
 				{
-					int position = rng.nextInt(inv.getSize()-1);
-					inv.setItem(position, lt.getItem());
+					//Randomize position inside chest
+					int positionX = rng.nextInt(inv.getWidth());
+					int positionY = rng.nextInt(inv.getHeight());
+					
+					inv.setItemPileAt(positionX, positionY, lt.getItem());
+					//int position = rng.nextInt(inv.getSize()-1);
+					//inv.setItem(position, lt.getItem());
 				}
 				amount2spawn--;
 			}

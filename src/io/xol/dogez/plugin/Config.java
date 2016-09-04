@@ -1,7 +1,8 @@
 package io.xol.dogez.plugin;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
+import io.xol.chunkstories.api.world.World;
+import io.xol.chunkstories.server.Server;
+import io.xol.chunkstories.world.WorldServer;
 
 //Copyright 2014 XolioWare Interactive
 
@@ -35,8 +36,8 @@ public class Config {
 		
 	}
 
-	public World getWorld() {
-		return Bukkit.getServer().getWorld(activeWorld);
+	public WorldServer getWorld() {
+		return Server.getInstance().getWorld();
 	}
 
 	public void save() {

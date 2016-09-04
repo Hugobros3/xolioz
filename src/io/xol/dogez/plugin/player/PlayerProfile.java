@@ -5,29 +5,16 @@ package io.xol.dogez.plugin.player;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import io.xol.dogez.plugin.loot.LootItems;
+import io.xol.chunkstories.api.Location;
+import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.server.Server;
 import io.xol.dogez.plugin.misc.HttpRequestThread;
 import io.xol.dogez.plugin.misc.HttpRequester;
-import io.xol.dogez.plugin.weapon.Weapon;
 
 public class PlayerProfile implements HttpRequester {
 	
 	public String name;
-	public String uuid;
+	public long uuid;
 	
 	public boolean loadedSuccessfully = false;
 	public boolean inGame = false;
@@ -92,18 +79,18 @@ public class PlayerProfile implements HttpRequester {
 	
 	public boolean disableSS = false;
 	
-	public PlayerProfile(String uuid,String name)
+	public PlayerProfile(long uuid2,String name)
 	{
 		this.name = name;
-		this.uuid = uuid;
+		this.uuid = uuid2;
 		reloadProfile();
 	}
 
 	public void reloadProfile() {
-		new HttpRequestThread(this,"reloadProfile","http://dz.xol.io/api/playerProfile.php","a=load&uuid="+uuid+"&name="+name).run();
+		new HttpRequestThread(this,"reloadProfile","http://dz.xol.io/chunkstories-port/api/playerProfile.php","a=load&uuid="+uuid+"&name="+name).run();
 	}
 
-	@SuppressWarnings("deprecation")
+	/*@SuppressWarnings("deprecation")
 	public void updateTorch(boolean enabled)
 	{
 		if(!enabled)
@@ -156,11 +143,7 @@ public class PlayerProfile implements HttpRequester {
 								guy.updateInventory();
 								return;
 							}
-							else
-								/*if(Math.random() > 0.750)
-								{
-									batteryLeft -= Math.random();
-								}*/
+							
 							metaTorch.setDisplayName("Pile alkaline ["+batteryLeft+"%]");
 							slot.setItemMeta(metaTorch);
 							guy.getInventory().setItem(i, slot);
@@ -297,7 +280,7 @@ public class PlayerProfile implements HttpRequester {
 				}
 			}
 		}
-	}
+	}*/
 	
 	/*@SuppressWarnings("deprecation")
 	private boolean isSolid(int blockID) {
@@ -336,7 +319,7 @@ public class PlayerProfile implements HttpRequester {
 		timeCalc();
 		if(!loadedSuccessfully)
 			return;
-		new HttpRequestThread(this,"saveProfile","http://dz.xol.io/api/playerProfile.php","a=save&uuid="+uuid+"&name="+name
+		new HttpRequestThread(this,"saveProfile","http://dz.xol.io/chunkstories-port/api/playerProfile.php","a=save&uuid="+uuid+"&name="+name
 				+"&tc="+timeConnected
 				+"&tst="+timeSurvivedTotal
 				+"&tsl="+timeSurvivedLife
@@ -355,12 +338,12 @@ public class PlayerProfile implements HttpRequester {
 	public void addBalance(float amount)
 	{
 		xcBalance+=amount;
-		new HttpRequestThread(this,"changeBalance","http://dz.xol.io/api/playerProfile.php","a=balance&uuid="+uuid+"&diff="+amount).run();
+		new HttpRequestThread(this,"changeBalance","http://dz.xol.io/chunkstories-port/api/playerProfile.php","a=balance&uuid="+uuid+"&diff="+amount).run();
 	}
 	
 	public void setBalance()
 	{
-		new HttpRequestThread(this,"changeBalance","http://dz.xol.io/api/playerProfile.php","a=balance&uuid="+uuid+"&bal="+xcBalance).run();
+		new HttpRequestThread(this,"changeBalance","http://dz.xol.io/chunkstories-port/api/playerProfile.php","a=balance&uuid="+uuid+"&bal="+xcBalance).run();
 	}
 	
 	@Override
@@ -409,17 +392,19 @@ public class PlayerProfile implements HttpRequester {
 	
 	static List<PlayerProfile> playerProfiles = new ArrayList<PlayerProfile>();
 	
-	public static PlayerProfile getPlayerProfile(String uuid)
+	public static PlayerProfile getPlayerProfile(long uuid)
 	{
 		PlayerProfile result = null;
 		for(PlayerProfile pp : playerProfiles)
 		{
-			if(pp.uuid.equals(uuid))
+			if(pp.uuid == uuid)
+			//if(pp.uuid.equals(uuid))
 				result = pp;
 		}
 		if(result == null)
 		{
-			OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
+			Player player = Server.getInstance().getPlayerByUUID(uuid);
+			//OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
 			if(player != null)
 			{
 				PlayerProfile pp = new PlayerProfile(uuid, player.getName());
@@ -433,14 +418,16 @@ public class PlayerProfile implements HttpRequester {
 		return result;
 	}
 	
-	public static void removePlayerProfile(String uuid)
+	public static void removePlayerProfile(long uuid)
 	{
 		//System.out.println(playerProfiles.size()+"deleting"+uuid);
 		List<PlayerProfile> profilesToDelete = new ArrayList<PlayerProfile>();
 		for(PlayerProfile pp : playerProfiles)
 		{
 			//System.out.println("test4"+pp.uuid);
-			if(pp.uuid.equals(uuid))
+			
+			if(pp.uuid == uuid)
+			//if(pp.uuid.equals(uuid))
 			{
 				//System.out.println("match lel");
 				pp.saveProfile();
@@ -456,7 +443,7 @@ public class PlayerProfile implements HttpRequester {
 		}
 	}
 	
-	public static void addPlayerProfile(String uuid, String name)
+	public static void addPlayerProfile(long uuid, String name)
 	{
 		PlayerProfile add = new PlayerProfile(uuid,name);
 		playerProfiles.add(add);
@@ -472,10 +459,10 @@ public class PlayerProfile implements HttpRequester {
 	}
 
 	public void onDeath() {
-		new HttpRequestThread(this,"kill","http://dz.xol.io/api/playerProfile.php","a=kill&uuid="+uuid).run();
+		new HttpRequestThread(this,"kill","http://dz.xol.io/chunkstories-port/api/playerProfile.php","a=kill&uuid="+uuid).run();
 	}
 
-	@SuppressWarnings("deprecation")
+	/*@SuppressWarnings("deprecation")
 	public String getWeaponString() {
 		
 		ItemStack it = Bukkit.getPlayer(this.name).getItemInHand();
@@ -490,9 +477,9 @@ public class PlayerProfile implements HttpRequester {
 		}
 		
 		return " ";
-	}
+	}*/
 	
-	@SuppressWarnings("deprecation")
+	/*@SuppressWarnings("deprecation")
 	public void updateXPLevel()
 	{
 		ItemStack it = Bukkit.getPlayer(this.name).getItemInHand();
@@ -514,9 +501,8 @@ public class PlayerProfile implements HttpRequester {
 		170,187,204,221,238,255,272,292,315,341,370,
 		402,437,475,516,560,607,657,710,766,825};
 		//TODO : virer poules !
-
+*/
 	public double getTimeAlive() {
 		return timeSurvivedLife;
 	}
-
 }

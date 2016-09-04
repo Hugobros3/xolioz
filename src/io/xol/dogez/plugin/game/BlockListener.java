@@ -1,46 +1,30 @@
 package io.xol.dogez.plugin.game;
 
-import io.xol.dogez.plugin.DogeZPlugin;
-import io.xol.dogez.plugin.loot.LootPlace;
-import io.xol.dogez.plugin.loot.LootPlaces;
-import io.xol.dogez.plugin.player.PlayerProfile;
-import io.xol.dogez.plugin.weapon.ChunksCleaner;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Chest;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockFadeEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
+import io.xol.chunkstories.api.events.Listener;
 
 //(c) 2014 XolioWare Interactive
 
 public class BlockListener implements Listener{
 	// u shall not break meh soil
-	@EventHandler
+	/*@EventHandler
 	void onBlockFade(BlockFadeEvent event) {
 		if (!event.getBlock().getWorld().getName().equals(DogeZPlugin.config.activeWorld))
 			return;
 		if (event.getBlock().getType().equals(Material.SOIL)) {
 			event.setCancelled(true);
 		}
-	}
+	}*/
+	
 	// neither u dirty plyr
-    @EventHandler
+    /*@EventHandler
     public void onBlockInteract(PlayerInteractEvent event)
     {
 	    if(event.getAction() == Action.PHYSICAL && event.getClickedBlock().getType() == Material.SOIL)
 	    	event.setCancelled(true);
-    }
+    }*/
+    
     //Chest placement
-    @EventHandler
+    /*@EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
     	Player player = event.getPlayer();
 		if(player.getWorld().getName().equals(DogeZPlugin.config.activeWorld) || player.getWorld().getName().equals("namalsk-map"))
@@ -63,6 +47,7 @@ public class BlockListener implements Listener{
 			}
 		}
     }
+    
     //chest removal
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
@@ -85,15 +70,17 @@ public class BlockListener implements Listener{
 				}
 			}
 		}
-    }
+    }*/
+	
     //
-    @EventHandler
+    /*@EventHandler
     public void onChunkUnloaded(ChunkUnloadEvent event) {
     	DogeZPlugin.spawner.cleanChunk(event.getChunk());
     	ChunksCleaner.cleanChunk(event.getChunk());
         //System.out.println("Chunk unloaded: " + event.getChunk());
-    }
-    //Chunk edit
+    }*/
+    
+    //Chunk biome edit
     /*@EventHandler
     public void onChunkLoaded(ChunkLoadEvent event) {
     	if(event.getWorld().getName().equals(DogeZPlugin.config.activeWorld))

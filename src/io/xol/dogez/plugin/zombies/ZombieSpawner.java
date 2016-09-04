@@ -1,22 +1,17 @@
 package io.xol.dogez.plugin.zombies;
 
+import io.xol.chunkstories.api.Location;
+import io.xol.chunkstories.api.entity.Entity;
+import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
+import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.api.voxel.Voxel;
+import io.xol.chunkstories.api.world.chunk.Chunk;
+import io.xol.chunkstories.core.entity.EntityZombie;
+import io.xol.chunkstories.voxel.Voxels;
+import io.xol.chunkstories.world.WorldServer;
 import io.xol.dogez.plugin.DogeZPlugin;
 
 import java.lang.reflect.Field;
-
-import net.minecraft.server.v1_8_R3.EntityZombie;
-import net.minecraft.server.v1_8_R3.World;
-
-import org.bukkit.Chunk;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
-import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 //Copyright 2014 XolioWare Interactive
 
@@ -33,9 +28,9 @@ public class ZombieSpawner {
 	public void countZombies()
 	{
 		zombiesCount = 0;
-		for(Entity e : DogeZPlugin.config.getWorld().getEntities())
+		for(Entity e : DogeZPlugin.config.getWorld().getAllLoadedEntities())
 		{
-			if(e instanceof Zombie)
+			if(e instanceof EntityZombie)
 			{
 				zombiesCount++;
 			}
@@ -46,34 +41,49 @@ public class ZombieSpawner {
 	{
 		for(Player p : DogeZPlugin.config.getWorld().getPlayers())
 		{
-			if(p.getGameMode().equals(GameMode.SURVIVAL))
+			if(!(p instanceof EntityCreative) || !((EntityCreative) p).getCreativeModeComponent().isCreativeMode())
+			//if(p.getGameMode().equals(GameMode.SURVIVAL))
 			{
 				int pZombCount = 0;
-				for(Entity e : DogeZPlugin.config.getWorld().getEntities())
+				for(Entity e : DogeZPlugin.config.getWorld().getAllLoadedEntities())
 				{
-					if(e instanceof Zombie && e.getLocation().distance(p.getLocation()) < 150f)
+					if(e instanceof EntityZombie && e.getLocation().distanceTo(p.getLocation()) < 75f)
 					{
 						pZombCount++;
 					}
 				}
-				for(int i = pZombCount ; i < 8; i++)
+				for(int i = pZombCount ; i < 16; i++)
 				{
-					int distance = (int) (30+Math.random()*50);
+					int distance = (int) (20+Math.random()*30);
 					double angle = Math.random()*3.14f*2;
-					int posx = (int) (p.getLocation().getBlockX()+distance*Math.sin(angle));
-					int posz = (int) (p.getLocation().getBlockZ()+distance*Math.cos(angle));
+					int posx = (int) (p.getLocation().getX()+distance*Math.sin(angle));
+					int posz = (int) (p.getLocation().getZ()+distance*Math.cos(angle));
 					boolean foundGround = false;
 					int posy = 255;
-					Material[] allowedMaterials = {Material.GRASS,Material.STONE,Material.SMOOTH_BRICK};
+					
+					String[] allowedMaterials = {"grass", "stone", "dirt", "sand"};
+					//Material[] allowedMaterials = {Material.GRASS,Material.STONE,Material.SMOOTH_BRICK};
 					while(posy > 0 && !foundGround)
 					{
 						posy--;
-						Block b = DogeZPlugin.config.getWorld().getBlockAt(posx, posy, posz);
-						for(Material m : allowedMaterials)
+						//Block b = DogeZPlugin.config.getWorld().getBlockAt(posx, posy, posz);
+						Voxel v = Voxels.get(DogeZPlugin.config.getWorld().getVoxelData(posx, posy, posz));
+						for(String m : allowedMaterials)
+						{
+							if(v.getMaterial().getName().equals(m))
+							{
+								foundGround = true;
+								break;
+							}
+						}
+						if(v.isVoxelSolid())
+							break;
+						
+						/*for(Material m : allowedMaterials)
 						{
 							if(m.equals(b.getType()))
 								foundGround = true;
-						}
+						}*/
 						//trolol+=b.getTypeId();
 					}
 					if(foundGround && zombiesCount <= DogeZPlugin.config.maxZombies)
@@ -120,7 +130,7 @@ public class ZombieSpawner {
 	
 	public void spawnZombie(Location loc, ZombieType type)
 	{
-		World world = ((CraftWorld) loc.getWorld()).getHandle();
+		//World world = ((CraftWorld) loc.getWorld()).getHandle();
 		/*CustomEntityCreature zomb = null;
 		if(type.equals(ZombieType.NORMAL))
 		{
@@ -196,23 +206,26 @@ public class ZombieSpawner {
 		//mod-me !
 		zomb.setHealth(zomb.getHealth()/2);
 		*/
-		EntityZombie zomb = new EntityZombie(world);
-		zomb.locX = loc.getX();
-		zomb.locY = loc.getY();
-		zomb.locZ = loc.getZ();
-		zomb.setLocation(loc.getX(), loc.getY(), loc.getZ(),loc.getPitch(), loc.getYaw());
+		WorldServer world = DogeZPlugin.config.getWorld();
+		
+		EntityZombie zomb = new EntityZombie(world, loc.getX(), loc.getY(), loc.getZ());
+		//zomb.locX = loc.getX();
+		//zomb.locY = loc.getY();
+		//zomb.locZ = loc.getZ();
+		
+		//zomb.setLocation(loc.getX(), loc.getY(), loc.getZ(),loc.getPitch(), loc.getYaw());
 		zomb.setHealth(zomb.getHealth()/2);
 		//zomb.spawnIn(world);
-		world.addEntity(zomb, SpawnReason.CUSTOM);
+		world.addEntity(zomb);
 	}
 	
 	public void cleanChunk(Chunk c)
 	{
-		for(Entity e : c.getEntities())
+		for(Entity e : c.getEntitiesWithinChunk())
 		{
-			if(e instanceof Zombie)
+			if(e instanceof EntityZombie)
 			{
-				e.remove();
+				e.removeFromWorld();
 			}
 		}
 	}

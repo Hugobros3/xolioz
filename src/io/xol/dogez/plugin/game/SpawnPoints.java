@@ -52,6 +52,6 @@ public class SpawnPoints {
 
 	public static int[] getRandomSpawn() {
 		Random random = new Random();
-		return points.get(random.nextInt(points.size()-1));
+		return points.get(random.nextInt(points.size()));
 	}
 }

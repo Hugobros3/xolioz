@@ -1,0 +1,31 @@
+DogeZ-Plugin for ChunkStories v0.0.01
+
+Changed:
+
+Use of long for UUID's instead of strings
+Use of another database to separate from mc version
+
+Missing:
+
+Blocks destruction ( glass )
+Zombie "+XC" effect
+Giant zombies are not a thing
+Animals are not -yet- a thing
+No skulls
+No hell
+Food management
+Offline users lookup
+
+Removed:
+
+Serverside Weapons ( no lag! yay )
+Serverside torches ( no bullshit! yay )
+SafeTeleport ( cs is safe )
+Haloween special ( disabled )
+Direct ids sell/buy signs
+
+New events added to cs api:
+
+PlayerInputEvent
+PlayerDeathEvent
+EntityDamageEvent

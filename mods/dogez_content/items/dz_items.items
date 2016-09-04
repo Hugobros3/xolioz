@@ -1,0 +1,238 @@
+#Fichier de définitions d'items de DogeZ:CS
+#Dernière maj : 01/09/2016
+
+#Armes CaC
+item 512 baseballbat
+end
+
+item 513 hammer
+end
+
+item 514 machette
+end
+
+item 515 katana
+end
+
+item 516 chainsaw
+end
+
+item 517 crowbar
+end
+
+item 518 crowbar
+end
+
+#Nourriture
+item 519 bread
+end
+
+item 520 soup
+end
+
+item 521 cookie
+end
+
+item 522 pie
+end
+
+item 523 apple
+end
+
+item 524 steak
+end
+
+item 525 ble
+end
+
+#Armes à feu
+item 526 m1911
+end
+
+item 527 m1911mag
+end
+
+item 528 makarov
+end
+
+item 529 makarovmag
+end
+
+item 530 shotgun
+end
+
+item 531 shotgunmag
+end
+
+item 532 svd
+end
+
+item 533 svdmag
+end
+
+item 534 ak74
+end
+
+item 535 ak74mag
+end
+
+item 536 akm
+end
+
+item 537 akmmag
+end
+
+item 538 m4
+end
+
+item 539 m4mag
+end
+
+item 540 dmr
+end
+
+item 541 dmrmag
+end
+
+#Armes adminshop
+item 542 m249
+end
+
+item 543 m249mag
+end
+
+item 544 m9sd
+end
+
+item 545 m9sdmag
+end
+
+#Armes maj ISIS
+item 546 uzi
+end
+
+item 547 uzimag
+end
+
+item 548 aa12
+end
+
+item 549 aa12mag
+
+end
+item 550 pkm
+end
+
+item 551 pkmmag
+end
+
+#Fringues/armures
+item 552 ghilie1
+end
+
+item 553 ghilie2
+end
+
+item 554 ghilie3
+end
+
+item 555 ghilie4
+end
+
+item 556 isis1
+end
+
+item 557 isis2
+end
+
+item 558 isis3
+end
+
+item 559 isis4
+end
+
+#Armes spéciales
+item 560 bow
+end
+
+item 561 arrow
+end
+
+item 562 firethrower
+end
+
+item 563 grefrag
+end
+
+item 564 greflash
+end
+
+item 565 rpg7
+end
+
+item 566 rpg7mag
+end
+
+item 567 suicidebelt
+end
+
+#Craft (cuck)
+item 568 nails
+end
+
+item 569 vis
+end
+
+item 570 razor
+end
+
+#Divers
+item 571 watch
+end
+
+item 572 compass
+end
+
+item 573 stick
+end
+
+item 574 bone
+end
+
+item 575 book
+end
+
+item 576 fuel
+end
+
+item 577 tw
+end
+
+item 578 billet
+end
+
+#Disques
+item 579 recordwhatislove
+end
+
+#Maj haloween
+item 580 battery
+end
+
+item 581 torchOff
+end
+
+#Nowel
+item 582 nowel
+end
+
+#Disabled
+#item 583 faucheuse
+#end
+
+#Soin
+item 584 heal1
+end
+
+item 585 heal2
+end

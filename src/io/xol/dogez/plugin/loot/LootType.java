@@ -4,7 +4,7 @@ package io.xol.dogez.plugin.loot;
 
 import java.util.Random;
 
-import org.bukkit.inventory.ItemStack;
+import io.xol.chunkstories.item.ItemPile;
 
 public class LootType {
 
@@ -53,9 +53,9 @@ public class LootType {
 		return "(lootItem:"+lootItem.toString()+",prob="+proba+",min="+minAmount+",max="+maxAmount+")";
 	}
 
-	public ItemStack getItem() {
+	public ItemPile getItem() {
 		Random rng = new Random();
-		ItemStack item = lootItem.getItem();
+		ItemPile item = lootItem.getItem();
 		int amount = (maxAmount-minAmount == 0 ? 0 : rng.nextInt(maxAmount-minAmount))+minAmount;
 		//System.out.println(amount+"="+maxAmount+":"+minAmount+":");
 		//amount = 5;

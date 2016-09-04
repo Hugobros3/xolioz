@@ -3,14 +3,11 @@ package io.xol.dogez.plugin.game.special;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.xol.chunkstories.api.compatibility.ChatColor;
+import io.xol.chunkstories.api.entity.EntityLiving;
+import io.xol.chunkstories.api.server.Player;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.player.PlayerProfile;
-import io.xol.dogez.plugin.player.PlayersPackets;
-import net.md_5.bungee.api.ChatColor;
-
-import org.bukkit.Effect;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 // Copyright 2015 XolioWare Interactive
 
@@ -18,13 +15,13 @@ public class DeathRewards {
 
 	public static boolean isPlayerKillingMachine(Player player)
 	{
-		return player.getInventory().contains(Material.IRON_PICKAXE);
+		return false; //player.getInventory().contains(Material.IRON_PICKAXE);
 	}
 
 	public static void onWield(Player player, PlayerProfile pp)
 	{
 		Player victim = DogeZPlugin.access.getServer().getPlayer(pp.deathRequest);
-		if(pp.deathRequest.equals("") || victim == null || victim.isOp())
+		if(pp.deathRequest.equals("") || victim == null || victim.hasPermission("dogez.notargetterinno"))
 		{
 			findVictim(player, pp);
 			victim = DogeZPlugin.access.getServer().getPlayer(pp.deathRequest);
@@ -33,9 +30,10 @@ public class DeathRewards {
 			player.sendMessage(ChatColor.DARK_PURPLE+"Les pouvoirs maléfiques de la faux n'ont personne à vous faire tuer pour l'instant.");
 		else
 			player.sendMessage(ChatColor.DARK_PURPLE+"Les pouvoirs maléfiques de la faux vous demandent de tuer : "+ChatColor.LIGHT_PURPLE+victim.getName());
-		player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 0);
-		player.getWorld().playEffect(player.getLocation(), Effect.PORTAL, 0);
-		PlayersPackets.playSound(player.getLocation(), "portal.portal", 1, 1f);
+		
+		//player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 0);
+		//player.getWorld().playEffect(player.getLocation(), Effect.PORTAL, 0);
+		//PlayersPackets.playSound(player.getLocation(), "portal.portal", 1, 1f);
 	}
 	
 	public static KillerTier getActualLevel(int kills)
@@ -71,9 +69,9 @@ public class DeathRewards {
 			player.sendMessage(ChatColor.RED+"Vous avez atteint un nouveau niveau : "+ChatColor.DARK_RED+getActualLevel(playerProfile.death_level).name);
 		}
 		
-		player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 0);
-		player.getWorld().playEffect(player.getLocation(), Effect.PORTAL, 0);
-		PlayersPackets.playSound(player.getLocation(), "portal.travel", 1, 1f);
+		//player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 0);
+		//player.getWorld().playEffect(player.getLocation(), Effect.PORTAL, 0);
+		//PlayersPackets.playSound(player.getLocation(), "portal.travel", 1, 1f);
 		
 		findVictim(player, playerProfile);
 		if(playerProfile.deathRequest.equals(""))
@@ -90,7 +88,7 @@ public class DeathRewards {
 		{
 			if(!p.getName().equals(player))
 			{
-				if(!p.isOp() && p.getHealth() != 0)
+				if(!p.hasPermission("dogez.notargetterinno") && ((EntityLiving)p.getControlledEntity()).getHealth() != 0)
 				{
 					potentialVictims.add(p);
 				}

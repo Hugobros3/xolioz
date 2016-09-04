@@ -1,10 +1,7 @@
 package io.xol.dogez.plugin.game.special;
 
-import io.xol.dogez.plugin.DogeZPlugin;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import io.xol.chunkstories.api.Location;
+import io.xol.chunkstories.api.server.Player;
 
 //Copyright 2014 XolioWare Interactive
 
@@ -12,12 +9,15 @@ public class SafeTeleporter {
 	
 	public static void safeTeleport(Player player, Location location)
 	{
-		SafeTPTask safeTPTask = new SafeTPTask(location, player);
-		int taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(DogeZPlugin.access, safeTPTask, 0L, 20L);
-		safeTPTask.id = taskID;
+		//ChunkStories _should_ be somewhat safe in terms of teleportation so i'm dropping this for now
+		
+		//SafeTPTask safeTPTask = new SafeTPTask(location, player);
+		
+		//int taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(DogeZPlugin.access, safeTPTask, 0L, 20L);
+		//safeTPTask.id = taskID;
 	}
 	
-	static class SafeTPTask implements Runnable{
+	/*static class SafeTPTask implements Runnable{
 		Location loc;
 		Player player;
 		
@@ -43,5 +43,5 @@ public class SafeTeleporter {
             	//System.out.println("Chunk not loaded, waiting !");
             }
         }
-	}
+	}*/
 }
