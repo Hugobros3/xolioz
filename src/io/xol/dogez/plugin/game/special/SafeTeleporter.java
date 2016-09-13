@@ -9,6 +9,7 @@ public class SafeTeleporter {
 	
 	public static void safeTeleport(Player player, Location location)
 	{
+		player.setLocation(location);
 		//ChunkStories _should_ be somewhat safe in terms of teleportation so i'm dropping this for now
 		
 		//SafeTPTask safeTPTask = new SafeTPTask(location, player);

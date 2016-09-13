@@ -47,10 +47,10 @@ public class ScheduledEvents {
 				if (DogeZPlugin.config.synchTime) {
 					Date time = new Date();
 					@SuppressWarnings("deprecation")
-					double mctime = (time.getHours() - 5) * 60 + time.getMinutes();
-					mctime = mctime / 1440;
-					mctime = mctime * 24000;
-					DogeZPlugin.config.getWorld().setTime((long) mctime);
+					double cstime = (time.getHours() - 5) * 60 + time.getMinutes();
+					cstime = cstime / 1440;
+					cstime = cstime * 10000;
+					DogeZPlugin.config.getWorld().setTime((long) cstime);
 
 				}
 			/*	for (Horse h : DogeZPlugin.config.getWorld().getEntitiesByClass(Horse.class)) {

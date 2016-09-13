@@ -2,8 +2,6 @@ package io.xol.dogez.plugin.game;
 
 //Copyright 2014 XolioWare Interactive
 
-import java.util.UUID;
-
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.entity.EntityLiving;
@@ -15,7 +13,6 @@ import io.xol.chunkstories.api.plugin.commands.CommandHandler;
 import io.xol.chunkstories.api.server.Player;
 import io.xol.chunkstories.item.ItemPile;
 import io.xol.dogez.plugin.DogeZPlugin;
-import io.xol.dogez.plugin.game.special.SafeTeleporter;
 import io.xol.dogez.plugin.loot.LootCategory;
 import io.xol.dogez.plugin.loot.LootItem;
 import io.xol.dogez.plugin.loot.LootItems;
@@ -23,27 +20,21 @@ import io.xol.dogez.plugin.loot.LootPlaces;
 import io.xol.dogez.plugin.loot.LootType;
 import io.xol.dogez.plugin.loot.LootTypes;
 import io.xol.dogez.plugin.map.PlacesNames;
-//import io.xol.dogez.plugin.misc.ChatFormatter;
 import io.xol.dogez.plugin.misc.HttpRequestThread;
 import io.xol.dogez.plugin.misc.HttpRequester;
 import io.xol.dogez.plugin.misc.TimeFormatter;
 import io.xol.dogez.plugin.player.PlayerProfile;
-import io.xol.dogez.plugin.player.PlayersPackets;
 import io.xol.dogez.plugin.weapon.ChunksCleaner;
 import io.xol.dogez.plugin.zombies.ZombieType;
 
-//import ru.tehkode.permissions.PermissionUser;
-//import ru.tehkode.permissions.bukkit.PermissionsEx;
-
-public class CommandsHandler implements CommandHandler, HttpRequester{
+public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester{
 
 	DogeZPlugin plugin;
 	
-	public CommandsHandler(DogeZPlugin dogeZPlugin) {
+	public DogeZPluginCommandsHandler(DogeZPlugin dogeZPlugin) {
 		plugin = dogeZPlugin;
 	}
 
-	@SuppressWarnings("deprecation")
 	//public boolean onCommand(CommandSender sender, Command cmd, String arg2,String[] args) {
 	@Override
 	public boolean handleCommand(CommandEmitter sender, Command cmd, String[] args) {
@@ -82,7 +73,6 @@ public class CommandsHandler implements CommandHandler, HttpRequester{
 							player.sendMessage(ChatColor.RED+"Attention, le joueur auquel vous parlez ne peut pas vous répondre, ");
 						pp.talkingTo = destination;
 						pp2.talkingTo = player.getName();
-						//TalkieWalkie.notifyListenersAdmins(player.getName(), destination, toSend);
 					}
 					else
 					{
@@ -207,8 +197,8 @@ public class CommandsHandler implements CommandHandler, HttpRequester{
 					//player2.setFoodLevel(20);
 					player2.sendMessage(ChatColor.DARK_AQUA+"Vous venez de commencer une partie, bonne chance !");
 					
-					SafeTeleporter.safeTeleport(player2, new Location(DogeZPlugin.config.getWorld(),coords[0],coords[1]+2,coords[2]));
-					//player2.teleport(new Location(DogeZPlugin.config.getWorld(),coords[0],coords[1]+2,coords[2]));
+					//SafeTeleporter.safeTeleport(player2, new Location(DogeZPlugin.config.getWorld(),coords[0],coords[1]+2,coords[2]));
+					player2.setLocation(new Location(DogeZPlugin.config.getWorld(),coords[0],coords[1]+2,coords[2]));
 				}
 				return true;
 			}

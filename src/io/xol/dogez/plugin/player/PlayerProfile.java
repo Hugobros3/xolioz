@@ -8,6 +8,7 @@ import java.util.List;
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.server.Player;
 import io.xol.chunkstories.server.Server;
+import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.misc.HttpRequestThread;
 import io.xol.dogez.plugin.misc.HttpRequester;
 
@@ -87,7 +88,7 @@ public class PlayerProfile implements HttpRequester {
 	}
 
 	public void reloadProfile() {
-		new HttpRequestThread(this,"reloadProfile","http://dz.xol.io/chunkstories-port/api/playerProfile.php","a=load&uuid="+uuid+"&name="+name).run();
+		new HttpRequestThread(this,"reloadProfile",DogeZPlugin.config.apiHttpAccess+"playerProfile.php","a=load&uuid="+uuid+"&name="+name).run();
 	}
 
 	/*@SuppressWarnings("deprecation")
@@ -319,7 +320,7 @@ public class PlayerProfile implements HttpRequester {
 		timeCalc();
 		if(!loadedSuccessfully)
 			return;
-		new HttpRequestThread(this,"saveProfile","http://dz.xol.io/chunkstories-port/api/playerProfile.php","a=save&uuid="+uuid+"&name="+name
+		new HttpRequestThread(this,"saveProfile",DogeZPlugin.config.apiHttpAccess+"playerProfile.php","a=save&uuid="+uuid+"&name="+name
 				+"&tc="+timeConnected
 				+"&tst="+timeSurvivedTotal
 				+"&tsl="+timeSurvivedLife
@@ -338,12 +339,12 @@ public class PlayerProfile implements HttpRequester {
 	public void addBalance(float amount)
 	{
 		xcBalance+=amount;
-		new HttpRequestThread(this,"changeBalance","http://dz.xol.io/chunkstories-port/api/playerProfile.php","a=balance&uuid="+uuid+"&diff="+amount).run();
+		new HttpRequestThread(this,"changeBalance",DogeZPlugin.config.apiHttpAccess+"playerProfile.php","a=balance&uuid="+uuid+"&diff="+amount).run();
 	}
 	
 	public void setBalance()
 	{
-		new HttpRequestThread(this,"changeBalance","http://dz.xol.io/chunkstories-port/api/playerProfile.php","a=balance&uuid="+uuid+"&bal="+xcBalance).run();
+		new HttpRequestThread(this,"changeBalance",DogeZPlugin.config.apiHttpAccess+"playerProfile.php","a=balance&uuid="+uuid+"&bal="+xcBalance).run();
 	}
 	
 	@Override
@@ -459,7 +460,7 @@ public class PlayerProfile implements HttpRequester {
 	}
 
 	public void onDeath() {
-		new HttpRequestThread(this,"kill","http://dz.xol.io/chunkstories-port/api/playerProfile.php","a=kill&uuid="+uuid).run();
+		new HttpRequestThread(this,"kill", DogeZPlugin.config.apiHttpAccess+"api/playerProfile.php","a=kill&uuid="+uuid).run();
 	}
 
 	/*@SuppressWarnings("deprecation")

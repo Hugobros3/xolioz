@@ -10,7 +10,7 @@ import io.xol.chunkstories.api.server.Player;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.server.Server;
 import io.xol.dogez.plugin.game.BlockListener;
-import io.xol.dogez.plugin.game.CommandsHandler;
+import io.xol.dogez.plugin.game.DogeZPluginCommandsHandler;
 import io.xol.dogez.plugin.game.EntityListener;
 import io.xol.dogez.plugin.game.PlayerListener;
 import io.xol.dogez.plugin.game.ScheduledEvents;
@@ -55,13 +55,10 @@ public class DogeZPlugin extends ChunkStoriesPlugin {
 			entityListener.plugin = this;
 			getServer().getPluginsManager().registerEventListener(playerListener, this);
 			
-			CommandsHandler dogezCmdHandler = new CommandsHandler(this);
+			DogeZPluginCommandsHandler dogezCmdHandler = new DogeZPluginCommandsHandler(this);
 			this.getPluginsManager().registerCommandHandler("dz", dogezCmdHandler);
 			this.getPluginsManager().registerCommandHandler("r", dogezCmdHandler);
 			this.getPluginsManager().registerCommandHandler("m", dogezCmdHandler);
-			//this.getCommand("dogez").setExecutor(new CommandsHandler(this));
-			//this.getCommand("r").setExecutor(new CommandsHandler(this));
-			//this.getCommand("m").setExecutor(new CommandsHandler(this));
 			
 			//Initlialize custom behaviors
 			spawner = new ZombieSpawner(this);

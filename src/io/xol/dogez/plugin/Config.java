@@ -1,6 +1,5 @@
 package io.xol.dogez.plugin;
 
-import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.server.Server;
 import io.xol.chunkstories.world.WorldServer;
 
@@ -26,11 +25,12 @@ public class Config {
 	
 	//economy-related crap
 	
-	
 	//loot-related shit
 	public int timeBetweenReloots = 600; // in seconds
 	public boolean synchTime = true;
 
+	public String apiHttpAccess = "http://51.254.129.247/dogez/chunkstories-port/api/";//"http://dz.xol.io/chunkstories-port/api";
+	
 	public void load() {
 		// TODO Auto-generated method stub
 		

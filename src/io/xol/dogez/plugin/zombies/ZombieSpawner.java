@@ -52,7 +52,7 @@ public class ZombieSpawner {
 						pZombCount++;
 					}
 				}
-				for(int i = pZombCount ; i < 16; i++)
+				for(int i = pZombCount ; i < 32; i++)
 				{
 					int distance = (int) (20+Math.random()*30);
 					double angle = Math.random()*3.14f*2;
