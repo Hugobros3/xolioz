@@ -35,8 +35,6 @@ public class DZTorch extends Item{
 		public void renderItemInWorld(RenderingInterface context, ItemPile pile, World world, Location location, Matrix4f handTransformation)
 		{
 			super.renderItemInWorld(context, pile, world, location, handTransformation);
-			
-			
 			//Has it got an user ?
 			if(pile.inventory != null)
 			{

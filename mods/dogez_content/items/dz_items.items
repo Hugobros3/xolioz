@@ -46,7 +46,18 @@ item 525 ble
 end
 
 #Armes à feu
-item 526 m1911
+item 526 m1911 io.xol.chunkstories.core.item.ItemWeapon
+	width: 2
+	height: 2
+	maxStackSize: 1
+	roundsPerMinute: 1200.0
+	fireMode: semiauto
+	reloadCooldown: 1800
+	range: 45
+	soundRange: 90
+	accuracy: 2
+	damage: 40
+	fireSound: sounds/dogez/weapon/m1911/shoot.ogg
 end
 
 item 527 m1911mag
@@ -59,8 +70,8 @@ item 528 makarov io.xol.chunkstories.core.item.ItemWeapon
 	roundsPerMinute: 300.0
 	fireMode: semiauto
 	reloadCooldown: 1500
-	range: 70
-	soundRange: 120
+	range: 40
+	soundRange: 70
 	accuracy: 1.5
 	damage: 20
 	fireSound: sounds/dogez/weapon/makarov/shoot.ogg
@@ -71,37 +82,99 @@ end
 item 529 makarovmag
 end
 
-item 530 shotgun
+item 530 shotgun io.xol.chunkstories.core.item.ItemWeapon
+	width: 3
+	height: 2
+	maxStackSize: 1
+	roundsPerMinute: 100.0
+	fireMode: semiauto
+	reloadCooldown: 1800
+	range: 70
+	soundRange: 90
+	accuracy: 12
+	shake: 4
+	damage: 27.5
+	shots: 8
+	fireSound: sounds/dogez/weapon/shotgun/shoot.ogg
 end
 
 item 531 shotgunmag
 end
 
-item 532 svd
+item 532 svd io.xol.chunkstories.core.item.ItemWeapon
+	width: 3
+	height: 3
+	maxStackSize: 1
+	roundsPerMinute: 500.0
+	fireMode: semiauto
+	reloadCooldown: 2500
+	range: 180
+	soundRange: 350
+	accuracy: 0.5
+	damage: 82.5
+	shots: 1
+	fireSound: sounds/dogez/weapon/svd/shoot.ogg
 end
 
 item 533 svdmag
 end
 
 item 534 ak74
+#weapon_ak47
 end
 
 item 535 ak74mag
 end
 
-item 536 akm
+item 536 akm io.xol.chunkstories.core.item.ItemWeapon
+	width: 3
+	height: 3
+	maxStackSize: 1
+	roundsPerMinute: 545.0
+	fireMode: fullauto
+	reloadCooldown: 1500
+	range: 70
+	soundRange: 185
+	accuracy: 1.6
+	damage: 60
+	shots: 1
+	fireSound: sounds/dogez/weapon/akm/shoot.ogg
 end
 
 item 537 akmmag
 end
 
-item 538 m4
+item 538 m4 io.xol.chunkstories.core.item.ItemWeapon
+	width: 3
+	height: 3
+	maxStackSize: 1
+	roundsPerMinute: 666.0
+	fireMode: fullauto
+	reloadCooldown: 1300
+	range: 105
+	soundRange: 170
+	accuracy: 1.5
+	damage: 60.0
+	shots: 1
+	fireSound: sounds/dogez/weapon/m4/shoot.ogg
 end
 
 item 539 m4mag
 end
 
-item 540 dmr
+item 540 dmr io.xol.chunkstories.core.item.ItemWeapon
+	width: 3
+	height: 3
+	maxStackSize: 1
+	roundsPerMinute: 500.0
+	fireMode: semiauto
+	reloadCooldown: 2500
+	range: 200
+	soundRange: 450
+	accuracy: 0.45
+	damage: 90
+	shots: 1
+	fireSound: sounds/dogez/weapon/dmr/shoot.ogg
 end
 
 item 541 dmrmag
