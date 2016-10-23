@@ -52,7 +52,20 @@ end
 item 527 m1911mag
 end
 
-item 528 makarov
+item 528 makarov io.xol.chunkstories.core.item.ItemWeapon
+	width: 2
+	height: 2
+	maxStackSize: 1
+	roundsPerMinute: 300.0
+	fireMode: semiauto
+	reloadCooldown: 1500
+	range: 70
+	soundRange: 120
+	accuracy: 1.5
+	damage: 20
+	fireSound: sounds/dogez/weapon/makarov/shoot.ogg
+#	modelObj: ./models/ak47.hq.obj
+#	modelDiffuse: ./models/ak47.hq.png
 end
 
 item 529 makarovmag
@@ -219,7 +232,7 @@ end
 item 580 battery
 end
 
-item 581 torchOff
+item 581 torchOff io.xol.dogez.mods.items.DZTorch
 end
 
 #Nowel

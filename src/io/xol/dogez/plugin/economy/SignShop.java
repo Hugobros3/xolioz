@@ -10,7 +10,6 @@ import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.core.entity.voxel.EntitySign;
 import io.xol.chunkstories.core.voxel.VoxelSign;
 import io.xol.chunkstories.item.ItemPile;
-import io.xol.chunkstories.renderer.VoxelContext;
 import io.xol.dogez.plugin.loot.LootItems;
 import io.xol.dogez.plugin.player.PlayerProfile;
 

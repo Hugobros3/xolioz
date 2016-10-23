@@ -8,7 +8,6 @@ import java.util.Random;
 import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.plugin.Scheduler;
 import io.xol.chunkstories.api.server.Player;
-import io.xol.chunkstories.server.Server;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.map.PlacesNames;
 import io.xol.dogez.plugin.player.PlayerProfile;

@@ -20,13 +20,10 @@ import io.xol.chunkstories.item.ItemPile;
 import io.xol.chunkstories.voxel.Voxels;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.economy.SignShop;
-import io.xol.dogez.plugin.game.special.DeathRewards;
-import io.xol.dogez.plugin.loot.LootItems;
 import io.xol.dogez.plugin.loot.LootPlace;
 import io.xol.dogez.plugin.loot.LootPlaces;
 import io.xol.dogez.plugin.misc.ChatFormatter;
 import io.xol.dogez.plugin.player.PlayerProfile;
-import io.xol.dogez.plugin.player.PlayersPackets;
 
 //(c) 2014 XolioWare Interactive
 

@@ -2,9 +2,6 @@ package io.xol.dogez.plugin.game;
 
 //(c) 2014 XolioWare Interactive
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.entity.DamageCause;
 import io.xol.chunkstories.api.entity.Entity;
@@ -13,17 +10,13 @@ import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
 import io.xol.chunkstories.api.events.EventHandler;
 import io.xol.chunkstories.api.events.Listener;
 import io.xol.chunkstories.api.server.Player;
-import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.chunkstories.core.entity.EntityZombie;
 import io.xol.chunkstories.core.events.EntityDamageEvent;
 import io.xol.chunkstories.core.events.EntityDeathEvent;
 import io.xol.chunkstories.core.events.PlayerDeathEvent;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.game.special.DeathRewards;
-import io.xol.dogez.plugin.misc.TimeFormatter;
 import io.xol.dogez.plugin.player.PlayerProfile;
-import io.xol.dogez.plugin.weapon.ChunksCleaner;
-import io.xol.dogez.plugin.zombies.ZombieType;
 
 public class EntityListener implements Listener {
 

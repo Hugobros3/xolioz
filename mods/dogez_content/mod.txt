@@ -1,2 +1,3 @@
 name=XolioZ:CS
-version=indev2
+version=indev3
+description=The classic gamemode by Xoliocraft.org\nHow much of a mass murderer can you become\nwhile pretending to fight a global zombie threat ?

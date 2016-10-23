@@ -1,11 +1,9 @@
 package io.xol.dogez.plugin.weapon;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.chunk.Chunk;
 

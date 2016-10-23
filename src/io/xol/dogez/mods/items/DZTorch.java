@@ -11,6 +11,7 @@ import io.xol.chunkstories.item.ItemPile;
 import io.xol.chunkstories.item.renderer.DefaultItemRenderer;
 import io.xol.engine.math.lalgb.Matrix4f;
 import io.xol.engine.math.lalgb.Vector3f;
+import io.xol.engine.math.lalgb.Vector4f;
 
 //(c) 2015-2016 XolioWare Interactive
 //http://chunkstories.xyz
@@ -35,6 +36,7 @@ public class DZTorch extends Item{
 		{
 			super.renderItemInWorld(context, pile, world, location, handTransformation);
 			
+			
 			//Has it got an user ?
 			if(pile.inventory != null)
 			{
@@ -42,7 +44,13 @@ public class DZTorch extends Item{
 				{
 					if(pile.inventory.holder instanceof EntityRotateable)
 					{
-						context.addLight(new SpotLight(new Vector3f(1f, 1f, 0.9f).scale(2.0f), location.castToSimplePrecision(), 45f, 35f, ((EntityRotateable) pile.inventory.holder).getDirectionLookingAt().castToSimplePrecision()));
+						Vector4f vec4 = new Vector4f(0.0, 0.0, 0.0, 1.0);
+						Matrix4f.transform(handTransformation, vec4, vec4);
+						
+						Vector3f vec3 = new Vector3f(vec4.x, vec4.y, vec4.z);
+						
+						context.addLight(new SpotLight(new Vector3f(1f, 1f, 0.9f).scale(1.5f), vec3, 45f, 35f, ((EntityRotateable) pile.inventory.holder).getDirectionLookingAt().castToSimplePrecision()));
+						context.addLight(new SpotLight(new Vector3f(1f, 1f, 0.9f).scale(0.5f), vec3, 95f, 35f, ((EntityRotateable) pile.inventory.holder).getDirectionLookingAt().castToSimplePrecision()));
 					}
 				}
 			}
