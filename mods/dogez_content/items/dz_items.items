@@ -2,25 +2,56 @@
 #Dernière maj : 01/09/2016
 
 #Armes CaC
-item 512 baseballbat
+item 512 baseballbat io.xol.chunkstories.core.item.ItemMeleeWeapon
+	width: 1
+	height: 2
+	swingDuration: 450
+	hitTime: 400
+	damage: 15
+	maxStackSize: 1
 end
 
-item 513 hammer
+item 513 hammer io.xol.chunkstories.core.item.ItemMeleeWeapon
+	width: 1
+	height: 1
+	swingDuration: 300
+	hitTime: 200
+	damage: 20
+	maxStackSize: 1
 end
 
-item 514 machette
+item 514 machette io.xol.chunkstories.core.item.ItemMeleeWeapon
+	width: 2
+	height: 1
+	swingDuration: 350
+	hitTime: 150
+	damage: 35
+	maxStackSize: 1
 end
 
-item 515 katana
+item 515 katana io.xol.chunkstories.core.item.ItemMeleeWeapon
+	width: 2
+	height: 2
+	swingDuration: 400
+	hitTime: 200
+	damage: 55
+	maxStackSize: 1
 end
 
 item 516 chainsaw
+#TBI
 end
 
-item 517 crowbar
+item 517 crowbar io.xol.chunkstories.core.item.ItemMeleeWeapon
+	width: 1
+	height: 2
+	swingDuration: 150
+	hitTime: 75
+	damage: 30
 end
 
-item 518 crowbar
+item 518 crowbar_dupe
+#Duplicate
 end
 
 #Nourriture
@@ -46,7 +77,7 @@ item 525 ble
 end
 
 #Armes à feu
-item 526 m1911 io.xol.chunkstories.core.item.ItemWeapon
+item 526 m1911 io.xol.chunkstories.core.item.ItemFirearm
 	width: 2
 	height: 2
 	maxStackSize: 1
@@ -60,10 +91,12 @@ item 526 m1911 io.xol.chunkstories.core.item.ItemWeapon
 	fireSound: sounds/dogez/weapon/m1911/shoot.ogg
 end
 
-item 527 m1911mag
+item 527 m1911mag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	forWeapon: m1911
+	maxStackSize: 7
 end
 
-item 528 makarov io.xol.chunkstories.core.item.ItemWeapon
+item 528 makarov io.xol.chunkstories.core.item.ItemFirearm
 	width: 2
 	height: 2
 	maxStackSize: 1
@@ -79,10 +112,12 @@ item 528 makarov io.xol.chunkstories.core.item.ItemWeapon
 #	modelDiffuse: ./models/ak47.hq.png
 end
 
-item 529 makarovmag
+item 529 makarovmag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	forWeapon: makarov
+	maxStackSize: 7
 end
 
-item 530 shotgun io.xol.chunkstories.core.item.ItemWeapon
+item 530 shotgun io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 2
 	maxStackSize: 1
@@ -98,10 +133,14 @@ item 530 shotgun io.xol.chunkstories.core.item.ItemWeapon
 	fireSound: sounds/dogez/weapon/shotgun/shoot.ogg
 end
 
-item 531 shotgunmag
+item 531 shotgunmag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	width: 1
+	height: 1
+	forWeapon: shotgun
+	maxStackSize: 12
 end
 
-item 532 svd io.xol.chunkstories.core.item.ItemWeapon
+item 532 svd io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
 	maxStackSize: 1
@@ -116,7 +155,11 @@ item 532 svd io.xol.chunkstories.core.item.ItemWeapon
 	fireSound: sounds/dogez/weapon/svd/shoot.ogg
 end
 
-item 533 svdmag
+item 533 svdmag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	width: 1
+	height: 2
+	forWeapon: svd
+	maxStackSize: 10
 end
 
 item 534 ak74
@@ -126,7 +169,7 @@ end
 item 535 ak74mag
 end
 
-item 536 akm io.xol.chunkstories.core.item.ItemWeapon
+item 536 akm io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
 	maxStackSize: 1
@@ -141,10 +184,14 @@ item 536 akm io.xol.chunkstories.core.item.ItemWeapon
 	fireSound: sounds/dogez/weapon/akm/shoot.ogg
 end
 
-item 537 akmmag
+item 537 akmmag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	width: 2
+	height: 2
+	forWeapon: akm
+	maxStackSize: 30
 end
 
-item 538 m4 io.xol.chunkstories.core.item.ItemWeapon
+item 538 m4 io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
 	maxStackSize: 1
@@ -159,10 +206,14 @@ item 538 m4 io.xol.chunkstories.core.item.ItemWeapon
 	fireSound: sounds/dogez/weapon/m4/shoot.ogg
 end
 
-item 539 m4mag
+item 539 m4mag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	width: 2
+	height: 2
+	forWeapon: m4
+	maxStackSize: 30
 end
 
-item 540 dmr io.xol.chunkstories.core.item.ItemWeapon
+item 540 dmr io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
 	maxStackSize: 1
@@ -177,39 +228,111 @@ item 540 dmr io.xol.chunkstories.core.item.ItemWeapon
 	fireSound: sounds/dogez/weapon/dmr/shoot.ogg
 end
 
-item 541 dmrmag
+item 541 dmrmag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	width: 2
+	height: 2
+	forWeapon: dmr
+	maxStackSize: 20
 end
 
 #Armes adminshop
-item 542 m249
+item 542 m249 io.xol.chunkstories.core.item.ItemFirearm
+	width: 4
+	height: 3
+	maxStackSize: 1
+	roundsPerMinute: 450.0
+	fireMode: fullauto
+	reloadCooldown: 1800
+	range: 250
+	soundRange: 500
+	accuracy: 3.45
+	damage: 25
+	fireSound: sounds/dogez/weapon/m249/shoot.ogg
 end
 
-item 543 m249mag
+item 543 m249mag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	forWeapon: m249
+	maxStackSize: 100
 end
 
-item 544 m9sd
+item 544 m9sd io.xol.chunkstories.core.item.ItemFirearm
+	width: 2
+	height: 2
+	maxStackSize: 1
+	roundsPerMinute: 900.0
+	fireMode: semiauto
+	reloadCooldown: 1800
+	range: 45
+	soundRange: 7
+	accuracy: 2
+	damage: 40
+	fireSound: sounds/dogez/weapon/m9sd/shoot.ogg
 end
 
-item 545 m9sdmag
+item 545 m9sdmag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	forWeapon: m9sd, m1911
+	maxStackSize: 15
 end
 
 #Armes maj ISIS
-item 546 uzi
+item 546 uzi io.xol.chunkstories.core.item.ItemFirearm
+	width: 2
+	height: 2
+	maxStackSize: 1
+	roundsPerMinute: 700.0
+	fireMode: fullauto
+	reloadCooldown: 2100
+	range: 60
+	soundRange: 80
+	accuracy: 2.5
+	damage: 32.5
+	fireSound: sounds/dogez/weapon/uzi/shoot.ogg
 end
 
-item 547 uzimag
+item 547 uzimag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	forWeapon: uzi
+	maxStackSize: 20
 end
 
-item 548 aa12
+item 548 aa12 io.xol.chunkstories.core.item.ItemFirearm
+	width: 3
+	height: 2
+	maxStackSize: 1
+	roundsPerMinute: 300.0
+	fireMode: fullauto
+	reloadCooldown: 2100
+	range: 60
+	soundRange: 120
+	accuracy: 8
+	shake: 1
+	damage: 32.5
+	shots: 5
+	fireSound: sounds/dogez/weapon/aa12/shoot.ogg
 end
 
-item 549 aa12mag
-
+item 549 aa12mag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	forWeapon: aa12
+	maxStackSize: 15
 end
-item 550 pkm
+
+item 550 pkm io.xol.chunkstories.core.item.ItemFirearm
+	width: 3
+	height: 3
+	maxStackSize: 1
+	roundsPerMinute: 300.0
+	fireMode: fullauto
+	reloadCooldown: 2100
+	range: 160
+	soundRange: 250
+	accuracy: 4
+	shake: 1
+	damage: 30
+	fireSound: sounds/dogez/weapon/pkm/shoot.ogg
 end
 
-item 551 pkmmag
+item 551 pkmmag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	forWeapon: pkm
+	maxStackSize: 50
 end
 
 #Fringues/armures
@@ -256,7 +379,9 @@ end
 item 565 rpg7
 end
 
-item 566 rpg7mag
+item 566 rpg7mag io.xol.chunkstories.core.item.ItemFirearmMagazine
+	forWeapon: rpg7
+	maxStackSize: 1
 end
 
 item 567 suicidebelt
