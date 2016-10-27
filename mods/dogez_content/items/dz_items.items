@@ -89,6 +89,8 @@ item 526 m1911 io.xol.chunkstories.core.item.ItemFirearm
 	accuracy: 2
 	damage: 40
 	fireSound: sounds/dogez/weapon/m1911/shoot.ogg
+	modelObj: ./models/weapon/m1911/m1911.obj
+	modelDiffuse: ./models/weapon/m1911/m1911.png
 end
 
 item 527 m1911mag io.xol.chunkstories.core.item.ItemFirearmMagazine
@@ -108,8 +110,8 @@ item 528 makarov io.xol.chunkstories.core.item.ItemFirearm
 	accuracy: 1.5
 	damage: 20
 	fireSound: sounds/dogez/weapon/makarov/shoot.ogg
-#	modelObj: ./models/ak47.hq.obj
-#	modelDiffuse: ./models/ak47.hq.png
+	modelObj: ./models/weapon/makarov/makarov.obj
+	modelDiffuse: ./models/weapon/makarov/makarov.png
 end
 
 item 529 makarovmag io.xol.chunkstories.core.item.ItemFirearmMagazine
@@ -144,7 +146,7 @@ item 532 svd io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
 	maxStackSize: 1
-	roundsPerMinute: 500.0
+	roundsPerMinute: 150.0
 	fireMode: semiauto
 	reloadCooldown: 2500
 	range: 180
@@ -153,6 +155,9 @@ item 532 svd io.xol.chunkstories.core.item.ItemFirearm
 	damage: 82.5
 	shots: 1
 	fireSound: sounds/dogez/weapon/svd/shoot.ogg
+	scoped: true
+	scopeZoom: 3
+	scopeSlow: 4
 end
 
 item 533 svdmag io.xol.chunkstories.core.item.ItemFirearmMagazine
@@ -204,6 +209,8 @@ item 538 m4 io.xol.chunkstories.core.item.ItemFirearm
 	damage: 60.0
 	shots: 1
 	fireSound: sounds/dogez/weapon/m4/shoot.ogg
+	modelObj: ./models/weapon/m4/m4.obj
+	modelDiffuse: ./models/weapon/m4/diffuse.png
 end
 
 item 539 m4mag io.xol.chunkstories.core.item.ItemFirearmMagazine
@@ -217,7 +224,7 @@ item 540 dmr io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
 	maxStackSize: 1
-	roundsPerMinute: 500.0
+	roundsPerMinute: 50.0
 	fireMode: semiauto
 	reloadCooldown: 2500
 	range: 200
@@ -226,6 +233,11 @@ item 540 dmr io.xol.chunkstories.core.item.ItemFirearm
 	damage: 90
 	shots: 1
 	fireSound: sounds/dogez/weapon/dmr/shoot.ogg
+	modelObj: ./models/weapon/dmr/dmr.obj
+	modelDiffuse: ./models/weapon/dmr/dmr.png
+	scoped: true
+	scopeZoom: 4
+	scopeSlow: 4
 end
 
 item 541 dmrmag io.xol.chunkstories.core.item.ItemFirearmMagazine
@@ -240,14 +252,17 @@ item 542 m249 io.xol.chunkstories.core.item.ItemFirearm
 	width: 4
 	height: 3
 	maxStackSize: 1
-	roundsPerMinute: 450.0
+	roundsPerMinute: 650.0
 	fireMode: fullauto
 	reloadCooldown: 1800
 	range: 250
 	soundRange: 500
-	accuracy: 3.45
+	accuracy: 1.15
+	shake: 0.5
 	damage: 25
 	fireSound: sounds/dogez/weapon/m249/shoot.ogg
+	modelObj: ./models/weapon/m249/m249.obj
+	modelDiffuse: ./models/weapon/m249/m249.png
 end
 
 item 543 m249mag io.xol.chunkstories.core.item.ItemFirearmMagazine
@@ -285,6 +300,7 @@ item 546 uzi io.xol.chunkstories.core.item.ItemFirearm
 	range: 60
 	soundRange: 80
 	accuracy: 2.5
+	shake: 1.5
 	damage: 32.5
 	fireSound: sounds/dogez/weapon/uzi/shoot.ogg
 end
@@ -319,13 +335,13 @@ item 550 pkm io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
 	maxStackSize: 1
-	roundsPerMinute: 300.0
+	roundsPerMinute: 500.0
 	fireMode: fullauto
 	reloadCooldown: 2100
 	range: 160
 	soundRange: 250
-	accuracy: 4
-	shake: 1
+	accuracy: 1.25
+	shake: 0.65
 	damage: 30
 	fireSound: sounds/dogez/weapon/pkm/shoot.ogg
 end
