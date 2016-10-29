@@ -27,7 +27,7 @@ public class DZTorch extends Item{
 	class TorchItemRenderer extends ObjViewModelRenderer{
 
 		public TorchItemRenderer(Item item) {
-			super(item, "./models/misc/torch/torch.obj", "./models/misc/torch/torchOff.png");
+			super(item, "./models/misc/torch/torch.obj", "./models/misc/torch/torchOn.png", "./textures/normalnormal.png", "./models/misc/torch/material.png");
 		}
 		
 		@Override
