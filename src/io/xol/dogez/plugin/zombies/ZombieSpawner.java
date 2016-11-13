@@ -52,9 +52,10 @@ public class ZombieSpawner {
 						pZombCount++;
 					}
 				}
-				for(int i = pZombCount ; i < 32; i++)
+				for(int i = pZombCount ; i < 16; i++)
 				{
-					int distance = (int) (20+Math.random()*30);
+					//System.out.println("why tho"+p+" / "+p.getLocation());
+					int distance = (int) (20+Math.random()*50);
 					double angle = Math.random()*3.14f*2;
 					int posx = (int) (p.getLocation().getX()+distance*Math.sin(angle));
 					int posz = (int) (p.getLocation().getZ()+distance*Math.cos(angle));
@@ -68,10 +69,15 @@ public class ZombieSpawner {
 						posy--;
 						//Block b = DogeZPlugin.config.getWorld().getBlockAt(posx, posy, posz);
 						Voxel v = Voxels.get(DogeZPlugin.config.getWorld().getVoxelData(posx, posy, posz));
+						
+						if(v.isVoxelLiquid())
+							break;
+						
 						for(String m : allowedMaterials)
 						{
 							if(v.getMaterial().getName().equals(m))
 							{
+								//System.out.println("Found ground : "+v.getId()+" mat"+v.getMaterial().getName());
 								foundGround = true;
 								break;
 							}

@@ -66,6 +66,11 @@ public class PlayerListener implements Listener {
 				public String getName() {
 					return "Anti-combatlog";
 				}
+
+				@Override
+				public long getCooldownInMs() {
+					return 0;
+				}
 			}, 150000);
 		}
 		PlayerProfile.removePlayerProfile(player.getUUID());
@@ -77,7 +82,6 @@ public class PlayerListener implements Listener {
 	 * DARK_GRAY+"] "+ChatColor.RED+ev.getPlayer().getName()+" à été kické."); }
 	 */
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	// public void onPlayerInteract(PlayerInteractEvent event) {
 	public void onPlayerInput(PlayerInputPressedEvent event) {
@@ -88,7 +92,6 @@ public class PlayerListener implements Listener {
 		if(!input.getName().startsWith("mouse."))
 			return;
 
-		System.out.println("meme");
 		Player player = event.getPlayer();
 		EntityControllable playerEntity = player.getControlledEntity();
 		Location selectedLocation = playerEntity.getBlockLookingAt(true);
