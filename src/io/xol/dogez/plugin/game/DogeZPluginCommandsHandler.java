@@ -4,6 +4,7 @@ package io.xol.dogez.plugin.game;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.compatibility.ChatColor;
+import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityLiving;
 import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
 import io.xol.chunkstories.api.entity.interfaces.EntityWithInventory;
@@ -11,6 +12,7 @@ import io.xol.chunkstories.api.plugin.commands.Command;
 import io.xol.chunkstories.api.plugin.commands.CommandEmitter;
 import io.xol.chunkstories.api.plugin.commands.CommandHandler;
 import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.core.entity.EntityZombie;
 import io.xol.chunkstories.item.ItemPile;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.loot.LootCategory;
@@ -316,6 +318,22 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 				{
 					plugin.loadConfigs();
 					player.sendMessage(ChatColor.AQUA+"Configuration rechargée");
+				}
+				else
+					player.sendMessage(ChatColor.RED+"Vous n'avez pas la permission.");
+				return true;
+			}
+			if(args[0].equals("butcher"))
+			{
+				if(player.hasPermission("dogez.admin"))
+				{
+					for(Entity entity : player.getWorld().getAllLoadedEntities())
+					{
+						if(entity instanceof EntityZombie)
+						{
+							entity.removeFromWorld();
+						}
+					}
 				}
 				else
 					player.sendMessage(ChatColor.RED+"Vous n'avez pas la permission.");

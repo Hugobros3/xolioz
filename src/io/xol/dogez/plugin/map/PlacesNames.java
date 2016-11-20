@@ -51,13 +51,15 @@ public class PlacesNames {
 	
 	public static String getPlayerPlaceName(Player player)
 	{
+		System.out.println("gppn");
+		
 		//return "nope";
 		if(!initialized)
 			return "Erreur";
 		Location loc = player.getLocation();
 		if(isInMap(loc))
 		{
-			int rgb = 0;//placesImage.getRGB((int)(loc.getX()+2000)/2, (int)(loc.getZ()+1000)/2);
+			int rgb = placesImage.getRGB((int)(loc.getX())/2, (int)(loc.getZ())/2);
 			rgb+=16777216;
 			//System.out.println("rgb"+rgb);
 			if(rgb == 0)
