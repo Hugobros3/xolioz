@@ -55,25 +55,32 @@ item 518 crowbar_dupe
 end
 
 #Nourriture
-item 519 bread
+item 519 bread io.xol.dogez.mods.items.FoodItem
+	calories: 20
 end
 
-item 520 soup
+item 520 soup io.xol.dogez.mods.items.FoodItem
+	calories: 15
 end
 
-item 521 cookie
+item 521 cookie io.xol.dogez.mods.items.FoodItem
+	calories: 10
 end
 
-item 522 pie
+item 522 pie io.xol.dogez.mods.items.FoodItem
+	calories: 20
 end
 
-item 523 apple
+item 523 apple io.xol.dogez.mods.items.FoodItem
+	calories: 25
 end
 
-item 524 steak
+item 524 steak io.xol.dogez.mods.items.FoodItem
+	calories: 40
 end
 
-item 525 ble
+item 525 ble io.xol.dogez.mods.items.FoodItem
+	calories: 5
 end
 
 #Armes à feu
