@@ -41,6 +41,9 @@ public class ZombieSpawner {
 	{
 		for(Player p : DogeZPlugin.config.getWorld().getPlayers())
 		{
+			if(!p.hasSpawned())
+				continue;
+			
 			if(!(p instanceof EntityCreative) || !((EntityCreative) p).getCreativeModeComponent().isCreativeMode())
 			//if(p.getGameMode().equals(GameMode.SURVIVAL))
 			{

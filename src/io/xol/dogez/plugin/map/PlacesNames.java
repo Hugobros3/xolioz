@@ -51,7 +51,7 @@ public class PlacesNames {
 	
 	public static String getPlayerPlaceName(Player player)
 	{
-		System.out.println("gppn");
+		//System.out.println("gppn");
 		
 		//return "nope";
 		if(!initialized)

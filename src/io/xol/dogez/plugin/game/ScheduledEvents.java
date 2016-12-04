@@ -11,6 +11,7 @@ import io.xol.chunkstories.api.server.Player;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.map.PlacesNames;
 import io.xol.dogez.plugin.player.PlayerProfile;
+import io.xol.engine.math.Math2;
 
 public class ScheduledEvents {
 	public static long ticksCounter = 0;
@@ -24,6 +25,10 @@ public class ScheduledEvents {
 			@Override
 			public void run() {
 				for (Player p : DogeZPlugin.config.getWorld().getPlayers()) {
+					
+					if(!p.hasSpawned())
+						continue;
+					
 					PlayerProfile pp = PlayerProfile.getPlayerProfile(p.getUUID());
 					if (pp != null) {
 						String currentPlace = PlacesNames.getPlayerPlaceName(p);
@@ -44,24 +49,26 @@ public class ScheduledEvents {
 				DogeZPlugin.spawner.countZombies();
 				DogeZPlugin.spawner.spawnZombies();
 				if (DogeZPlugin.config.synchTime) {
+					
+					//Synchs time
 					Date time = new Date();
 					@SuppressWarnings("deprecation")
-					double cstime = (time.getHours() - 5) * 60 + time.getMinutes();
+					double cstime = (time.getHours() - 0) * 60 + time.getMinutes();
 					cstime = cstime / 1440;
 					cstime = cstime * 10000;
+					cstime %= 10000;
+					cstime += 10000;
+					cstime %= 10000;
 					DogeZPlugin.config.getWorld().setTime((long) cstime);
-
+					
+					//Messes weather randomly
+					float currentWeather = DogeZPlugin.config.getWorld().getWeather();
+					float modifier = (float) (Math.random() - 0.5f) * 0.05f;
+					currentWeather += modifier;
+					currentWeather = Math2.clamp(currentWeather, 0f, 1f);
+					DogeZPlugin.config.getWorld().setWeather(currentWeather);
 				}
-			/*	for (Horse h : DogeZPlugin.config.getWorld().getEntitiesByClass(Horse.class)) {
-					// System.out.println("attacking??");
-					if (h.getTarget() == null) {
-						for (Entity p : h.getNearbyEntities(35, 35, 35)) {
-							if (p instanceof Player)
-								h.setTarget((LivingEntity) p);
-						}
-						// System.out.println("attacking pigzombie target");
-					}
-				}*/
+				
 			}
 		}, 0L, 10 * 10L * 6); // Chaque 10s
 		// lel
