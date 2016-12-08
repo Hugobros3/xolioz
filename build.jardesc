@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="C:/Users/Hugo/workspace2/Dogez-Plugin for CS/plugins/DogeZ.jar"/>
+    <jar path="DogeZ-Plugin for CS/plugins/DogeZ.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/DogeZ-Plugin for CS/build.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>

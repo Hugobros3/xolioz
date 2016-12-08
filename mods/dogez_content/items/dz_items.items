@@ -57,30 +57,37 @@ end
 #Nourriture
 item 519 bread io.xol.dogez.mods.items.FoodItem
 	calories: 20
+	maxStackSize: 5
 end
 
 item 520 soup io.xol.dogez.mods.items.FoodItem
 	calories: 15
+	maxStackSize: 10
 end
 
 item 521 cookie io.xol.dogez.mods.items.FoodItem
 	calories: 10
+	maxStackSize: 30
 end
 
 item 522 pie io.xol.dogez.mods.items.FoodItem
 	calories: 20
+	maxStackSize: 2
 end
 
 item 523 apple io.xol.dogez.mods.items.FoodItem
 	calories: 25
+	maxStackSize: 5
 end
 
 item 524 steak io.xol.dogez.mods.items.FoodItem
 	calories: 40
+	maxStackSize: 5
 end
 
 item 525 ble io.xol.dogez.mods.items.FoodItem
 	calories: 5
+	maxStackSize: 40
 end
 
 #Armes à feu
