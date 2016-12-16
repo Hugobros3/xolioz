@@ -5,8 +5,10 @@ package io.xol.dogez.plugin;
 import java.io.File;
 import java.util.logging.Logger;
 
-import io.xol.chunkstories.api.plugin.ChunkStoriesPlugin;
+import io.xol.chunkstories.api.plugin.PluginInformation;
+import io.xol.chunkstories.api.plugin.ServerPlugin;
 import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.api.server.ServerInterface;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.server.Server;
 import io.xol.dogez.plugin.game.BlockListener;
@@ -24,8 +26,12 @@ import io.xol.dogez.plugin.player.PlayerProfile;
 import io.xol.dogez.plugin.weapon.ChunksCleaner;
 import io.xol.dogez.plugin.zombies.ZombieSpawner;
 
-public class DogeZPlugin extends ChunkStoriesPlugin {
+public class DogeZPlugin extends ServerPlugin {
 	
+	public DogeZPlugin(PluginInformation pluginInformation, ServerInterface clientInterface) {
+		super(pluginInformation, clientInterface);
+	}
+
 	public static String version = "undefined";
 	public static boolean isGameActive = false;
 	
@@ -50,15 +56,15 @@ public class DogeZPlugin extends ChunkStoriesPlugin {
 			loadConfigs();
 			//initialize handlers
 			
-			getServer().getPluginsManager().registerEventListener(blockListener, this);
-			getServer().getPluginsManager().registerEventListener(entityListener, this);
+			getServer().getPluginManager().registerEventListener(blockListener, this);
+			getServer().getPluginManager().registerEventListener(entityListener, this);
 			entityListener.plugin = this;
-			getServer().getPluginsManager().registerEventListener(playerListener, this);
+			getServer().getPluginManager().registerEventListener(playerListener, this);
 			
 			DogeZPluginCommandsHandler dogezCmdHandler = new DogeZPluginCommandsHandler(this);
-			this.getPluginsManager().registerCommandHandler("dz", dogezCmdHandler);
-			this.getPluginsManager().registerCommandHandler("r", dogezCmdHandler);
-			this.getPluginsManager().registerCommandHandler("m", dogezCmdHandler);
+			this.getPluginManager().registerCommandHandler("dz", dogezCmdHandler);
+			this.getPluginManager().registerCommandHandler("r", dogezCmdHandler);
+			this.getPluginManager().registerCommandHandler("m", dogezCmdHandler);
 			
 			//Initlialize custom behaviors
 			spawner = new ZombieSpawner(this);
