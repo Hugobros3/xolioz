@@ -91,7 +91,7 @@ public class ScheduledEvents {
 					zik = 1 + rnd.nextInt(10);
 				}
 				
-				DogeZPlugin.config.getWorld().getSoundManager().playSoundEffect("dogez.music.zik" + zik);
+				DogeZPlugin.config.getWorld().getSoundManager().playMusic("sounds/dogez/music/zik" + zik +".ogg", 0, 0, 0, (float) (0.5f + Math.random() * 0.5f), 1, true);
 				
 				/*for (Player p : Server.getInstance().getConnectedPlayers()) {
 					
@@ -103,6 +103,6 @@ public class ScheduledEvents {
 					}
 				}*/
 			}
-		}, 0, 60 * 600L); // every 5m
+		}, 0, 60 * 60L); // every minute
 	}
 }
