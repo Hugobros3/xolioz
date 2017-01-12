@@ -1,6 +1,6 @@
 package io.xol.dogez.plugin.loot;
 
-import io.xol.chunkstories.item.ItemTypes;
+import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.misc.ChatFormatter;
 
 import java.io.BufferedReader;
@@ -18,7 +18,7 @@ public class LootItems {
 
 	public static Map<String, LootItem> lootItems = new HashMap<String, LootItem>();
 	public static LootItem failItem = new LootItem("&cI'm a failed loot entry !", "failedentry",
-			ItemTypes.getItemTypeByName("dz_failed"));
+			DogeZPlugin.access.getPluginExecutionContext().getContent().items().getItemTypeByName("dz_failed"));
 
 	public static LootItem getItem(String name) {
 		LootItem li = lootItems.get(name);
@@ -48,7 +48,7 @@ public class LootItems {
 					String[] data = ligne.split(":");
 					if (data.length >= 4) {
 						// 0:techname 1:typeId 2:metaData 3:realName
-						LootItem li = new LootItem(data[3], data[0], ItemTypes.getItemTypeByName(data[0]));
+						LootItem li = new LootItem(data[3], data[0], DogeZPlugin.access.getPluginExecutionContext().getContent().items().getItemTypeByName(data[0]));
 						if (data.length >= 5) {
 							List<String> descLines = new ArrayList<String>();
 							for (String line : data[4].split(";;")) {
