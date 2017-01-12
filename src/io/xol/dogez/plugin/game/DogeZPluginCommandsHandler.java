@@ -206,7 +206,8 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 			}
 			if(args[0].equals("suicide"))
 			{
-				((EntityLiving) player.getControlledEntity()).setHealth(0f);
+				((EntityLiving) player.getControlledEntity()).setHealth(-10f);
+				return true;
 			}
 			if(args[0].equals("stats"))
 			{
