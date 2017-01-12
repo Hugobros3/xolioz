@@ -17,7 +17,6 @@ import io.xol.chunkstories.core.events.PlayerLogoutEvent;
 import io.xol.chunkstories.core.voxel.VoxelChest;
 import io.xol.chunkstories.core.voxel.VoxelSign;
 import io.xol.chunkstories.item.ItemPile;
-import io.xol.chunkstories.voxel.Voxels;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.economy.SignShop;
 import io.xol.dogez.plugin.loot.LootPlace;
@@ -96,9 +95,9 @@ public class PlayerListener implements Listener {
 		EntityControllable playerEntity = player.getControlledEntity();
 		Location selectedLocation = playerEntity.getBlockLookingAt(true);
 		
-		Voxel v = Voxels.get(0);
+		Voxel v = DogeZPlugin.access.getServer().getContent().voxels().getVoxelById(0);
 		if (selectedLocation != null) {
-			v = Voxels.get(playerEntity.getWorld().getVoxelData(selectedLocation));
+			v = DogeZPlugin.access.getServer().getContent().voxels().getVoxelById(playerEntity.getWorld().getVoxelData(selectedLocation));
 
 		//if (!playerEntity.getWorld().getWorldInfo().getName().equals(DogeZPlugin.config.activeWorld))
 		//	return;
@@ -148,7 +147,7 @@ public class PlayerListener implements Listener {
 		if (selectedLocation != null) {
 			//Block b = event.getClickedBlock();
 			if (v instanceof VoxelChest) {
-				String coords = (int)selectedLocation.getX() + ":" + (int)selectedLocation.getY() + ":" +(int) selectedLocation.getZ();
+				String coords = (int)(double)selectedLocation.getX() + ":" + (int)(double)selectedLocation.getY() + ":" +(int)(double) selectedLocation.getZ();
 				//player.sendMessage("debug:"+coords);
 				
 				LootPlaces.update(coords, player.getWorld());
@@ -156,7 +155,7 @@ public class PlayerListener implements Listener {
 			} else if (v instanceof VoxelSign)//(b.getType().equals(Material.WALL_SIGN) || b.getType().equals(Material.SIGN_POST)) {
 				
 				//if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
-					event.setCancelled(SignShop.handle(player, v, (int)selectedLocation.getX(), (int)selectedLocation.getY(),  (int)selectedLocation.getZ()));
+					event.setCancelled(SignShop.handle(player, v, (int)(double)selectedLocation.getX(), (int)(double)selectedLocation.getY(),  (int)(double)selectedLocation.getZ()));
 		}
 		
 

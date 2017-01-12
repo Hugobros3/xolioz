@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ANSI_X3.4-1968" standalone="no"?>
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
     <jar path="DogeZ-Plugin for CS/mods/dogez_content/common.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/DogeZ-Plugin for CS/build-content.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>

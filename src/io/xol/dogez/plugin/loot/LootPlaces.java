@@ -5,7 +5,7 @@ import io.xol.chunkstories.api.server.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.core.voxel.VoxelChest;
-import io.xol.chunkstories.voxel.Voxels;
+import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.player.PlayerProfile;
 
 import java.io.BufferedReader;
@@ -177,7 +177,7 @@ public class LootPlaces {
 				for(int y = 0; y < 255; y ++)
 				{
 					//Block b = player.getWorld().getBlockAt(x, y, z);
-					Voxel v = Voxels.get(player.getControlledEntity().getWorld().getVoxelData(x, y, z));
+					Voxel v = DogeZPlugin.access.getServer().getContent().voxels().getVoxelById(player.getControlledEntity().getWorld().getVoxelData(x, y, z));
 					if(v != null && v instanceof VoxelChest && pp.activeCategory != null)
 					//if(b != null && b.getType().equals(Material.CHEST) && pp.activeCategory != null)
 					{

@@ -7,7 +7,6 @@ import io.xol.chunkstories.api.server.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.chunk.Chunk;
 import io.xol.chunkstories.core.entity.EntityZombie;
-import io.xol.chunkstories.voxel.Voxels;
 import io.xol.chunkstories.world.WorldServer;
 import io.xol.dogez.plugin.DogeZPlugin;
 
@@ -71,7 +70,7 @@ public class ZombieSpawner {
 					{
 						posy--;
 						//Block b = DogeZPlugin.config.getWorld().getBlockAt(posx, posy, posz);
-						Voxel v = Voxels.get(DogeZPlugin.config.getWorld().getVoxelData(posx, posy, posz));
+						Voxel v = DogeZPlugin.access.getServer().getContent().voxels().getVoxelById(DogeZPlugin.config.getWorld().getVoxelData(posx, posy, posz));
 						
 						if(v.isVoxelLiquid())
 							break;

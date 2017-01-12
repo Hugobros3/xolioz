@@ -9,7 +9,6 @@ import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.core.entity.voxel.EntityChest;
 import io.xol.chunkstories.core.voxel.VoxelChest;
-import io.xol.chunkstories.voxel.Voxels;
 import io.xol.dogez.plugin.DogeZPlugin;
 
 public class LootPlace {
@@ -50,7 +49,7 @@ public class LootPlace {
 	
 	private Inventory getContainerInv()
 	{
-		Voxel v = Voxels.get(w.getVoxelData(x, y, z));
+		Voxel v = DogeZPlugin.access.getServer().getContent().voxels().getVoxelById(w.getVoxelData(x, y, z));
 		
 		//Block b = w.getBlockAt(x, y, z);
 		//if(b.getType().equals(Material.CHEST))

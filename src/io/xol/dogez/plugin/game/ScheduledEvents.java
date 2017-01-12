@@ -47,7 +47,6 @@ public class ScheduledEvents {
 					}*/
 				}
 				DogeZPlugin.spawner.countZombies();
-				DogeZPlugin.spawner.spawnZombies();
 				if (DogeZPlugin.config.synchTime) {
 					
 					//Synchs time
