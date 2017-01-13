@@ -9,6 +9,7 @@ import io.xol.chunkstories.api.entity.interfaces.EntityWithSelectedItem;
 import io.xol.chunkstories.api.events.EventHandler;
 import io.xol.chunkstories.api.events.Listener;
 import io.xol.chunkstories.api.input.Input;
+import io.xol.chunkstories.api.item.ItemPile;
 import io.xol.chunkstories.api.server.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.core.events.PlayerInputPressedEvent;
@@ -16,7 +17,6 @@ import io.xol.chunkstories.core.events.PlayerLoginEvent;
 import io.xol.chunkstories.core.events.PlayerLogoutEvent;
 import io.xol.chunkstories.core.voxel.VoxelChest;
 import io.xol.chunkstories.core.voxel.VoxelSign;
-import io.xol.chunkstories.item.ItemPile;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.economy.SignShop;
 import io.xol.dogez.plugin.loot.LootPlace;
@@ -74,12 +74,6 @@ public class PlayerListener implements Listener {
 		}
 		PlayerProfile.removePlayerProfile(player.getUUID());
 	}
-
-	/*
-	 * @EventHandler void onPlayerKick(PlayerKickEvent ev) {
-	 * ev.setLeaveMessage(ChatColor.DARK_GRAY+"["+ChatColor.RED+"-"+ChatColor.
-	 * DARK_GRAY+"] "+ChatColor.RED+ev.getPlayer().getName()+" à été kické."); }
-	 */
 
 	@EventHandler
 	// public void onPlayerInteract(PlayerInteractEvent event) {

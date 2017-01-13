@@ -1,6 +1,6 @@
 name: DogeZ-Plugin
 authors: Gobrosse
-version: 1.2
+version: 1.2.1
 main: io.xol.dogez.plugin.DogeZPlugin
 
 command: dz dogez xolioz xz

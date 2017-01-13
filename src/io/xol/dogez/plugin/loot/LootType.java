@@ -4,7 +4,7 @@ package io.xol.dogez.plugin.loot;
 
 import java.util.Random;
 
-import io.xol.chunkstories.item.ItemPile;
+import io.xol.chunkstories.api.item.ItemPile;
 
 public class LootType {
 

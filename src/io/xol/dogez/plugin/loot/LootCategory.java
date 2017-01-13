@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import io.xol.chunkstories.item.ItemPile;
+import io.xol.chunkstories.api.item.ItemPile;
 
 public class LootCategory {
 	

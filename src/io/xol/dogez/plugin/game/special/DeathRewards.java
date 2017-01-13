@@ -20,11 +20,11 @@ public class DeathRewards {
 
 	public static void onWield(Player player, PlayerProfile pp)
 	{
-		Player victim = DogeZPlugin.access.getServer().getPlayer(pp.deathRequest);
+		Player victim = DogeZPlugin.access.getServer().getPlayerByName(pp.deathRequest);
 		if(pp.deathRequest.equals("") || victim == null || victim.hasPermission("dogez.notargetterinno"))
 		{
 			findVictim(player, pp);
-			victim = DogeZPlugin.access.getServer().getPlayer(pp.deathRequest);
+			victim = DogeZPlugin.access.getServer().getPlayerByName(pp.deathRequest);
 		}
 		if(pp.deathRequest.equals(""))
 			player.sendMessage(ChatColor.DARK_PURPLE+"Les pouvoirs maléfiques de la faux n'ont personne à vous faire tuer pour l'instant.");

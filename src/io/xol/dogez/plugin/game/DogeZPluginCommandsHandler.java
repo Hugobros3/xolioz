@@ -8,12 +8,12 @@ import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityLiving;
 import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
 import io.xol.chunkstories.api.entity.interfaces.EntityWithInventory;
+import io.xol.chunkstories.api.item.ItemPile;
 import io.xol.chunkstories.api.plugin.commands.Command;
 import io.xol.chunkstories.api.plugin.commands.CommandEmitter;
 import io.xol.chunkstories.api.plugin.commands.CommandHandler;
 import io.xol.chunkstories.api.server.Player;
 import io.xol.chunkstories.core.entity.EntityZombie;
-import io.xol.chunkstories.item.ItemPile;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.loot.LootCategory;
 import io.xol.dogez.plugin.loot.LootItem;
@@ -59,7 +59,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 			{
 				String toSend = "";
 				String destination = args[0];
-				Player destPlayer = plugin.getServer().getPlayer(destination);//Bukkit.getPlayer(destination);
+				Player destPlayer = plugin.getServer().getPlayerByName(destination);//Bukkit.getPlayer(destination);
 				if(TalkieWalkie.canPlayerUse(player) || (destPlayer != null && destPlayer.hasPermission("dogez.talkie.receiveAnyway")))
 				{
 					if(destPlayer != null)
@@ -112,7 +112,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 						return true;
 					}
 					String destination = pp.talkingTo;
-					Player destPlayer = plugin.getServer().getPlayer(destination);//Bukkit.getPlayer(destination);
+					Player destPlayer = plugin.getServer().getPlayerByName(destination);//Bukkit.getPlayer(destination);
 					if(destPlayer != null)
 					{
 						PlayerProfile pp2 = PlayerProfile.getPlayerProfile(destPlayer.getUUID());
@@ -174,7 +174,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 			{
 				Player player2 = player;
 				if(args.length > 1 && sender.hasPermission("dogez.spawn.as"))
-					player2 = plugin.getServer().getPlayer(args[1]); //Bukkit.getPlayer(args[1]);
+					player2 = plugin.getServer().getPlayerByName(args[1]); //Bukkit.getPlayer(args[1]);
 				if(player2 == null)
 					return false;
 				PlayerProfile profile = PlayerProfile.getPlayerProfile(player2.getUUID());
@@ -216,7 +216,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 				{
 					String requestedPlayerName = args[1];
 					
-					Player requestedPlayer = plugin.getServer().getPlayer(requestedPlayerName);
+					Player requestedPlayer = plugin.getServer().getPlayerByName(requestedPlayerName);
 					//OfflinePlayer requestedPlayer = Bukkit.getOfflinePlayer(requestedPlayerName);
 					profile = PlayerProfile.getPlayerProfile(requestedPlayer.getUUID());
 				}
@@ -252,7 +252,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 			if(args[0].equals("money") && args.length == 2)
 			{
 				//OfflinePlayer target = plugin.getServer().getOfflinePlayer(args[1]);
-				Player target = plugin.getServer().getPlayer(args[1]);
+				Player target = plugin.getServer().getPlayerByName(args[1]);
 				if(player != null)
 				{
 					double xc = PlayerProfile.getPlayerProfile(target.getUUID()).xcBalance;
@@ -613,7 +613,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 					String receiver = result.split(":")[1];
 					
 					PlayerProfile.getPlayerProfile(player.getUUID()).reloadProfile();
-					Player receiverP = plugin.getServer().getPlayer(receiver);//Bukkit.getPlayer(receiver);
+					Player receiverP = plugin.getServer().getPlayerByName(receiver);//Bukkit.getPlayer(receiver);
 					if(receiverP != null)
 					{
 						PlayerProfile.getPlayerProfile(receiverP.getUUID()).reloadProfile();

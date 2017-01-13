@@ -37,7 +37,8 @@ public class Config {
 	}
 
 	public WorldServer getWorld() {
-		return Server.getInstance().getWorld();
+		//TODO make WorldMaster handle players etc
+		return (WorldServer)DogeZPlugin.access.getServer().getWorld();
 	}
 
 	public void save() {

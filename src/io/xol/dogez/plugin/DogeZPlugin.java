@@ -101,7 +101,7 @@ public class DogeZPlugin extends ServerPlugin {
 		LootTypes.loadTypes();
 		// for(World w : getServer().getWorlds())
 		// {
-		World w = Server.getInstance().getWorld();
+		World w = getServer().getWorld();
 		LootPlaces.loadLootFile(w);
 		// }
 		PlacesNames.loadData();
@@ -113,7 +113,7 @@ public class DogeZPlugin extends ServerPlugin {
 		DogeZPlugin.config.save();
 		// for(World w : getServer().getWorlds())
 		// {
-		World w = Server.getInstance().getWorld();
+		World w = getServer().getWorld();
 		LootPlaces.saveLootFile(w);
 		// }
 	}

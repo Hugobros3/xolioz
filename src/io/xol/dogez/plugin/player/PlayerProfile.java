@@ -404,7 +404,7 @@ public class PlayerProfile implements HttpRequester {
 		}
 		if(result == null)
 		{
-			Player player = Server.getInstance().getPlayerByUUID(uuid);
+			Player player = DogeZPlugin.access.getServer().getPlayerByUUID(uuid);
 			//OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
 			if(player != null)
 			{

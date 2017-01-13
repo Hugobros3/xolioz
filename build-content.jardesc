@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
     <jar path="DogeZ-Plugin for CS/mods/dogez_content/common.jar"/>
@@ -15,21 +14,3 @@
         <javaElement handleIdentifier="=DogeZ-Plugin for CS/src&lt;io.xol.dogez.mods.items"/>
     </selectedElements>
 </jardesc>
-=======
-<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
-<jardesc>
-    <jar path="DogeZ-Plugin for CS/mods/dogez_content/common.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/DogeZ-Plugin for CS/build-content.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
-    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
-    <selectedProjects/>
-    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
-        <sealing sealJar="false">
-            <packagesToSeal/>
-            <packagesToUnSeal/>
-        </sealing>
-    </manifest>
-    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=DogeZ-Plugin for CS/src&lt;io.xol.dogez.mods.items"/>
-    </selectedElements>
-</jardesc>
->>>>>>> branch 'master' of ssh://gobrosse@git.xol.io:22222/home/gobrosse/repo/dogez-plugin-cs

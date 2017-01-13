@@ -2,8 +2,8 @@ package io.xol.dogez.plugin.loot;
 
 import java.util.List;
 
+import io.xol.chunkstories.api.item.ItemPile;
 import io.xol.chunkstories.api.item.ItemType;
-import io.xol.chunkstories.item.ItemPile;
 import io.xol.dogez.plugin.misc.ChatFormatter;
 
 //Copyright 2014 XolioWare Interactive
