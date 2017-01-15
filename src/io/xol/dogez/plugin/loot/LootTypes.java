@@ -11,11 +11,19 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.xol.dogez.plugin.DogeZPlugin;
+
 public class LootTypes {
 
-	public static Map<String,LootCategory> categories = new HashMap<String,LootCategory>();
+	private final DogeZPlugin plugin;
+
+	public LootTypes(DogeZPlugin dogeZPlugin) {
+		plugin = dogeZPlugin;
+	}
 	
-	public static void loadTypes()
+	public Map<String,LootCategory> categories = new HashMap<String,LootCategory>();
+	
+	public void loadTypes()
 	{
 		File file = new File("./plugins/DogeZ/lootTypes2.dz");
 		if(!file.exists())
@@ -50,7 +58,7 @@ public class LootTypes {
 				{
 					if(!ligne.startsWith("//"))
 					{
-						LootType addmeh = new LootType(LootItems.getItem(ligne.split(":")[0]),ligne);
+						LootType addmeh = new LootType(plugin.getLootItems().getItem(ligne.split(":")[0]),ligne);
 						if(currentCategory != null && addmeh.lootItem != null)
 							currentCategory.add(addmeh);
 						else
@@ -76,7 +84,7 @@ public class LootTypes {
 		}
 	}
 
-	public static LootCategory getCategory(String currentCategory) {
+	public LootCategory getCategory(String currentCategory) {
 		LootCategory cg = categories.get(currentCategory);
 		return cg;
 	}

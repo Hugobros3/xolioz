@@ -10,15 +10,20 @@ import io.xol.chunkstories.api.server.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.core.entity.voxel.EntitySign;
 import io.xol.chunkstories.core.voxel.VoxelSign;
-import io.xol.dogez.plugin.loot.LootItems;
+import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.player.PlayerProfile;
 
 //Copyright 2014 XolioWare Interactive
 
-public class SignShop {
+public class SignsShopsHandlers {
 
-	@SuppressWarnings("deprecation")
-	public static boolean handle(Player player, Voxel voxel, int x, int y, int z) {
+	private final DogeZPlugin plugin;
+
+	public SignsShopsHandlers(DogeZPlugin dogeZPlugin) {
+		plugin = dogeZPlugin;
+	}
+	
+	public boolean handle(Player player, Voxel voxel, int x, int y, int z) {
 		try{
 			VoxelSign voxelSign = (VoxelSign) voxel;
 			EntitySign s = voxelSign.getVoxelEntity(player.getWorld(), x, y, z);
@@ -33,26 +38,10 @@ public class SignShop {
 				float price = Float.parseFloat(safeLineGet(s,3).replace("xc", ""));
 				ItemPile item = null;
 				String[] itemLine = safeLineGet(s,2).split(":");
-				/*if(safeLineGet(s,2).contains(":") && safeLineGet(s,2).split(":").length > 2)
+				
+				if(plugin.getLootItems().contains(itemLine[0]))
 				{
-					
-					if(itemLine.length > 0)
-						item = new ItemPile(Integer.parseInt(itemLine[0])); //id
-					if(itemLine.length > 1)
-						item.setDurability(Short.parseShort(itemLine[1])); //meta
-					if(itemLine.length > 2)
-						item.setAmount(Integer.parseInt(itemLine[2])); //amount 
-					if(itemLine.length > 3)
-					{
-						ItemMeta m = item.getItemMeta();
-						m.setDisplayName(itemLine[3]); // name
-						item.setItemMeta(m);
-					}
-				}
-				else */
-				if(LootItems.contains(itemLine[0]))
-				{
-					item = LootItems.getItem(itemLine[0]).getItem();
+					item = plugin.getLootItems().getItem(itemLine[0]).getItem();
 					if(safeLineGet(s,2).contains(":") && safeLineGet(s,2).split(":").length == 2)
 					{
 						item.setAmount(Integer.parseInt(itemLine[1]));
@@ -71,7 +60,7 @@ public class SignShop {
 			}
 			else if(safeLineGet(s,0).equalsIgnoreCase("[Transport]"))
 			{
-				PlayerProfile client = PlayerProfile.getPlayerProfile(player.getUUID());
+				PlayerProfile client = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
 				String[] coords = safeLineGet(s,2).split(" ");
 				Location destination = new Location(player.getWorld(),Integer.parseInt(coords[0]),Integer.parseInt(coords[1]),Integer.parseInt(coords[2]));
 				float price = Float.parseFloat(safeLineGet(s,3).replace("xc", ""));
@@ -97,7 +86,7 @@ public class SignShop {
 		return false;
 	}
 
-	private static String safeLineGet(EntitySign s, int i) {
+	private String safeLineGet(EntitySign s, int i) {
 		if(s == null)
 			return "";
 		String content = s.getText();
@@ -112,8 +101,8 @@ public class SignShop {
 		return ChatColor.stripColor(splitted[i]);
 	}
 
-	private static void sellPlayer(Player player, String name, ItemPile item, float price) {
-		PlayerProfile client = PlayerProfile.getPlayerProfile(player.getUUID());
+	private void sellPlayer(Player player, String name, ItemPile item, float price) {
+		PlayerProfile client = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
 		if(client.xcBalance >= price)
 		{
 			if(((EntityWithInventory) player.getControlledEntity()).getInventory().addItemPile(item) != null)
@@ -134,8 +123,8 @@ public class SignShop {
 		}
 	}
 	
-	private static void buyPlayer(Player player, String name, ItemPile item, float price) {
-		PlayerProfile client = PlayerProfile.getPlayerProfile(player.getUUID());
+	private void buyPlayer(Player player, String name, ItemPile item, float price) {
+		PlayerProfile client = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
 		
 		Iterator<ItemPile> i = ((EntityWithInventory) player.getControlledEntity()).getInventory().iterator();
 		while(i.hasNext())

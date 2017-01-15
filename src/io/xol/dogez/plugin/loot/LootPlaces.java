@@ -25,25 +25,27 @@ import java.util.Map;
 //Copyright 2014 XolioWare Interactive
 
 public class LootPlaces {
-	//This class takes care of holding all the places on the world where the loot do spawns.
 	
-	static Map<String,LootPlace> places = new HashMap<String,LootPlace>();	
-	//static Map<String,LootPlace> placesChernarus = new HashMap<String,LootPlace>();
-	//static Map<String,LootPlace> placesNamalsk = new HashMap<String,LootPlace>();
-	//static Map<String,LootPlace> placesOther = new HashMap<String,LootPlace>();
+	private final DogeZPlugin plugin;
+
+	public LootPlaces(DogeZPlugin dogeZPlugin) {
+		plugin = dogeZPlugin;
+	}
 	
-	public static Map<String,LootPlace> getData(World w)
+	public DogeZPlugin getPlugin()
 	{
-		/*if(w.getName().equals("world"))
-			return placesChernarus;
-		if(w.getName().equals("namalsk-map"))
-			return placesNamalsk;
-		return placesOther;*/
-		
+		return plugin;
+	}
+	
+	//This class takes care of holding all the places on the world where the loot do spawns.
+	Map<String,LootPlace> places = new HashMap<String,LootPlace>();
+	
+	public Map<String,LootPlace> getData(World w)
+	{
 		return places;
 	}
 	
-	public static int respawnLoot(World w)
+	public int respawnLoot(World w)
 	{
 		Map<String,LootPlace> places = getData(w);
 		int count = 0;
@@ -55,7 +57,7 @@ public class LootPlaces {
 		return count;
 	}
 	
-	public static void loadLootFile(World w)
+	public void loadLootFile(World w)
 	{
 		Map<String,LootPlace> places = getData(w);
 		File file = getFile(w);
@@ -66,13 +68,11 @@ public class LootPlaces {
 			BufferedReader br = new BufferedReader(ipsr);
 			String ligne;
 			while ((ligne = br.readLine()) != null) {
-				LootPlace lp = new LootPlace(ligne,w);
+				LootPlace lp = new LootPlace(this, ligne,w);
 				if(lp.type != null)
 				{
 					String coords = lp.x+":"+lp.y+":"+lp.z;
 					places.put(coords, lp);
-					//debug
-					//System.out.println("Added LootPlace "+lp.toString());
 				}
 			}
 			br.close();
@@ -81,20 +81,8 @@ public class LootPlaces {
 		}
 	}
 	
-	private static String getPrefix(World w)
-	{
-		return "";
-		
-		/*if(w.getName().equals("world"))
-			return "";
-		if(w.getName().equals("namalsk-map"))
-			return "-namalsk";
-		return "-other";*/
-	}
-	
-	
-	private static File getFile(World w) {
-		File file = new File("./plugins/DogeZ/lootPlaces"+getPrefix(w)+".dz");
+	private File getFile(World w) {
+		File file = new File("./plugins/DogeZ/lootPlaces.dz");
 		if(!file.exists())
 			try {
 				file.createNewFile();
@@ -104,7 +92,7 @@ public class LootPlaces {
 		return file;
 	}
 
-	public static void saveLootFile(World w)
+	public void saveLootFile(World w)
 	{
 		File file = getFile(w);
 		Map<String,LootPlace> places = getData(w);
@@ -124,7 +112,7 @@ public class LootPlaces {
 		File folder = new File("./plugins/DogeZ/backups");
 		if(!folder.exists())
 			folder.mkdir();
-		file = new File("./plugins/DogeZ/backups/lootPlaces"+getPrefix(w)+"-"+System.currentTimeMillis()+".dz");
+		file = new File("./plugins/DogeZ/backups/lootPlaces-"+System.currentTimeMillis()+".dz");
 		try {
 			file.createNewFile();
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
@@ -140,12 +128,12 @@ public class LootPlaces {
 		}
 	}
 
-	public static boolean removePlace(String coords, World w) {
+	public boolean removePlace(String coords, World w) {
 		Map<String,LootPlace> places = getData(w);
 		return places.remove(coords) != null;
 	}
 
-	public static boolean add(String coords, LootPlace lp, World w) {
+	public boolean add(String coords, LootPlace lp, World w) {
 		Map<String,LootPlace> places = getData(w);
 		if(places.containsKey(coords))
 			return false;
@@ -153,22 +141,22 @@ public class LootPlaces {
 		return true;
 	}
 
-	public static int count(World w) {
+	public int count(World w) {
 		Map<String,LootPlace> places = getData(w);
 		return places.size();
 	}
 
-	public static void update(String coords, World w) {
+	public void update(String coords, World w) {
 		Map<String,LootPlace> places = getData(w);
-		//System.out.println("so ?"+coords);
+		
 		if(places.containsKey(coords))
 			places.get(coords).update();
 	}
 
-	public static int lootArroundPlayer(Player player, int radius, boolean forceReplace) {
+	public int lootArroundPlayer(Player player, int radius, boolean forceReplace) {
 		Map<String,LootPlace> places = getData(player.getControlledEntity().getWorld());
 		int count = 0;
-		PlayerProfile pp = PlayerProfile.getPlayerProfile(player.getUUID());
+		PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
 		Location loc = player.getLocation();
 		for(int x = (int) (loc.getX()-radius); x < loc.getX()+radius; x++ )
 		{
@@ -176,13 +164,12 @@ public class LootPlaces {
 			{
 				for(int y = 0; y < 255; y ++)
 				{
-					//Block b = player.getWorld().getBlockAt(x, y, z);
-					Voxel v = DogeZPlugin.access.getServer().getContent().voxels().getVoxelById(player.getControlledEntity().getWorld().getVoxelData(x, y, z));
+					Voxel v = plugin.getServer().getContent().voxels().getVoxelById(player.getControlledEntity().getWorld().getVoxelData(x, y, z));
+					
 					if(v != null && v instanceof VoxelChest && pp.activeCategory != null)
-					//if(b != null && b.getType().equals(Material.CHEST) && pp.activeCategory != null)
 					{
 						String coords = x+":"+y+":"+z;
-						LootPlace lp = new LootPlace(coords+":"+pp.activeCategory+":"+pp.currentMin+":"+pp.currentMax,player.getControlledEntity().getWorld());
+						LootPlace lp = new LootPlace(this, coords+":"+pp.activeCategory+":"+pp.currentMin+":"+pp.currentMax,player.getControlledEntity().getWorld());
 						if(forceReplace || !places.containsKey(coords))
 						{
 							if(places.containsKey(coords))

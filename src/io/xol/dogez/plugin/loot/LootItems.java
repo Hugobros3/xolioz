@@ -16,18 +16,25 @@ import java.util.Map;
 
 public class LootItems {
 
-	public static Map<String, LootItem> lootItems = new HashMap<String, LootItem>();
-	public static LootItem failItem = new LootItem("&cI'm a failed loot entry !", "failedentry",
-			DogeZPlugin.access.getPluginExecutionContext().getContent().items().getItemTypeByName("dz_failed"));
+	private final DogeZPlugin plugin;
 
-	public static LootItem getItem(String name) {
+	public LootItems(DogeZPlugin dogeZPlugin) {
+		plugin = dogeZPlugin;
+		
+		failItem = new LootItem("&cI'm a failed loot entry !", "failedentry", plugin.getPluginExecutionContext().getContent().items().getItemTypeByName("dz_failed"));
+	}
+	
+	public Map<String, LootItem> lootItems = new HashMap<String, LootItem>();
+	private LootItem failItem;
+	
+	public LootItem getItem(String name) {
 		LootItem li = lootItems.get(name);
 		if (li == null)
 			li = failItem;
 		return li;
 	}
 
-	public static void loadItems() {
+	public void loadItems() {
 		int z = 0;
 		
 		File file = new File("./plugins/DogeZ/lootItems.dz");
@@ -48,7 +55,7 @@ public class LootItems {
 					String[] data = ligne.split(":");
 					if (data.length >= 4) {
 						// 0:techname 1:typeId 2:metaData 3:realName
-						LootItem li = new LootItem(data[3], data[0], DogeZPlugin.access.getPluginExecutionContext().getContent().items().getItemTypeByName(data[0]));
+						LootItem li = new LootItem(data[3], data[0], plugin.getPluginExecutionContext().getContent().items().getItemTypeByName(data[0]));
 						if (data.length >= 5) {
 							List<String> descLines = new ArrayList<String>();
 							for (String line : data[4].split(";;")) {
@@ -69,7 +76,7 @@ public class LootItems {
 		System.out.println("xolioz:dbg : loaded "+z+" items");
 	}
 
-	public static boolean contains(String line) {
+	public boolean contains(String line) {
 		return lootItems.containsKey(line);
 	}
 }

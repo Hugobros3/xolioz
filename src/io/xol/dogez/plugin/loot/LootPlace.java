@@ -23,10 +23,14 @@ public class LootPlace {
 	
 	public long lastUpdate = 0;
 	
-	World w;
+	World world;
 	
-	public LootPlace(String ligne, World w) {
-		this.w = w;
+	private final LootPlaces parent;
+	
+	public LootPlace(LootPlaces dad, String ligne, World world) {
+		
+		this.parent = dad;
+		this.world = world;
 		String[] split = ligne.split(":");
 		if(split.length >= 5)
 		{
@@ -44,19 +48,19 @@ public class LootPlace {
 	}
 
 	public boolean shouldReloot(){
-		return ((System.currentTimeMillis() - lastUpdate)/1000 > DogeZPlugin.config.timeBetweenReloots);
+		return ((System.currentTimeMillis() - lastUpdate)/1000 > parent.getPlugin().config.timeBetweenReloots);
 	}
 	
 	private Inventory getContainerInv()
 	{
-		Voxel v = DogeZPlugin.access.getServer().getContent().voxels().getVoxelById(w.getVoxelData(x, y, z));
+		Voxel v = parent.getPlugin().getServer().getContent().voxels().getVoxelById(world.getVoxelData(x, y, z));
 		
 		//Block b = w.getBlockAt(x, y, z);
 		//if(b.getType().equals(Material.CHEST))
 		if(v instanceof VoxelChest)
 		{
 			VoxelChest chest = (VoxelChest)v;
-			EntityChest c = chest.getVoxelEntity(w, x, y, z);
+			EntityChest c = chest.getVoxelEntity(world, x, y, z);
 			return c.getInventory();
 		}
 		return null;
@@ -75,7 +79,7 @@ public class LootPlace {
 			int amount2spawn = (maxAmountToSpawn-minAmountToSpawn == 0 ? 0 : rng.nextInt(maxAmountToSpawn-minAmountToSpawn))+minAmountToSpawn;
 			while(amount2spawn > 0)
 			{
-				LootType lt = LootTypes.getCategory(type).getRandomSpawn();
+				LootType lt = parent.getPlugin().getLootTypes().getCategory(type).getRandomSpawn();
 				if(lt != null)
 				{
 					//Randomize position inside chest

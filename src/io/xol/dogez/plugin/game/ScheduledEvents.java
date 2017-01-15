@@ -14,42 +14,34 @@ import io.xol.dogez.plugin.player.PlayerProfile;
 import io.xol.engine.math.Math2;
 
 public class ScheduledEvents {
-	public static long ticksCounter = 0;
+	public long ticksCounter = 0;
 
-	public static void startEvents(DogeZPlugin p) {
+	public ScheduledEvents(DogeZPlugin plugin) {
 
-		Scheduler scheduler = DogeZPlugin.config.getWorld().getGameLogic().getScheduler();
-		// BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-		// Players saving, zombies spawning, time synch
-		scheduler.scheduleSyncRepeatingTask(p, new Runnable() {
+		Scheduler scheduler = plugin.getGameWorld().getGameLogic().getScheduler();
+		
+		scheduler.scheduleSyncRepeatingTask(plugin, new Runnable() {
 			@Override
 			public void run() {
-				for (Player p : DogeZPlugin.config.getWorld().getPlayers()) {
-					
-					if(!p.hasSpawned())
+				for (Player p : plugin.getGameWorld().getPlayers()) {
+
+					if (!p.hasSpawned())
 						continue;
-					
-					PlayerProfile pp = PlayerProfile.getPlayerProfile(p.getUUID());
+
+					PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(p.getUUID());
 					if (pp != null) {
 						String currentPlace = PlacesNames.getPlayerPlaceName(p);
 						if (!pp.lastPlace.equals(currentPlace)) {
 							pp.lastPlace = currentPlace;
 							p.sendMessage(ChatColor.GRAY + "~" + currentPlace);
 						}
-						
-						//pp.decreaseBattery();
 					}
-					
-					/*if (!PlacesNames.isInMap(p.getLocation()) && p.getGameMode().equals(GameMode.SURVIVAL)
-							&& pp.inGame) {
-						p.sendMessage(ChatColor.RED + "Le hors-map est interdit. Retournez sur vos pas !");
-						p.damage(1);
-					}*/
 				}
-				DogeZPlugin.spawner.countZombies();
-				if (DogeZPlugin.config.synchTime) {
-					
-					//Synchs time
+				plugin.spawner.countZombies();
+				plugin.spawner.spawnZombies();
+				if (plugin.config.synchTime) {
+
+					// Synchs time
 					Date time = new Date();
 					@SuppressWarnings("deprecation")
 					double cstime = (time.getHours() - 0) * 60 + time.getMinutes();
@@ -58,28 +50,28 @@ public class ScheduledEvents {
 					cstime %= 10000;
 					cstime += 10000;
 					cstime %= 10000;
-					DogeZPlugin.config.getWorld().setTime((long) cstime);
-					
-					//Messes weather randomly
-					float currentWeather = DogeZPlugin.config.getWorld().getWeather();
+					plugin.getGameWorld().setTime((long) cstime);
+
+					// Messes weather randomly
+					float currentWeather = plugin.getGameWorld().getWeather();
 					float modifier = (float) (Math.random() - 0.5f) * 0.05f;
 					currentWeather += modifier;
 					currentWeather = Math2.clamp(currentWeather, 0f, 1f);
-					DogeZPlugin.config.getWorld().setWeather(currentWeather);
+					plugin.getGameWorld().setWeather(currentWeather);
 				}
-				
+
 			}
 		}, 0L, 10 * 10L * 6); // Chaque 10s
+		
 		// lel
-		scheduler.scheduleSyncRepeatingTask(p, new Runnable() {
+		scheduler.scheduleSyncRepeatingTask(plugin, new Runnable() {
 			@Override
 			public void run() {
 				ticksCounter++;
 			}
 		}, 0, 1); // every tick
 
-		scheduler.scheduleSyncRepeatingTask(p, new Runnable() {
-			// public int[] musicLengthInTicks = {14,11,14,7,16,16,15,19,28,18};
+		scheduler.scheduleSyncRepeatingTask(plugin, new Runnable() {
 			public int last = 0;
 			Random rnd = new Random();
 
@@ -89,19 +81,15 @@ public class ScheduledEvents {
 				while (zik == last) {
 					zik = 1 + rnd.nextInt(10);
 				}
-				
-				DogeZPlugin.config.getWorld().getSoundManager().playMusic("sounds/dogez/music/zik" + zik +".ogg", 0, 0, 0, (float) (0.5f + Math.random() * 0.5f), 1, true);
-				
-				/*for (Player p : Server.getInstance().getConnectedPlayers()) {
-					
-					if (p.getGameMode().equals(GameMode.SURVIVAL)) {
-						Location loc = p.getLocation();
-						PacketPlayOutNamedSoundEffect packet = new PacketPlayOutNamedSoundEffect(
-								"dogez.music.zik" + zik, loc.getX(), loc.getY(), loc.getZ(), 100, 1);
-						((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-					}
-				}*/
+
+				plugin.getGameWorld().getSoundManager().playMusic("sounds/dogez/music/zik" + zik + ".ogg", 0, 0, 0,
+						(float) (0.5f + Math.random() * 0.5f), 1, true);
 			}
 		}, 0, 60 * 60L); // every minute
+	}
+
+	public void unschedule() {
+		// TODO Auto-generated method stub
+		
 	}
 }

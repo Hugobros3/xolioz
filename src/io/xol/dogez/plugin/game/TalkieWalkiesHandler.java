@@ -5,15 +5,21 @@ import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
 import io.xol.chunkstories.api.entity.interfaces.EntityWithInventory;
 import io.xol.chunkstories.api.item.ItemPile;
 import io.xol.chunkstories.api.server.Player;
-import io.xol.chunkstories.server.Server;
 import io.xol.dogez.plugin.DogeZPlugin;
 
 //(c) 2015 XolioWare Interactive
 
-public class TalkieWalkie {
+public class TalkieWalkiesHandler {
+	
+	private final DogeZPlugin plugin;
+
+	public TalkieWalkiesHandler(DogeZPlugin dogeZPlugin) {
+		plugin = dogeZPlugin;
+	}
+	
 	//Helper class for talkie walkie
 	
-	public static boolean hasPlayerGear(Player player)
+	public boolean hasPlayerGear(Player player)
 	{
 		EntityWithInventory p = (EntityWithInventory) player.getControlledEntity();
 		
@@ -25,19 +31,19 @@ public class TalkieWalkie {
 		return false;
 	}
 	
-	public static boolean canPlayerUse(Player player)
+	public boolean canPlayerUse(Player player)
 	{
-		EntityCreative p = (EntityCreative) player.getControlledEntity();
+		EntityCreative controlledEntity = (EntityCreative) player.getControlledEntity();
 		
-		if(p.getCreativeModeComponent().isCreativeMode())
-		//if(p.getGameMode().equals(GameMode.CREATIVE))
+		if(controlledEntity.getCreativeModeComponent().isCreativeMode())
 			return true;
+		
 		return hasPlayerGear(player);
 	}
 	
-	public static void notifyListenersAdmins(String from, String to, String msg)
+	public void notifyListenersAdmins(String from, String to, String msg)
 	{
-		for(Player p : DogeZPlugin.access.getServer().getConnectedPlayers())
+		for(Player p : plugin.getServer().getConnectedPlayers())
 		{
 			if(!from.equals(p.getName()) && p.hasPermission("dogez.socialspy"))
 			{
