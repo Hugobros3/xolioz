@@ -99,7 +99,6 @@ public class EntityListener implements Listener {
 			victimProfile.saveProfile();
 			victim.sendMessage(ChatColor.RED + "Vous êtes mort. Vos statistiques ont été réinitialisées.");
 
-			victimProfile.goToHell = false;
 			double minimalRandom = 0.9d - Math.max(0.85, Math.min(0.0, 30 - victimProfile.getTimeAlive() / 30.0));
 
 			if (victimProfile.inGame && Math.random() > minimalRandom) {

@@ -17,29 +17,37 @@ public class PlayerProfiles {
 	List<PlayerProfile> playerProfiles = new ArrayList<PlayerProfile>();
 
 	public PlayerProfile getPlayerProfile(long uuid) {
+		
 		PlayerProfile result = null;
 		for (PlayerProfile pp : playerProfiles) {
 			if (pp.uuid == uuid)
-				// if(pp.uuid.equals(uuid))
+			{
 				result = pp;
+				break;
+			}
 		}
+		
 		if (result == null) {
+			
+			//Look if the player is already logged in
 			Player player = plugin.getServer().getPlayerByUUID(uuid);
-			// OfflinePlayer player =
-			// Bukkit.getOfflinePlayer(UUID.fromString(uuid));
+			
+			//If it is load it
 			if (player != null) {
 				PlayerProfile pp = new PlayerProfile(uuid, player.getName());
-				/*if (pp != null && pp.loadedSuccessfully) {
-					// System.out.println("pp loaded already !");
-					
-					return pp;
-				}*/
-
+				playerProfiles.add(pp);
+				return pp;
+			}
+			//If it isn't, load it but don't assume the name
+			else
+			{
+				PlayerProfile pp = new PlayerProfile(uuid);
 				playerProfiles.add(pp);
 				return pp;
 			}
 		}
 		
+		//Should never happen
 		if(result == null)
 			System.out.println("FUCK OUT 666");
 		return result;
@@ -65,8 +73,6 @@ public class PlayerProfiles {
 	public void addPlayerProfile(long uuid, String name) {
 		PlayerProfile add = new PlayerProfile(uuid, name);
 		playerProfiles.add(add);
-		// System.out.println("[DogeZ][Debug] Added player profile
-		// ["+uuid+":"+name+"]");
 	}
 
 	public void saveAll() {

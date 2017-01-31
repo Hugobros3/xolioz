@@ -201,10 +201,9 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 				if (args.length == 2) {
 					String requestedPlayerName = args[1];
 
-					Player requestedPlayer = plugin.getServer().getPlayerByName(requestedPlayerName);
 					// OfflinePlayer requestedPlayer =
 					// Bukkit.getOfflinePlayer(requestedPlayerName);
-					profile = plugin.getPlayerProfiles().getPlayerProfile(requestedPlayer.getUUID());
+					profile = plugin.getPlayerProfiles().getPlayerProfile(requestedPlayerName.hashCode());
 				}
 				if (profile == null) {
 					sender.sendMessage(ChatColor.RED
