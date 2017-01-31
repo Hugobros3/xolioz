@@ -19,14 +19,12 @@ import io.xol.dogez.plugin.loot.LootCategory;
 import io.xol.dogez.plugin.loot.LootItem;
 import io.xol.dogez.plugin.loot.LootType;
 import io.xol.dogez.plugin.map.PlacesNames;
-import io.xol.dogez.plugin.misc.HttpRequestThread;
-import io.xol.dogez.plugin.misc.HttpRequester;
 import io.xol.dogez.plugin.misc.TimeFormatter;
 import io.xol.dogez.plugin.player.PlayerProfile;
 import io.xol.dogez.plugin.weapon.ChunksCleaner;
 import io.xol.dogez.plugin.zombies.ZombieType;
 
-public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester {
+public class DogeZPluginCommandsHandler implements CommandHandler {
 
 	private final DogeZPlugin plugin;
 
@@ -39,13 +37,13 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 
 		if (cmd.getName().equals("m")) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage("You must be a player to use this.");
+				sender.sendMessage("#{dogez.mustbeplayer}");
 				return true;
 			}
 			Player player = (Player) sender;
 			PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
 			if (args.length < 2) {
-				sender.sendMessage(ChatColor.RED + "Syntaxe correcte : /m <joueur> <message>");
+				sender.sendMessage(ChatColor.RED + "#{dogez.goodsyntaxm}");
 			} else {
 				String toSend = "";
 				String destination = args[0];
@@ -58,39 +56,39 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 						for (int i = 1; i < args.length - 1; i++)
 							toSend += args[i] + " ";
 						toSend += args[args.length - 1];
-						destPlayer.sendMessage(ChatColor.GRAY + "[MP de la part de " + ChatColor.AQUA + player.getName()
+						destPlayer.sendMessage(ChatColor.GRAY + "[#{dogez.pmfrom}" + ChatColor.AQUA + player.getName()
 								+ ChatColor.GRAY + "]:" + toSend);
-						player.sendMessage(ChatColor.GRAY + "[MP envoyé à " + ChatColor.AQUA + destination
+						player.sendMessage(ChatColor.GRAY + "[#{dogez.pmto}" + ChatColor.AQUA + destination
 								+ ChatColor.GRAY + "]:" + toSend);
 						if (!canReply)
 							player.sendMessage(ChatColor.RED
-									+ "Attention, le joueur auquel vous parlez ne peut pas vous répondre, ");
+									+ "#{dogez.pmnoreplywarn}");
 						pp.talkingTo = destination;
 						pp2.talkingTo = player.getName();
 					} else {
 						sender.sendMessage(
-								ChatColor.RED + "Le joueur auquel vous vous addressez n'est pas disponible.");
+								ChatColor.RED + "#{dogez.pmnotdispo}");
 					}
 				} else {
-					sender.sendMessage(ChatColor.RED + "Il vous faut un talkie-walkie pour faire ça !");
+					sender.sendMessage(ChatColor.RED + "#{dogez.pmrequiretw}");
 				}
 			}
 			return true;
 		}
 		if (cmd.getName().equals("r")) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage("You must be a player to use this.");
+				sender.sendMessage("#{dogez.mustbeplayer}");
 				return true;
 			}
 			Player player = (Player) sender;
 			PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
 			if (args.length < 1) {
-				sender.sendMessage(ChatColor.RED + "Syntaxe correcte : /r <message>");
+				sender.sendMessage(ChatColor.RED + "#{dogez.goodsyntaxr}");
 			} else {
 				String toSend = "";
 				if (plugin.getTalkieWalkiesHandler().canPlayerUse(player)) {
 					if (pp.talkingTo.equals("")) {
-						sender.sendMessage(ChatColor.RED + "Vous n'avez personne à qui répondre :foreveralone:");
+						sender.sendMessage(ChatColor.RED + "#{dogez.pmnoreply}");
 						return true;
 					}
 					String destination = pp.talkingTo;
@@ -101,65 +99,65 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 						for (int i = 0; i < args.length - 1; i++)
 							toSend += args[i] + " ";
 						toSend += args[args.length - 1];
-						destPlayer.sendMessage(ChatColor.GRAY + "[MP de la part de " + ChatColor.AQUA + player.getName()
+						destPlayer.sendMessage(ChatColor.GRAY + "[#{dogez.pmfrom}" + ChatColor.AQUA + player.getName()
 								+ ChatColor.GRAY + "]:" + toSend);
-						player.sendMessage(ChatColor.GRAY + "[MP envoyé à " + ChatColor.AQUA + destination
+						player.sendMessage(ChatColor.GRAY + "[#{dogez.pmto}" + ChatColor.AQUA + destination
 								+ ChatColor.GRAY + "]:" + toSend);
 						if (!canReply)
 							player.sendMessage(ChatColor.RED
-									+ "Attention, le joueur auquel vous parlez ne peut pas vous répondre, ");
+									+ "#{dogez.pmnoreplywarn}");
 						pp.talkingTo = destination;
 						pp2.talkingTo = player.getName();
 						// TalkieWalkie.notifyListenersAdmins(player.getName(),
 						// destination, toSend);
 					} else {
 						sender.sendMessage(
-								ChatColor.RED + "Le joueur auquel vous vous addressez n'est pas disponible.");
+								ChatColor.RED + "#{dogez.pmnotdispo}");
 					}
 				} else {
-					sender.sendMessage(ChatColor.RED + "Il vous faut un talkie-walkie pour faire ça !");
+					sender.sendMessage(ChatColor.RED + "#{dogez.pmrequiretw}");
 				}
 			}
 			return true;
 		}
 
 		if (args.length == 0) {
-			sender.sendMessage(ChatColor.BLUE + "Plugin DogeZ " + ChatColor.DARK_GREEN + "(v " + plugin.version + ")");
-			sender.sendMessage(ChatColor.DARK_GRAY + "=========[" + ChatColor.BLUE + "Commandes disponibles"
+			sender.sendMessage(ChatColor.BLUE + "#{dogez.pluginname}" + ChatColor.DARK_GREEN + plugin.version);
+			sender.sendMessage(ChatColor.DARK_GRAY + "=========[" + ChatColor.BLUE + "#{dogez.avaiablecmds}"
 					+ ChatColor.DARK_GRAY + "]=========");
 			sender.sendMessage(ChatColor.BLUE + "/dz" + ChatColor.DARK_GRAY + " - " + ChatColor.GRAY + ChatColor.ITALIC
-					+ "Voir cette aide.");
+					+ "#{dogez.seethishelp}");
 			sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "play" + ChatColor.DARK_GRAY + " - "
-					+ ChatColor.GRAY + ChatColor.ITALIC + "Commencer une nouvelle partie");
+					+ ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.play}");
 			sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "stats" + ChatColor.DARK_GRAY + " - "
-					+ ChatColor.GRAY + ChatColor.ITALIC + "Obtenir des statistiques sur votre partie");
+					+ ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.stats}");
 			sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "money" + ChatColor.DARK_GRAY + " - "
-					+ ChatColor.GRAY + ChatColor.ITALIC + "Connaitre votre argent");
-			sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "pay <joueur> <montant>"
-					+ ChatColor.DARK_GRAY + " - " + ChatColor.GRAY + ChatColor.ITALIC + "Envoyer de l'argent");
-			// sender.sendMessage(ChatColor.BLUE+"/dz
-			// "+ChatColor.DARK_AQUA+"report <joueur>
-			// <raison>"+ChatColor.DARK_GRAY+" -
-			// "+ChatColor.GRAY+ChatColor.ITALIC+"Signaler un joueur");
-			sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "setpw <mdp> <mdp>" + ChatColor.DARK_GRAY
-					+ " - " + ChatColor.GRAY + ChatColor.ITALIC + "Définir votre mdp sur le site");
+					+ ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.money}");
+			sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "#{dogez.paysyntax}"
+					+ ChatColor.DARK_GRAY + " - " + ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.pay}");
+			sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "suicide"
+					+ ChatColor.DARK_GRAY + " - " + ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.kys}");
+			
+			//sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "setpw <mdp> <mdp>" + ChatColor.DARK_GRAY
+			//		+ " - " + ChatColor.GRAY + ChatColor.ITALIC + "Définir votre mdp sur le site");
+			
 			if (sender.hasPermission("dogez.admin")) {
-				sender.sendMessage(ChatColor.RED + "Les commandes ci-dessous sont réservées aux opérateurs.");
+				sender.sendMessage(ChatColor.RED + "#{dogez.operatoronly}");
 				sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "loot" + ChatColor.DARK_GRAY + " - "
-						+ ChatColor.GRAY + ChatColor.ITALIC + "Commandes de gestion du loot");
+						+ ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.loot}");
 				sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "reload" + ChatColor.DARK_GRAY
-						+ " - " + ChatColor.GRAY + ChatColor.ITALIC + "Recharge les fichiers de configuration");
+						+ " - " + ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.reload}");
 				sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "togglesynch" + ChatColor.DARK_GRAY
 						+ " - " + ChatColor.GRAY + ChatColor.ITALIC
-						+ "Active où désactive la synchrinisation heure IRL");
+						+ "#{dogez.togglesynch}");
 				sender.sendMessage(
 						ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "togglelocalizedchat" + ChatColor.DARK_GRAY
-								+ " - " + ChatColor.GRAY + ChatColor.ITALIC + "Active ou désactive le chat localisé");
+								+ " - " + ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.togglelocalizedchat}");
 			}
 			return true;
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("You must be a player to use this.");
+			sender.sendMessage("#{dogez.mustbeplayer}");
 			return false;
 		}
 		if (args.length > 0) {
@@ -172,7 +170,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 					return false;
 				PlayerProfile profile = plugin.getPlayerProfiles().getPlayerProfile(player2.getUUID());
 				if (profile.inGame)
-					player2.sendMessage(ChatColor.RED + "Vous êtes déjà en jeu !");
+					player2.sendMessage(ChatColor.RED + "#{dogez.alreadyig}");
 				else {
 					int[] coords = SpawnPoints.getRandomSpawn();
 					((EntityWithInventory) player2.getControlledEntity()).getInventory().clear();
@@ -186,7 +184,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 
 					profile.inGame = true;
 					((EntityLiving) player2.getControlledEntity()).setHealth(100f);
-					player2.sendMessage(ChatColor.DARK_AQUA + "Vous venez de commencer une partie, bonne chance !");
+					player2.sendMessage(ChatColor.DARK_AQUA + "#{dogez.goodluck}");
 
 					player2.setLocation(new Location(plugin.getGameWorld(), coords[0], coords[1] + 2, coords[2]));
 				}
@@ -198,7 +196,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 			}
 			if (args[0].equals("stats")) {
 				PlayerProfile profile = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
-				if (args.length == 2) {
+				if (args.length == 2 && sender.hasPermission("dogez.viewotherstats")) {
 					String requestedPlayerName = args[1];
 
 					// OfflinePlayer requestedPlayer =
@@ -207,27 +205,27 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 				}
 				if (profile == null) {
 					sender.sendMessage(ChatColor.RED
-							+ "Impossible d'afficher ce profil. ( Erreur de chargement depuis la BDD ?) ");
+							+ "#{dogez.errorloadingprofile}");
 					return true;
 				}
 
 				profile.timeCalc();
-				sender.sendMessage(ChatColor.DARK_GRAY + "=========[" + ChatColor.BLUE + "Statistiques du compte "
+				sender.sendMessage(ChatColor.DARK_GRAY + "=========[" + ChatColor.BLUE + "#{dogez.accountstats}"
 						+ ChatColor.RED + profile.name + " " + ChatColor.DARK_GRAY + "]=========");
 				// en jeu ?
 				sender.sendMessage(ChatColor.AQUA
-						+ (profile.inGame ? "Actuellement dans une partie" : "Hors-jeu ( spawn où minijeu )"));
+						+ (profile.inGame ? "#{dogez.ig}" : "#{dogez.og}"));
 				// Temps passé
-				sender.sendMessage(ChatColor.DARK_AQUA + "Vous avez passé "
-						+ TimeFormatter.formatTimelapse(profile.timeConnected) + " sur ce serveur !");
-				sender.sendMessage(ChatColor.DARK_AQUA + "Vous êtes en vie depuis "
+				sender.sendMessage(ChatColor.DARK_AQUA + "#{dogez.spenttime1} "
+						+ TimeFormatter.formatTimelapse(profile.timeConnected) + "#{dogez.spenttime2}");
+				sender.sendMessage(ChatColor.DARK_AQUA + "#{dogez.alivesince}"
 						+ TimeFormatter.formatTimelapse(profile.timeSurvivedLife) + " !");
 				// stats kill
-				sender.sendMessage(ChatColor.DARK_AQUA + "Vous avez tué " + profile.zombiesKilled + " zombies, dont "
-						+ profile.zombiesKilled_thisLife + " sur cette partie.");
-				sender.sendMessage(ChatColor.DARK_AQUA + "Vous avez tué " + profile.playersKilled + " joueurs, dont "
-						+ profile.playersKilled_thisLife + " sur cette partie.");
-				sender.sendMessage(ChatColor.DARK_AQUA + "Vous avez été tué " + profile.deaths + " fois");
+				sender.sendMessage(ChatColor.DARK_AQUA + "#{dogez.killed}" + profile.zombiesKilled + "#{dogez.kzombies}"
+						+ profile.zombiesKilled_thisLife + "#{dogez.thisgame}");
+				sender.sendMessage(ChatColor.DARK_AQUA + "#{dogez.killed}" + profile.playersKilled + " #{dogez.kplayers}"
+						+ profile.playersKilled_thisLife + "#{dogez.thisgame}");
+				sender.sendMessage(ChatColor.DARK_AQUA + "#{dogez.deaths1}" + profile.deaths + "#{dogez.deaths2}");
 
 				return true;
 			}
@@ -237,61 +235,78 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 				xc = Math.floor(xc);
 				xc /= 100;
 				sender.sendMessage(
-						ChatColor.DARK_AQUA + "Votre compte est actuellement crédité de " + xc + " XolioCoins.");
+						ChatColor.DARK_AQUA + "#{dogez.money1}" + xc + " XolioCoins.");
 				return true;
 			}
-			if (args[0].equals("money") && args.length == 2) {
-				// OfflinePlayer target =
-				// plugin.getServer().getOfflinePlayer(args[1]);
+			if (args[0].equals("money") && args.length == 2 && sender.hasPermission("dogez.seeothersmoney")) {
+				
 				Player target = plugin.getServer().getPlayerByName(args[1]);
 				if (player != null) {
-					double xc = plugin.getPlayerProfiles().getPlayerProfile(target.getUUID()).xcBalance;
+					double xc = plugin.getPlayerProfiles().getPlayerProfile(args[1].hashCode()).xcBalance;
 					xc *= 100;
 					xc = Math.floor(xc);
 					xc /= 100;
-					sender.sendMessage(ChatColor.DARK_AQUA + "Le compte de " + target.getName()
-							+ " est actuellement crédité de " + xc + " XolioCoins.");
+					sender.sendMessage(ChatColor.DARK_AQUA + "#{dogez.money2}" + target.getName()
+							+ "#{dogez.money3}" + xc + " XolioCoins.");
 				}
 				return true;
 			}
 			if (args[0].equals("pay")) {
 				if (args.length == 3) {
 					double amount = Double.parseDouble(args[2]);
+					
+					if (amount < 0.00) {
+						player.sendMessage(ChatColor.RED + "#{dogez.nominus}");
+						return true;
+					}
+					if (amount == 0.0) {
+						player.sendMessage(ChatColor.RED + "#{dogez.nozero}");
+						return true;
+					}
 					if (amount < 0.01) {
-						player.sendMessage(ChatColor.RED + "Vous ne pouvez pas envoyer moins de 1 centime.");
+						player.sendMessage(ChatColor.RED + "#{dogez.nolessthan1ct}");
 						return true;
 					}
-					new HttpRequestThread(this, "sendMoney:" + player.getUUID(),
-							"http://dz.xol.io/api/playerProfile.php",
-							"a=pay&uuid=" + player.getUUID() + "&amount=" + amount + "&who=" + args[1]).run();
+
+					PlayerProfile senderProfile = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
+					
+					PlayerProfile receiverProfile = plugin.getPlayerProfiles().getPlayerProfile(args[1].hashCode());
+					if(player.getName().equals(receiverProfile.name)) {
+						player.sendMessage(ChatColor.RED + "#{dogez.noself}");
+						return true;
+					}
+					
+					if(senderProfile.xcBalance < amount) {
+						player.sendMessage(ChatColor.RED + "#{dogez.nofunds}");
+						return true;
+					}
+					
+					senderProfile.xcBalance -= amount;
+					receiverProfile.xcBalance += amount;
+					
+					receiverProfile.saveProfile();
+					senderProfile.saveProfile();
+					
+					player.sendMessage(ChatColor.DARK_AQUA + "#{dogez.sentok}" + ChatColor.AQUA
+							+ ChatColor.BOLD + amount + ChatColor.DARK_AQUA + "#{dogez.sentok2}" + ChatColor.AQUA
+							+ ChatColor.BOLD + receiverProfile);
+					
+					//If the receiver is online
+					Player receiver = plugin.getServer().getPlayerByName(args[1]);
+					if(receiver != null)
+					{
+						receiver.sendMessage(ChatColor.DARK_AQUA + "#{dogez.received}" + ChatColor.AQUA + ChatColor.BOLD
+								+ amount + ChatColor.DARK_AQUA + "#{dogez.receivedfrom}" + ChatColor.AQUA
+								+ ChatColor.BOLD + player.getName());
+					}
+					
 					return true;
 				} else {
-					player.sendMessage(ChatColor.RED + "Syntaxe correcte : /dz pay <joueur> <montant>");
+					player.sendMessage(ChatColor.RED + "#{dogez.paysyntax}");
 					return true;
 				}
 			}
-			if (args[0].equals("setpw")) {
-				if (args.length == 3) {
-					String password = args[1];
-					if (args[1].equals(args[2])) {
-						if (password.length() >= 6) {
-							new HttpRequestThread(this, "setPW:" + player.getUUID(),
-									"http://dz.xol.io/api/playerProfile.php",
-									"a=setpw&uuid=" + player.getUUID() + "&pw=" + password).run();
-							return true;
-						} else {
-							player.sendMessage(ChatColor.RED + "Votre mot de passe fait moins de 6 caractères !");
-							return true;
-						}
-					} else {
-						player.sendMessage(ChatColor.RED + "Les deux mots de passe ne correspondent pas.");
-						return true;
-					}
-				} else {
-					player.sendMessage(ChatColor.RED + "Syntaxe correcte : /dz setpw <mdp> <mdp>");
-					return true;
-				}
-			}
+			
 			// admin
 			if (args[0].equals("reload")) {
 				if (player.hasPermission("dogez.admin")) {
@@ -557,7 +572,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public void handleHttpRequest(String info, String result) {
 		System.out.println("[DogeZ][Debug] Request answered:" + result);
 		if (info.startsWith("sendMoney")) {
@@ -612,5 +627,5 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 			}
 		}
 	}
-
+*/
 }

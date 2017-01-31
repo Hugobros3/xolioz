@@ -17,12 +17,12 @@ public class TimeFormatter {
 		{
 			if(hours == 0)
 			{
-				return minutes+" minutes et "+seconds+" secondes";
+				return minutes+"#{dogez.time.minutesand}"+seconds+"#{dogez.time.seconds}";
 			}
-			return hours+" heures, "+minutes+" minutes et "+seconds+" secondes";
+			return hours+"#{dogez.time.hours}"+minutes+"#{dogez.time.minutesand}"+seconds+"#{dogez.time.seconds}";
 		}
 		
-		return days+" jours, "+hours+" heures, "+minutes+" minutes et "+seconds+" secondes";
+		return days+"#{dogez.time.days}"+hours+"#{dogez.time.hours}"+minutes+"#{dogez.time.minutesand}"+seconds+"#{dogez.time.seconds}";
 	}
 	
 	public static String getCurrentDate()

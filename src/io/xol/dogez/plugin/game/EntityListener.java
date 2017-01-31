@@ -88,16 +88,17 @@ public class EntityListener implements Listener {
 					killerProfile.xcBalance += lostMoney;
 
 					victimProfile.timeSurvivedLife = 0l;
-					player.sendMessage(ChatColor.AQUA + "Vous avez tué " + victim.getName()
-							+ " et recu 5% de son argent, soit " + lostMoney + "xc.");
-					victim.sendMessage(ChatColor.RED
+					player.sendMessage(ChatColor.AQUA + "#{dogez.killed}" + victim.getName()
+							+ "#{dogez.gotmoney}" + lostMoney + "xc.");
+					
+					/*victim.sendMessage(ChatColor.RED
 							+ "Vous êtes mort. Vos statistiques ont été réinitialisées et votre tueur à recu 5% de votre argent, soit "
-							+ lostMoney + "xc.");
+							+ lostMoney + "xc.");*/
 				}
 			}
 
 			victimProfile.saveProfile();
-			victim.sendMessage(ChatColor.RED + "Vous êtes mort. Vos statistiques ont été réinitialisées.");
+			victim.sendMessage(ChatColor.RED + "#{dogez.youdied}");
 
 			double minimalRandom = 0.9d - Math.max(0.85, Math.min(0.0, 30 - victimProfile.getTimeAlive() / 30.0));
 
@@ -110,7 +111,7 @@ public class EntityListener implements Listener {
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
-		event.setDeathMessage(event.getPlayer().getName() + " à été tué.");
+		event.setDeathMessage(event.getPlayer().getName() + "#{dogez.waskilled}");
 	}
 
 	@EventHandler
@@ -127,7 +128,7 @@ public class EntityListener implements Listener {
 						if (pp != null) {
 							if (System.currentTimeMillis() - pp.lastHitTime > 120 * 1000L)
 								player.sendMessage(ChatColor.RED
-										+ "Vous avez prit un coup. Vous ne pouvez plus vous déconnecter 10s après chaque coup, pour éviter le déco combat.");
+										+ "#{dogez.gothit}");
 							pp.lastHitTime = System.currentTimeMillis();
 
 						}

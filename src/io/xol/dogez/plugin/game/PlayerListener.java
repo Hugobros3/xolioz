@@ -39,7 +39,7 @@ public class PlayerListener implements Listener {
 		if (plugin.config.showUpConnectionMessages)
 			ev.setConnectionMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + "] "
 					+ ChatFormatter.convertString(prefix) + ev.getPlayer().getName() + ChatColor.GRAY
-					+ " vient de se connecter.");
+					+ "#{dogez.loggedin}");
 		else
 			ev.setConnectionMessage(null);
 		plugin.getPlayerProfiles().addPlayerProfile(player.getUUID(), player.getName());
@@ -53,7 +53,7 @@ public class PlayerListener implements Listener {
 			if (!ev.getLogoutMessage().startsWith(ChatColor.DARK_GRAY + "["))
 				ev.setLogoutMessage(ChatColor.DARK_GRAY + "[" + ChatColor.RED + "-" + ChatColor.DARK_GRAY + "] "
 						+ ChatFormatter.convertString(prefix) + ev.getPlayer().getName() + ChatColor.GRAY
-						+ " vient de se déconnecter.");
+						+ "#{dogez.loggedout}");
 		} else
 			ev.setLogoutMessage(null);
 		PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
