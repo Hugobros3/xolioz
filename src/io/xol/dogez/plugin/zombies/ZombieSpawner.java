@@ -45,7 +45,7 @@ public class ZombieSpawner {
 				continue;
 			
 			//Don't spawn zombies on players in creative mode
-			if(!(p instanceof EntityCreative) || !((EntityCreative) p).getCreativeModeComponent().isCreativeMode())
+			if(!(p instanceof EntityCreative) || !((EntityCreative) p).getCreativeModeComponent().get())
 			{
 				int pZombCount = 0;
 				for(Entity e : plugin.getGameWorld().getAllLoadedEntities())
@@ -85,33 +85,11 @@ public class ZombieSpawner {
 						}
 						if(v.isVoxelSolid())
 							break;
-						
-						/*for(Material m : allowedMaterials)
-						{
-							if(m.equals(b.getType()))
-								foundGround = true;
-						}*/
-						//trolol+=b.getTypeId();
 					}
 					if(foundGround && zombiesCount <= plugin.config.maxZombies)
 					{
 						zombiesCount++;
-						if(plugin.getGameWorld().getTime() > 12500 && plugin.getGameWorld().getTime() < 23000)
-						{
-							double d = Math.random();
-							if(d > 0.98f)
-								spawnZombie(new Location(plugin.getGameWorld(), posx, posy+1, posz),ZombieType.RIDER);
-							else if(d > 0.93f)
-								spawnZombie(new Location(plugin.getGameWorld(), posx, posy+1, posz),ZombieType.SKELY);
-							else if(d > 0.85f)
-								spawnZombie(new Location(plugin.getGameWorld(), posx, posy+1, posz),ZombieType.BLACK);
-							else if(d > 0.70f)
-								spawnZombie(new Location(plugin.getGameWorld(), posx, posy+1, posz),ZombieType.SPIDEY);
-							else
-								spawnZombie(new Location(plugin.getGameWorld(), posx, posy+1, posz),ZombieType.NORMAL);
-						}
-						else
-							spawnZombie(new Location(plugin.getGameWorld(), posx, posy+1, posz),ZombieType.NORMAL);
+						spawnZombie(new Location(plugin.getGameWorld(), posx + 0.5, posy+1, posz + 0.5),ZombieType.NORMAL);
 					}
 				}
 			}

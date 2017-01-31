@@ -35,7 +35,7 @@ public class TalkieWalkiesHandler {
 	{
 		EntityCreative controlledEntity = (EntityCreative) player.getControlledEntity();
 		
-		if(controlledEntity.getCreativeModeComponent().isCreativeMode())
+		if(controlledEntity.getCreativeModeComponent().get())
 			return true;
 		
 		return hasPlayerGear(player);

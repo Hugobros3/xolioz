@@ -29,12 +29,19 @@ public class PlayerProfiles {
 			// Bukkit.getOfflinePlayer(UUID.fromString(uuid));
 			if (player != null) {
 				PlayerProfile pp = new PlayerProfile(uuid, player.getName());
-				if (pp != null && pp.loadedSuccessfully) {
+				/*if (pp != null && pp.loadedSuccessfully) {
 					// System.out.println("pp loaded already !");
+					
 					return pp;
-				}
+				}*/
+
+				playerProfiles.add(pp);
+				return pp;
 			}
 		}
+		
+		if(result == null)
+			System.out.println("FUCK OUT 666");
 		return result;
 	}
 

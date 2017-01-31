@@ -9,7 +9,6 @@ import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.core.entity.voxel.EntityChest;
 import io.xol.chunkstories.core.voxel.VoxelChest;
-import io.xol.dogez.plugin.DogeZPlugin;
 
 public class LootPlace {
 

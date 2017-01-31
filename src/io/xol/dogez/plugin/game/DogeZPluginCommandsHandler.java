@@ -177,7 +177,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler, HttpRequester
 					int[] coords = SpawnPoints.getRandomSpawn();
 					((EntityWithInventory) player2.getControlledEntity()).getInventory().clear();
 
-					((EntityCreative) player2.getControlledEntity()).getCreativeModeComponent().setCreativeMode(false);
+					((EntityCreative) player2.getControlledEntity()).getCreativeModeComponent().set(false);
 					LootCategory spawnGear = plugin.getLootTypes().getCategory("spawn");
 
 					for (ItemPile i : spawnGear.getAllItems()) {

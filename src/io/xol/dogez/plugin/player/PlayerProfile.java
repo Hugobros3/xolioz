@@ -74,7 +74,7 @@ public class PlayerProfile implements HttpRequester {
 
 	public boolean disableSS = false;
 
-	static String apiHttpAccess = "http://51.254.129.247/dogez/chunkstories-port/api/";
+	static String apiHttpAccess = "http://37.187.125.96/dogez/chunkstories-port/api/";
 
 	public PlayerProfile(long uuid2, String name) {
 		this.name = name;
@@ -84,7 +84,7 @@ public class PlayerProfile implements HttpRequester {
 
 	public void reloadProfile() {
 		new HttpRequestThread(this, "reloadProfile", apiHttpAccess + "playerProfile.php",
-				"a=load&uuid=" + uuid + "&name=" + name).run();
+				"a=load&uuid=" + uuid + "&name=" + name).start();
 	}
 
 	public long timeCalc() {
@@ -111,19 +111,19 @@ public class PlayerProfile implements HttpRequester {
 				"a=save&uuid=" + uuid + "&name=" + name + "&tc=" + timeConnected + "&tst=" + timeSurvivedTotal + "&tsl="
 						+ timeSurvivedLife + "&zkt=" + zombiesKilled + "&zkl=" + zombiesKilled_thisLife + "&pkt="
 						+ playersKilled + "&pkl=" + playersKilled_thisLife + "&d=" + deaths + "&ig="
-						+ (inGame ? "1" : "0") + "&death=" + death_level + "&victim=" + this.deathRequest).run();
+						+ (inGame ? "1" : "0") + "&death=" + death_level + "&victim=" + this.deathRequest).start();
 		setBalance();
 	}
 
 	public void addBalance(float amount) {
 		xcBalance += amount;
 		new HttpRequestThread(this, "changeBalance", apiHttpAccess + "playerProfile.php",
-				"a=balance&uuid=" + uuid + "&diff=" + amount).run();
+				"a=balance&uuid=" + uuid + "&diff=" + amount).start();
 	}
 
 	public void setBalance() {
 		new HttpRequestThread(this, "changeBalance", apiHttpAccess + "playerProfile.php",
-				"a=balance&uuid=" + uuid + "&bal=" + xcBalance).run();
+				"a=balance&uuid=" + uuid + "&bal=" + xcBalance).start();
 	}
 
 	@Override
@@ -171,7 +171,7 @@ public class PlayerProfile implements HttpRequester {
 
 	public void onDeath() {
 		new HttpRequestThread(this, "kill", apiHttpAccess + "api/playerProfile.php",
-				"a=kill&uuid=" + uuid).run();
+				"a=kill&uuid=" + uuid).start();
 	}
 
 	public double getTimeAlive() {

@@ -18,9 +18,7 @@ import io.xol.chunkstories.core.events.PlayerLogoutEvent;
 import io.xol.chunkstories.core.voxel.VoxelChest;
 import io.xol.chunkstories.core.voxel.VoxelSign;
 import io.xol.dogez.plugin.DogeZPlugin;
-import io.xol.dogez.plugin.economy.SignsShopsHandlers;
 import io.xol.dogez.plugin.loot.LootPlace;
-import io.xol.dogez.plugin.loot.LootPlaces;
 import io.xol.dogez.plugin.misc.ChatFormatter;
 import io.xol.dogez.plugin.player.PlayerProfile;
 

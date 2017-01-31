@@ -133,7 +133,6 @@ public class DogeZPlugin extends ServerPlugin {
 			e.printStackTrace();
 		}
 		
-		
 		this.getLogger().info("[DogeZ] Done, terminated");
 	}
 
