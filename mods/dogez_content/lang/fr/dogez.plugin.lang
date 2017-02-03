@@ -1,4 +1,4 @@
-dogez.mustbeplayer You must be a player to use this.
+dogez.mustbeplayer Vous devez être un joueur pour utiliser ça !
 dogez.goodsyntaxm Syntaxe correcte : /m <joueur> <message>
 dogez.goodsyntaxr Syntaxe correcte : /r <message>
 dogez.pmfrom MP de la part de
@@ -46,7 +46,7 @@ dogez.youdied Vous êtes mort. Vos statistiques ont été réinitialisées.
 dogez.waskilled  à été tué.
 dogez.gothit Vous avez prit un coup. Vous ne pouvez plus vous déconnecter 10s après chaque coup, pour éviter le déco combat.
 
-dogez.loggedin  #{dogez.}vient de se connecter.
+dogez.loggedin  vient de se connecter.
 dogez.loggedout  vient de se déconnecter.
 
 dogez.money1 Votre compte est actuellement crédité de 
@@ -65,7 +65,7 @@ dogez.sentok2  XolioCoins à
 dogez.received Vous avez reçu 
 dogez.receivedfrom  XolioCoins de la part de 
 
-dogez.time.minutesand  minutes and 
+dogez.time.minutesand  minutes et 
 dogez.time.hours  heures, 
 dogez.time.days  jours, 
 dogez.time.seconds  secondes

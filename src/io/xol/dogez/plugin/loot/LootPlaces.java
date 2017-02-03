@@ -8,6 +8,7 @@ import io.xol.chunkstories.core.voxel.VoxelChest;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.player.PlayerProfile;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,9 +23,40 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 //Copyright 2014 XolioWare Interactive
 
 public class LootPlaces {
+	
+	public static void main(String[] a)
+	{
+		int scale = 4;
+		BufferedImage img = new BufferedImage(4096 / scale, 4096 / scale, BufferedImage.TYPE_INT_RGB);
+		
+		LootPlaces lp = new LootPlaces(null);
+		lp.loadLootFile(null);
+		
+		int count = 0;
+		for(LootPlace pl : lp.places.values())
+		{
+			int px = pl.x / scale;
+			int py = pl.z / scale;
+			
+			img.setRGB(px, py, 255 << 16);
+			
+			count++;
+		}
+		
+		try {
+			ImageIO.write(img, "PNG", new File("loot-density.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("Found "+count+" lootplaces.");
+	}
 	
 	private final DogeZPlugin plugin;
 
@@ -82,7 +114,7 @@ public class LootPlaces {
 	}
 	
 	private File getFile(World w) {
-		File file = new File("./plugins/DogeZ/lootPlaces.dz");
+		File file = new File("./plugins/DogeZ/lootPlaces-namalsk.dz");
 		if(!file.exists())
 			try {
 				file.createNewFile();
