@@ -477,3 +477,6 @@ end
 
 item 585 heal2
 end
+
+item 586 gresmoke io.xol.dogez.mods.items.SmokeGrenade
+end
