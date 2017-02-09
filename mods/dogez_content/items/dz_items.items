@@ -400,10 +400,10 @@ end
 item 562 firethrower
 end
 
-item 563 grefrag
+item 563 grefrag io.xol.dogez.mods.items.FragGrenade
 end
 
-item 564 greflash
+item 564 greflash io.xol.dogez.mods.items.FlashbangGrenade
 end
 
 item 565 rpg7

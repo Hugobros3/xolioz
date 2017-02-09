@@ -3,3 +3,5 @@
 
 #8 io.xol.chunkstories.core.entity.EntityGroundItem
 64 io.xol.dogez.mods.entities.EntityThrownSmokeGrenade
+65 io.xol.dogez.mods.entities.EntityThrownFlashbangGrenade
+66 io.xol.dogez.mods.entities.EntityThrownFragGrenade

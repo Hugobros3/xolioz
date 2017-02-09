@@ -12,6 +12,7 @@ import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.chunkstories.core.item.renderers.ObjViewModelRenderer;
+import io.xol.dogez.mods.entities.EntityThrownFlashbangGrenade;
 import io.xol.dogez.mods.entities.EntityThrownSmokeGrenade;
 import io.xol.engine.math.Math2;
 import io.xol.engine.math.lalgb.Matrix4f;
@@ -22,9 +23,9 @@ import io.xol.engine.math.lalgb.vector.sp.Vector3fm;
 //http://chunkstories.xyz
 //http://xol.io
 
-public class SmokeGrenade extends Item{
+public class FlashbangGrenade extends Item{
 
-	public SmokeGrenade(ItemType type) {
+	public FlashbangGrenade(ItemType type) {
 		super(type);
 		itemRenderer = new SmokeGrenadeItemRenderer(this);
 	}
@@ -32,13 +33,13 @@ public class SmokeGrenade extends Item{
 	class SmokeGrenadeItemRenderer extends ObjViewModelRenderer{
 
 		public SmokeGrenadeItemRenderer(Item item) {
-			super(item, "./models/weapon/smoke_grenade/smoke_grenade.obj", "./models/weapon/smoke_grenade/smoke_grenade_albedo.png", "./textures/normalnormal.png", "./textures/defaultmaterial.png");
+			super(item, "./models/weapon/flashbang_grenade/flashbang_grenade.obj", "./models/weapon/flashbang_grenade/flashbang_grenade_albedo.png", "./textures/normalnormal.png", "./textures/defaultmaterial.png");
 		}
 		
 		@Override
 		public void renderItemInWorld(RenderingInterface context, ItemPile pile, World world, Location location, Matrix4f handTransformation)
 		{
-			handTransformation.rotate((float) (Math.PI / 2f), new Vector3fm(1, 0, 0));
+			//handTransformation.rotate((float) (Math.PI / 2f), new Vector3fm(1, 0, 0));
 			handTransformation.translate(new Vector3fm(0.1f, 0.0f, 0.0f));
 			super.renderItemInWorld(context, pile, world, location, handTransformation);
 		}
@@ -55,7 +56,7 @@ public class SmokeGrenade extends Item{
 			
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownSmokeGrenade grenade = new EntityThrownSmokeGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
+			EntityThrownFlashbangGrenade grenade = new EntityThrownFlashbangGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
 			grenade.getVelocityComponent().setVelocity(throwForce);
 			
 			pos.getWorld().addEntity(grenade);

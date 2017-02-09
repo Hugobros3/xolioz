@@ -10,7 +10,6 @@ import io.xol.chunkstories.api.world.WorldAuthority;
 import io.xol.engine.graphics.textures.Texture2D;
 import io.xol.engine.graphics.textures.TexturesHandler;
 import io.xol.engine.math.lalgb.Matrix4f;
-import io.xol.engine.math.lalgb.vector.dp.Vector3dm;
 import io.xol.engine.math.lalgb.vector.sp.Vector3fm;
 import io.xol.engine.model.ModelLibrary;
 
@@ -18,27 +17,27 @@ import io.xol.engine.model.ModelLibrary;
 //http://chunkstories.xyz
 //http://xol.io
 
-public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements EntityRenderable {
+public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements EntityRenderable {
 
 	int ignitionTimer = 60 * 4; // 4 seconds to ignite
 	int deathTimer = 60 * 50; // Lives 50 seconds
 
-	public EntityThrownSmokeGrenade(World world, double x, double y, double z) {
+	public EntityThrownFlashbangGrenade(World world, double x, double y, double z) {
 		super(world, x, y, z);
 	}
 
 	@Override
 	public EntityRenderer<? extends EntityRenderable> getEntityRenderer() {
-		return new ThrownSmokeGrenadeModelRenderer();
+		return new ThrownFlashbangGrenadeModelRenderer();
 	}
 
-	static class ThrownSmokeGrenadeModelRenderer implements EntityRenderer<EntityThrownSmokeGrenade> {
+	static class ThrownFlashbangGrenadeModelRenderer implements EntityRenderer<EntityThrownFlashbangGrenade> {
 
 		@Override
 		public void setupRender(RenderingInterface renderingContext) {
 			renderingContext.setObjectMatrix(null);
 
-			Texture2D diffuse = TexturesHandler.getTexture("./models/weapon/smoke_grenade/smoke_grenade_albedo.png");
+			Texture2D diffuse = TexturesHandler.getTexture("./models/weapon/flashbang_grenade/flashbang_grenade_albedo.png");
 			diffuse.setLinearFiltering(false);
 			renderingContext.bindAlbedoTexture(diffuse);
 			renderingContext.bindNormalTexture(TexturesHandler.getTexture("./textures/normalnormal.png"));
@@ -47,12 +46,12 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements Ent
 
 		@Override
 		public int forEach(RenderingInterface renderingContext,
-				RenderingIterator<EntityThrownSmokeGrenade> renderableEntitiesIterator) {
+				RenderingIterator<EntityThrownFlashbangGrenade> renderableEntitiesIterator) {
 			int e = 0;
 
 			renderingContext.setObjectMatrix(null);
 
-			for (EntityThrownSmokeGrenade grenade : renderableEntitiesIterator.getElementsInFrustrumOnly()) {
+			for (EntityThrownFlashbangGrenade grenade : renderableEntitiesIterator.getElementsInFrustrumOnly()) {
 				if (renderingContext.getCamera().getCameraPosition().distanceTo(grenade.getLocation()) > 32)
 					continue;
 
@@ -77,7 +76,7 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements Ent
 
 				renderingContext.setObjectMatrix(mutrix);
 
-				ModelLibrary.getRenderableMesh("./models/weapon/smoke_grenade/smoke_grenade.obj").render(renderingContext);
+				ModelLibrary.getRenderableMesh("./models/weapon/flashbang_grenade/flashbang_grenade.obj").render(renderingContext);
 			}
 
 			return e;
@@ -105,11 +104,11 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements Ent
 		}
 		else if (deathTimer > 0) {
 			deathTimer--;
-			if (authority.isClient()) {
+			/*if (authority.isClient()) {
 				world.getParticlesManager().spawnParticleAtPositionWithVelocity("smoke", this.getLocation(),
 						new Vector3dm(Math.random() * 2.0 - 1.0, Math.random() * 2.0 - 0.5, Math.random() * 2.0 - 1.0)
 								.normalize().scale(Math.random() * 0.05 + 0.02));
-			}
+			}*/
 		} else if (authority.isMaster()) {
 			world.removeEntity(this);
 		}
