@@ -72,7 +72,7 @@ public class ZombieSpawner {
 						
 						Voxel v = plugin.getServer().getContent().voxels().getVoxelById(plugin.getGameWorld().getVoxelData(posx, posy, posz));
 						
-						if(v.isVoxelLiquid())
+						if(v.getType().isLiquid())
 							break;
 						
 						for(String m : allowedMaterials)
@@ -83,7 +83,7 @@ public class ZombieSpawner {
 								break;
 							}
 						}
-						if(v.isVoxelSolid())
+						if(v.getType().isSolid())
 							break;
 					}
 					if(foundGround && zombiesCount <= plugin.config.maxZombies)

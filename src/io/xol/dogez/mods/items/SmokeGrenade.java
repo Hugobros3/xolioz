@@ -6,6 +6,7 @@ import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.item.Item;
 import io.xol.chunkstories.api.item.ItemPile;
+import io.xol.chunkstories.api.item.ItemRenderer;
 import io.xol.chunkstories.api.item.ItemType;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.world.World;
@@ -26,13 +27,18 @@ public class SmokeGrenade extends Item{
 
 	public SmokeGrenade(ItemType type) {
 		super(type);
-		itemRenderer = new SmokeGrenadeItemRenderer(this);
 	}
 
+	@Override
+	public ItemRenderer getCustomItemRenderer(ItemRenderer fallbackRenderer)
+	{
+		return new SmokeGrenadeItemRenderer(fallbackRenderer);
+	}
+	
 	class SmokeGrenadeItemRenderer extends ObjViewModelRenderer{
 
-		public SmokeGrenadeItemRenderer(Item item) {
-			super(item, "./models/weapon/smoke_grenade/smoke_grenade.obj", "./models/weapon/smoke_grenade/smoke_grenade_albedo.png", "./textures/normalnormal.png", "./textures/defaultmaterial.png");
+		public SmokeGrenadeItemRenderer(ItemRenderer fallbackRenderer) {
+			super(fallbackRenderer, "./models/weapon/smoke_grenade/smoke_grenade.obj", "./models/weapon/smoke_grenade/smoke_grenade_albedo.png", "./textures/normalnormal.png", "./textures/defaultmaterial.png");
 		}
 		
 		@Override

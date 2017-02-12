@@ -30,7 +30,7 @@ public abstract class EntityThrownGrenade extends EntityImplementation implement
 		if (authority.isMaster()) {
 			Voxel voxelIn = VoxelsStore.get()
 					.getVoxelById(VoxelFormat.id(world.getVoxelData(positionComponent.getLocation())));
-			boolean inWater = voxelIn.isVoxelLiquid();
+			boolean inWater = voxelIn.getType().isLiquid();
 
 			double terminalVelocity = inWater ? -0.05 : -1.5;
 			if (velocity.getY() > terminalVelocity)

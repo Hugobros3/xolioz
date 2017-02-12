@@ -6,6 +6,7 @@ import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.item.Item;
 import io.xol.chunkstories.api.item.ItemPile;
+import io.xol.chunkstories.api.item.ItemRenderer;
 import io.xol.chunkstories.api.item.ItemType;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.world.World;
@@ -13,7 +14,6 @@ import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.chunkstories.core.item.renderers.ObjViewModelRenderer;
 import io.xol.dogez.mods.entities.EntityThrownFragGrenade;
-import io.xol.dogez.mods.entities.EntityThrownSmokeGrenade;
 import io.xol.engine.math.Math2;
 import io.xol.engine.math.lalgb.Matrix4f;
 import io.xol.engine.math.lalgb.vector.dp.Vector3dm;
@@ -27,13 +27,18 @@ public class FragGrenade extends Item{
 
 	public FragGrenade(ItemType type) {
 		super(type);
-		itemRenderer = new FragGrenadeItemRenderer(this);
+	}
+	
+	@Override
+	public ItemRenderer getCustomItemRenderer(ItemRenderer fallbackRenderer)
+	{
+		return new FragGrenadeItemRenderer(fallbackRenderer);
 	}
 
 	class FragGrenadeItemRenderer extends ObjViewModelRenderer{
 
-		public FragGrenadeItemRenderer(Item item) {
-			super(item, "./models/weapon/frag_grenade/frag_grenade.obj", "./models/weapon/frag_grenade/frag_grenade_albedo.png", "./textures/normalnormal.png", "./textures/defaultmaterial.png");
+		public FragGrenadeItemRenderer(ItemRenderer fallbackRenderer) {
+			super(fallbackRenderer, "./models/weapon/frag_grenade/frag_grenade.obj", "./models/weapon/frag_grenade/frag_grenade_albedo.png", "./textures/normalnormal.png", "./textures/defaultmaterial.png");
 		}
 		
 		@Override

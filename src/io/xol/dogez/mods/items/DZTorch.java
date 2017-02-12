@@ -4,6 +4,7 @@ import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.interfaces.EntityRotateable;
 import io.xol.chunkstories.api.item.Item;
 import io.xol.chunkstories.api.item.ItemPile;
+import io.xol.chunkstories.api.item.ItemRenderer;
 import io.xol.chunkstories.api.item.ItemType;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.lightning.SpotLight;
@@ -21,13 +22,17 @@ public class DZTorch extends Item{
 
 	public DZTorch(ItemType type) {
 		super(type);
-		itemRenderer = new TorchItemRenderer(this);
+	}
+	
+	public ItemRenderer getCustomItemRenderer(ItemRenderer fallbackRenderer)
+	{
+		return new TorchItemRenderer(fallbackRenderer);
 	}
 
 	class TorchItemRenderer extends ObjViewModelRenderer{
 
-		public TorchItemRenderer(Item item) {
-			super(item, "./models/misc/torch/torch.obj", "./models/misc/torch/torchOn.png", "./textures/normalnormal.png", "./models/misc/torch/material.png");
+		public TorchItemRenderer(ItemRenderer fallbackRenderer) {
+			super(fallbackRenderer, "./models/misc/torch/torch.obj", "./models/misc/torch/torchOn.png", "./textures/normalnormal.png", "./models/misc/torch/material.png");
 		}
 		
 		@Override

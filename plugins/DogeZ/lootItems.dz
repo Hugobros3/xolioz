@@ -97,7 +97,7 @@ recordwhatislove:2262:0:&9Le tube de l'été '98
 
 //Maj halloween
 battery:263:0:&ePile alkaline [100.0%]
-torchOff:331:0:&eLampe torche
+torch:331:0:&eLampe torche
 //torchOn:280:0:&eLampe torche
 
 //Nowel

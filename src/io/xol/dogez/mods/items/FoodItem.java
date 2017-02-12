@@ -19,7 +19,7 @@ public class FoodItem extends Item {
 
 	public FoodItem(ItemType type) {
 		super(type);
-		calories = Float.parseFloat(type.getProperty("calories", "10.0"));
+		calories = Float.parseFloat(type.resolveProperty("calories", "10.0"));
 	}
 	
 	public boolean handleInteraction(Entity owner, ItemPile itemPile, Input input, Controller controller)
