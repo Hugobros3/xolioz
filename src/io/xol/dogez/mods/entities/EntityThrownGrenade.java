@@ -9,8 +9,10 @@ import io.xol.chunkstories.entity.EntityImplementation;
 import io.xol.chunkstories.physics.CollisionBox;
 import io.xol.chunkstories.voxel.VoxelsStore;
 import io.xol.engine.math.Math2;
-import io.xol.engine.math.lalgb.vector.dp.Vector2dm;
-import io.xol.engine.math.lalgb.vector.dp.Vector3dm;
+import io.xol.chunkstories.api.math.Matrix4f;
+import io.xol.chunkstories.api.math.vector.dp.Vector2dm;
+import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
+import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
 
 public abstract class EntityThrownGrenade extends EntityImplementation implements EntityRenderable  {
 
