@@ -33,7 +33,6 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 
 	static class ThrownFlashbangGrenadeModelRenderer implements EntityRenderer<EntityThrownFlashbangGrenade> {
 
-		@Override
 		public void setupRender(RenderingInterface renderingContext) {
 			renderingContext.setObjectMatrix(null);
 
@@ -45,8 +44,9 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 		}
 
 		@Override
-		public int forEach(RenderingInterface renderingContext,
+		public int renderEntities(RenderingInterface renderingContext,
 				RenderingIterator<EntityThrownFlashbangGrenade> renderableEntitiesIterator) {
+			setupRender(renderingContext);
 			int e = 0;
 
 			renderingContext.setObjectMatrix(null);

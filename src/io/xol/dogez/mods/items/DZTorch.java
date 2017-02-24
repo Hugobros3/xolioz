@@ -51,8 +51,8 @@ public class DZTorch extends Item{
 						
 						Vector3fm vec3 = new Vector3fm(vec4.getX(), vec4.getY(), vec4.getZ());
 						
-						context.addLight(new SpotLight(new Vector3fm(1f, 1f, 0.9f).scale(1.5f), vec3, 45f, 35f, ((EntityRotateable) pile.getInventory().getHolder()).getDirectionLookingAt().castToSinglePrecision()));
-						context.addLight(new SpotLight(new Vector3fm(1f, 1f, 0.9f).scale(0.5f), vec3, 95f, 35f, ((EntityRotateable) pile.getInventory().getHolder()).getDirectionLookingAt().castToSinglePrecision()));
+						context.getLightsRenderer().queueLight(new SpotLight(new Vector3fm(1f, 1f, 0.9f).scale(1.5f), vec3, 45f, 35f, ((EntityRotateable) pile.getInventory().getHolder()).getDirectionLookingAt().castToSinglePrecision()));
+						context.getLightsRenderer().queueLight(new SpotLight(new Vector3fm(1f, 1f, 0.9f).scale(0.5f), vec3, 95f, 35f, ((EntityRotateable) pile.getInventory().getHolder()).getDirectionLookingAt().castToSinglePrecision()));
 					}
 				}
 			}

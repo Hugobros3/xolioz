@@ -34,7 +34,6 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements Ent
 
 	static class ThrownSmokeGrenadeModelRenderer implements EntityRenderer<EntityThrownSmokeGrenade> {
 
-		@Override
 		public void setupRender(RenderingInterface renderingContext) {
 			renderingContext.setObjectMatrix(null);
 
@@ -46,8 +45,9 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements Ent
 		}
 
 		@Override
-		public int forEach(RenderingInterface renderingContext,
+		public int renderEntities(RenderingInterface renderingContext,
 				RenderingIterator<EntityThrownSmokeGrenade> renderableEntitiesIterator) {
+			setupRender(renderingContext);
 			int e = 0;
 
 			renderingContext.setObjectMatrix(null);

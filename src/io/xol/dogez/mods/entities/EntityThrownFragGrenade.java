@@ -33,7 +33,6 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 
 	static class ThrownFragGrenadeModelRenderer implements EntityRenderer<EntityThrownFragGrenade> {
 
-		@Override
 		public void setupRender(RenderingInterface renderingContext) {
 			renderingContext.setObjectMatrix(null);
 
@@ -45,8 +44,9 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 		}
 
 		@Override
-		public int forEach(RenderingInterface renderingContext,
+		public int renderEntities(RenderingInterface renderingContext,
 				RenderingIterator<EntityThrownFragGrenade> renderableEntitiesIterator) {
+			setupRender(renderingContext);
 			int e = 0;
 
 			renderingContext.setObjectMatrix(null);
