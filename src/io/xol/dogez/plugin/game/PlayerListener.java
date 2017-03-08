@@ -89,6 +89,7 @@ public class PlayerListener implements Listener {
 			return;
 
 		Player player = event.getPlayer();
+		
 		EntityControllable playerEntity = player.getControlledEntity();
 		Location selectedLocation = playerEntity.getBlockLookingAt(true);
 

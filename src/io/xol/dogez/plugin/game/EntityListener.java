@@ -14,6 +14,7 @@ import io.xol.chunkstories.core.entity.EntityZombie;
 import io.xol.chunkstories.core.events.EntityDamageEvent;
 import io.xol.chunkstories.core.events.EntityDeathEvent;
 import io.xol.chunkstories.core.events.PlayerDeathEvent;
+import io.xol.chunkstories.core.item.FirearmShotEvent;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.player.PlayerProfile;
 
@@ -134,6 +135,19 @@ public class EntityListener implements Listener {
 						}
 					}
 				}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onFirearmShit(FirearmShotEvent event) {
+		for(Entity e : event.getShooter().getWorld().getAllLoadedEntities()) {
+			if(e instanceof EntityZombie) {
+				EntityZombie z = (EntityZombie)e;
+				
+				double d = z.getLocation().distanceTo(event.getShooter().getLocation());
+				if(d < event.getItemFirearm().soundRange * (0.5 + Math.random() * 0.25))
+					z.attack(event.getShooter(), (float) (event.getItemFirearm().soundRange * 0.5 + Math.random() * 15));
 			}
 		}
 	}

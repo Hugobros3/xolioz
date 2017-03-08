@@ -22,7 +22,7 @@ public class FoodItem extends Item {
 		calories = Float.parseFloat(type.resolveProperty("calories", "10.0"));
 	}
 	
-	public boolean handleInteraction(Entity owner, ItemPile itemPile, Input input, Controller controller)
+	public boolean onControllerInput(Entity owner, ItemPile itemPile, Input input, Controller controller)
 	{
 		if(owner.getWorld() instanceof WorldMaster)
 		{

@@ -51,7 +51,7 @@ public class FragGrenade extends Item{
 		}
 	}
 	
-	public boolean handleInteraction(Entity owner, ItemPile itemPile, Input input, Controller controller)
+	public boolean onControllerInput(Entity owner, ItemPile itemPile, Input input, Controller controller)
 	{
 		if(owner != null && owner instanceof EntityPlayer && controller != null && input.getName().equals("mouse.right") && owner.getWorld() instanceof WorldMaster)
 		{
