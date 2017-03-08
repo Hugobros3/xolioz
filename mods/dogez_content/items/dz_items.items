@@ -521,3 +521,7 @@ end
 item 586 gresmoke
 	customClass: io.xol.dogez.mods.items.SmokeGrenade
 end
+
+item 587 binoculars
+	customClass: io.xol.dogez.mods.items.ItemBinoculars
+end

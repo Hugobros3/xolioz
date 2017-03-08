@@ -82,8 +82,8 @@ public class ScheduledEvents {
 					zik = 1 + rnd.nextInt(10);
 				}
 
-				plugin.getGameWorld().getSoundManager().playMusic("sounds/dogez/music/zik" + zik + ".ogg", 0, 0, 0,
-						(float) (0.5f + Math.random() * 0.5f), 1, true);
+				//plugin.getGameWorld().getSoundManager().playMusic("sounds/dogez/music/zik" + zik + ".ogg", 0, 0, 0,
+				//		(float) (0.5f + Math.random() * 0.5f), 1, true);
 			}
 		}, 0, 60 * 60L); // every minute
 	}

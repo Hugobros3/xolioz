@@ -4,7 +4,7 @@ package io.xol.dogez.plugin.loot;
 
 import java.util.Random;
 
-import io.xol.chunkstories.api.item.Inventory;
+import io.xol.chunkstories.api.item.inventory.Inventory;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.core.entity.voxel.EntityChest;
