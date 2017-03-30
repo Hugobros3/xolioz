@@ -4,16 +4,14 @@ import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.World;
-import io.xol.chunkstories.api.world.WorldAuthority;
+import io.xol.chunkstories.api.world.WorldClient;
+import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.entity.EntityImplementation;
 import io.xol.chunkstories.physics.CollisionBox;
 import io.xol.chunkstories.voxel.VoxelsStore;
 import io.xol.engine.math.Math2;
-import io.xol.chunkstories.api.math.Matrix4f;
 import io.xol.chunkstories.api.math.vector.dp.Vector2dm;
 import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
-import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
-
 public abstract class EntityThrownGrenade extends EntityImplementation implements EntityRenderable  {
 
 	protected float tilt = 0f;
@@ -25,11 +23,11 @@ public abstract class EntityThrownGrenade extends EntityImplementation implement
 	}
 
 	@Override
-	public void tick(WorldAuthority authority) {
+	public void tick() {
 
 		Vector3dm velocity = getVelocityComponent().getVelocity();
 
-		if (authority.isMaster()) {
+		if (world instanceof WorldMaster) {
 			Voxel voxelIn = VoxelsStore.get()
 					.getVoxelById(VoxelFormat.id(world.getVoxelData(positionComponent.getLocation())));
 			boolean inWater = voxelIn.getType().isLiquid();
@@ -59,7 +57,7 @@ public abstract class EntityThrownGrenade extends EntityImplementation implement
 			getVelocityComponent().setVelocity(velocity);
 		}
 
-		if (authority.isClient()) {
+		if (world instanceof WorldClient) {
 			rotation += getVelocityComponent().getVelocity().length() * Math.random();
 			tilt = (float) Math2.mix(0.0, tilt + getVelocityComponent().getVelocity().length() * Math.random(),
 					Math2.clampd(velocity.length(), 0.0, 0.1) * 10.0);

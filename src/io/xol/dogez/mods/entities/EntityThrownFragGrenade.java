@@ -8,7 +8,7 @@ import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.World;
-import io.xol.chunkstories.api.world.WorldAuthority;
+import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.engine.graphics.textures.Texture2D;
 import io.xol.engine.graphics.textures.TexturesHandler;
 import io.xol.engine.model.ModelLibrary;
@@ -90,10 +90,10 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 	}
 
 	@Override
-	public void tick(WorldAuthority authority) {
+	public void tick() {
 
 		//Movement and stuff
-		super.tick(authority);
+		super.tick();
 
 		if (ignitionTimer > 0)
 			ignitionTimer--;
@@ -109,7 +109,7 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 						new Vector3dm(Math.random() * 2.0 - 1.0, Math.random() * 2.0 - 0.5, Math.random() * 2.0 - 1.0)
 								.normalize().scale(Math.random() * 0.05 + 0.02));
 			}*/
-		} else if (authority.isMaster()) {
+		} else if (world instanceof WorldMaster) {
 			world.removeEntity(this);
 		}
 	}

@@ -403,27 +403,51 @@ end
 
 #Fringues/armures
 item 552 ghilie1
+	customClass: io.xol.chunkstories.core.item.armor.ItemArmorHead
+	damageMultiplier: 0.8
+	overlay: ./textures/armor/ghilie.png
 end
 
 item 553 ghilie2
+	customClass: io.xol.chunkstories.core.item.armor.ItemArmorChest
+	damageMultiplier: 0.8
+	overlay: ./textures/armor/ghilie.png
 end
 
 item 554 ghilie3
+	customClass: io.xol.chunkstories.core.item.armor.ItemArmorLegs
+	damageMultiplier: 0.8
+	overlay: ./textures/armor/ghilie.png
 end
 
 item 555 ghilie4
+	customClass: io.xol.chunkstories.core.item.armor.ItemArmorBoots
+	damageMultiplier: 0.8
+	overlay: ./textures/armor/ghilie.png
 end
 
 item 556 isis1
+	customClass: io.xol.chunkstories.core.item.armor.ItemArmorHead
+	damageMultiplier: 0.7
+	overlay: ./textures/armor/isis.png
 end
 
 item 557 isis2
+	customClass: io.xol.chunkstories.core.item.armor.ItemArmorChest
+	damageMultiplier: 0.6
+	overlay: ./textures/armor/isis.png
 end
 
 item 558 isis3
+	customClass: io.xol.chunkstories.core.item.armor.ItemArmorLegs
+	damageMultiplier: 0.75
+	overlay: ./textures/armor/isis.png
 end
 
 item 559 isis4
+	customClass: io.xol.chunkstories.core.item.armor.ItemArmorBoots
+	damageMultiplier: 0.5
+	overlay: ./textures/armor/isis.png
 end
 
 #Armes spéciales

@@ -11,7 +11,6 @@ import io.xol.chunkstories.api.item.interfaces.ItemZoom;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.math.vector.sp.Vector4fm;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
-import io.xol.chunkstories.api.world.WorldAuthority;
 import io.xol.engine.graphics.textures.TexturesHandler;
 
 public class ItemBinoculars extends Item implements ItemZoom, ItemOverlay {
@@ -22,7 +21,7 @@ public class ItemBinoculars extends Item implements ItemZoom, ItemOverlay {
 	}
 
 	@Override
-	public void tickInHand(WorldAuthority authority, Entity owner, ItemPile itemPile) {
+	public void tickInHand(Entity owner, ItemPile itemPile) {
 		
 		if (owner instanceof EntityControllable && ((EntityControllable) owner).getController() != null)
 		{
