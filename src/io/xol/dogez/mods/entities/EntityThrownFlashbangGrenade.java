@@ -1,26 +1,34 @@
 package io.xol.dogez.mods.entities;
 
+import io.xol.chunkstories.api.entity.Entity;
+import io.xol.chunkstories.api.entity.interfaces.EntityOverlay;
 import io.xol.chunkstories.api.math.Matrix4f;
+import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
 import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
+import io.xol.chunkstories.api.math.vector.sp.Vector4fm;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.World;
+import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.WorldMaster;
+import io.xol.chunkstories.client.Client;
+import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.engine.graphics.textures.Texture2D;
 import io.xol.engine.graphics.textures.TexturesHandler;
+import io.xol.engine.math.Math2;
 import io.xol.engine.model.ModelLibrary;
 
 //(c) 2015-2017 XolioWare Interactive
 //http://chunkstories.xyz
 //http://xol.io
 
-public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements EntityRenderable {
+public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements EntityRenderable, EntityOverlay {
 
 	int ignitionTimer = 60 * 4; // 4 seconds to ignite
-	int deathTimer = 60 * 50; // Lives 50 seconds
+	int deathTimer = 60 * 5; // Lives 50 seconds
 
 	public EntityThrownFlashbangGrenade(World world, double x, double y, double z) {
 		super(world, x, y, z);
@@ -100,7 +108,35 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 		else if(ignitionTimer == 0)
 		{
 			if (world instanceof WorldMaster)
-				world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/smoke_puff.ogg", getLocation(), 1, 1, 15, 25);
+				world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/flashbang.ogg", getLocation(), 1, 1, 25, 45);
+			if (world instanceof WorldClient)
+			{
+				Entity e = Client.getInstance().getPlayer().getControlledEntity();
+				if(e != null && e instanceof EntityPlayer)
+				{
+					double distance = e.getLocation().distanceTo(getLocation());
+					
+					Vector3dm dir = getLocation().clone();
+					dir.sub(e.getLocation().add(0.0, 1.80, 0.0));
+					
+					dir.normalize();
+					
+					Vector3dm edir = ((EntityPlayer)e).getDirectionLookingAt();
+					
+					Vector3dm raytrace = world.collisionsManager().raytraceSolidOuter(e.getLocation().add(0.0, 1.80, 0.0), dir, 256.0);
+					
+					float raytraceOk = raytrace.distanceTo(getLocation()) < 1.5 ? 1f : 0f;
+					
+					System.out.println(raytrace + " : " + getLocation() + " distance:" + raytrace.distanceTo(getLocation()));
+					
+					long addedtime = 1000L + (long)(5000.0f * Math2.clamp((5f - distance) / 10f, 0, 1))
+						+	(long)((5000.0f) * raytraceOk * Math2.clamp(5 * dir.dot(edir), 0.0, 1.0));
+					
+					System.out.println(addedtime);
+					
+					fadeUntil = System.currentTimeMillis() + addedtime;
+				}
+			}
 			ignitionTimer--;
 		}
 		else if (deathTimer > 0) {
@@ -113,5 +149,15 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 		} else if (world instanceof WorldMaster) {
 			world.removeEntity(this);
 		}
+	}
+	
+	long fadeUntil = 0L;
+	
+	@Override
+	public void drawEntityOverlay(RenderingInterface renderingInterface)
+	{
+		float fade = ((int)Math.max(0L, fadeUntil - System.currentTimeMillis())) / 5000.0f;
+		fade = Math2.clamp(fade, 0, 1);
+		renderingInterface.getGuiRenderer().drawBox(-1, -1, 1, 1, 0, 0, 0, 0, null, true, false, new Vector4fm(1,1,1,fade));
 	}
 }

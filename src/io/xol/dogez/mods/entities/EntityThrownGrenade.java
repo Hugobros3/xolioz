@@ -33,35 +33,44 @@ public abstract class EntityThrownGrenade extends EntityImplementation implement
 			boolean inWater = voxelIn.getType().isLiquid();
 
 			double terminalVelocity = inWater ? -0.05 : -1.5;
-			if (velocity.getY() > terminalVelocity)
+			if (velocity.getY() > terminalVelocity && !this.isOnGround())
 				velocity.setY(velocity.getY() - 0.016);
 			if (velocity.getY() < terminalVelocity)
 				velocity.setY(terminalVelocity);
 
 			Vector3dm remainingToMove = moveWithCollisionRestrain(velocity.getX(), velocity.getY(), velocity.getZ());
 			if (remainingToMove.getY() < -0.02 && this.isOnGround()) {
-				if (remainingToMove.getY() < -0.02) {
+				if (remainingToMove.getY() < -0.01) {
 					//Bounce
 					double originalDownardsVelocity = velocity.getY();
 					velocity.scale(0.65);
 					velocity.setY(-originalDownardsVelocity * 0.65);
 					
-					world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/grenade_bounce.ogg", getLocation(), 1, 1, 10, 15);
+					world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/grenade_bounce.ogg", getLocation(), 1, 1, 10, 35);
 				} else
 					velocity.scale(0d);
 			}
 
-			if (velocity.length() < 0.02)
-				velocity.scale(0d);
+			if (Math.abs(velocity.getX()) < 0.02)
+				velocity.setX(0.0);
+			if (Math.abs(velocity.getZ()) < 0.02)
+				velocity.setZ(0.0);
+			
+			if (Math.abs(velocity.getY()) < 0.01)
+				velocity.setY(0.0);
 
 			getVelocityComponent().setVelocity(velocity);
 		}
 
 		if (world instanceof WorldClient) {
+			
+			if(!this.isOnGround())
+			{
 			rotation += getVelocityComponent().getVelocity().length() * Math.random();
 			tilt = (float) Math2.mix(0.0, tilt + getVelocityComponent().getVelocity().length() * Math.random(),
 					Math2.clampd(velocity.length(), 0.0, 0.1) * 10.0);
 
+			
 			Vector2dm direction2d = new Vector2dm(velocity.getX(), velocity.getZ());
 
 			if (direction2d.length() > 0.0) {
@@ -81,6 +90,7 @@ public abstract class EntityThrownGrenade extends EntityImplementation implement
 				
 				direction = (float)directionDegrees;
 				//direction = (float) -Math.toRadians(directionDegrees);
+			}
 			}
 		}
 	}

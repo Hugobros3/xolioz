@@ -3,10 +3,12 @@ package io.xol.dogez.mods.items;
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.Entity;
+import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.item.Item;
 import io.xol.chunkstories.api.item.ItemRenderer;
 import io.xol.chunkstories.api.item.ItemType;
+import io.xol.chunkstories.api.item.inventory.Inventory;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.world.World;
@@ -66,6 +68,19 @@ public class FragGrenade extends Item{
 			grenade.getVelocityComponent().setVelocity(throwForce);
 			
 			pos.getWorld().addEntity(grenade);
+			
+			if(owner instanceof EntityCreative && ((EntityCreative) owner).isCreativeMode())
+			{
+				//Ignore
+			}
+			else
+			{
+				Inventory inv = itemPile.getInventory();
+				if(itemPile.getAmount() == 0 && inv != null)
+					inv.setItemPileAt(itemPile.getX(), itemPile.getY(), null);
+				else if(itemPile.getAmount() > 0)
+					itemPile.setAmount(itemPile.getAmount() - 1);
+			}
 		}
 		return false;
 	}

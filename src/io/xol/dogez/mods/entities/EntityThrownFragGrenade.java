@@ -1,6 +1,10 @@
 package io.xol.dogez.mods.entities;
 
+import io.xol.chunkstories.api.entity.DamageCause;
+import io.xol.chunkstories.api.entity.Entity;
+import io.xol.chunkstories.api.entity.EntityLiving;
 import io.xol.chunkstories.api.math.Matrix4f;
+import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
 import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
@@ -9,6 +13,7 @@ import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
+import io.xol.chunkstories.core.util.WorldEffects;
 import io.xol.engine.graphics.textures.Texture2D;
 import io.xol.engine.graphics.textures.TexturesHandler;
 import io.xol.engine.model.ModelLibrary;
@@ -17,10 +22,10 @@ import io.xol.engine.model.ModelLibrary;
 //http://chunkstories.xyz
 //http://xol.io
 
-public class EntityThrownFragGrenade extends EntityThrownGrenade implements EntityRenderable {
+public class EntityThrownFragGrenade extends EntityThrownGrenade implements EntityRenderable, DamageCause {
 
-	int ignitionTimer = 60 * 4; // 4 seconds to ignite
-	int deathTimer = 60 * 50; // Lives 50 seconds
+	int ignitionTimer = 60 * 5; // 4 seconds to ignite
+	int deathTimer = 0 * 50; // Lives 50 seconds
 
 	public EntityThrownFragGrenade(World world, double x, double y, double z) {
 		super(world, x, y, z);
@@ -99,7 +104,30 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 			ignitionTimer--;
 		else if(ignitionTimer == 0)
 		{
-			world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/smoke_puff.ogg", getLocation(), 1, 1, 15, 25);
+			if (world instanceof WorldMaster)
+			{
+				WorldEffects.createFireball(world, getLocation().add(0.0, 0.5, 0.0), 5f, 0.1f, 2);
+				double dmg_radius = 10;
+				double dmg_radius_maxdmg = 5;
+				
+				double maxDmg = 200;
+				for(Entity e : world.getEntitiesInBox(getLocation(), new Vector3dm(dmg_radius)))
+				{
+					if(e instanceof EntityLiving) {
+						EntityLiving el = (EntityLiving)e;
+						
+						double distance = el.getLocation().distanceTo(getLocation());
+						if(distance > dmg_radius)
+							continue;
+						
+						float dmg = (float) (maxDmg * Math.min(Math.max(0, dmg_radius - distance), dmg_radius_maxdmg) / dmg_radius_maxdmg);
+						
+						System.out.println("Damaging "+el.getName() + " with "+dmg);
+						el.damage(this, dmg);
+					}
+				}
+			}
+			//world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/smoke_puff.ogg", getLocation(), 1, 1, 15, 25);
 			ignitionTimer--;
 		}
 		else if (deathTimer > 0) {
@@ -112,5 +140,10 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 		} else if (world instanceof WorldMaster) {
 			world.removeEntity(this);
 		}
+	}
+
+	@Override
+	public String getName() {
+		return "Frag grenade";
 	}
 }
