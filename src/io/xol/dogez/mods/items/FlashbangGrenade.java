@@ -6,17 +6,17 @@ import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.item.Item;
-import io.xol.chunkstories.api.item.ItemRenderer;
 import io.xol.chunkstories.api.item.ItemType;
 import io.xol.chunkstories.api.item.inventory.Inventory;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
+import io.xol.chunkstories.api.item.renderer.ItemRenderer;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.chunkstories.item.renderer.ObjViewModelRenderer;
 import io.xol.dogez.mods.entities.EntityThrownFlashbangGrenade;
-import io.xol.engine.math.Math2;
+import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.math.Matrix4f;
 import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
 import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
@@ -40,7 +40,7 @@ public class FlashbangGrenade extends Item{
 	class SmokeGrenadeItemRenderer extends ObjViewModelRenderer{
 
 		public SmokeGrenadeItemRenderer(ItemRenderer fallbackRenderer) {
-			super(fallbackRenderer, "./models/weapon/flashbang_grenade/flashbang_grenade.obj", "./models/weapon/flashbang_grenade/flashbang_grenade_albedo.png", "./textures/normalnormal.png", "./textures/defaultmaterial.png");
+			super(FlashbangGrenade.this, fallbackRenderer, "./models/weapon/flashbang_grenade/flashbang_grenade.obj", "./models/weapon/flashbang_grenade/flashbang_grenade_albedo.png", "./textures/normalnormal.png", "./textures/defaultmaterial.png");
 		}
 		
 		@Override

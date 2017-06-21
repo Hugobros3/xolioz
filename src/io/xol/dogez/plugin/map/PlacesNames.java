@@ -13,7 +13,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import io.xol.chunkstories.api.Location;
-import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.api.player.Player;
 
 //(c) 2014 XolioWare Interactive
 

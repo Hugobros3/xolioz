@@ -1,7 +1,7 @@
 package io.xol.dogez.plugin.loot;
 
 import io.xol.chunkstories.api.Location;
-import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.core.voxel.VoxelChest;

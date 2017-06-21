@@ -1,7 +1,7 @@
 package io.xol.dogez.plugin.game.special;
 
 import io.xol.chunkstories.api.Location;
-import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.api.player.Player;
 
 //Copyright 2014 XolioWare Interactive
 

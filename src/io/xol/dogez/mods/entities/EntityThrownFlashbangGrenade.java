@@ -2,6 +2,7 @@ package io.xol.dogez.mods.entities;
 
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.interfaces.EntityOverlay;
+import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.math.Matrix4f;
 import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
 import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
@@ -10,15 +11,12 @@ import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
+import io.xol.chunkstories.api.rendering.textures.Texture2D;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.WorldMaster;
-import io.xol.chunkstories.client.Client;
 import io.xol.chunkstories.core.entity.EntityPlayer;
-import io.xol.engine.graphics.textures.Texture2D;
-import io.xol.engine.graphics.textures.TexturesHandler;
-import io.xol.engine.math.Math2;
 import io.xol.engine.model.ModelLibrary;
 
 //(c) 2015-2017 XolioWare Interactive
@@ -44,11 +42,11 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 		public void setupRender(RenderingInterface renderingContext) {
 			renderingContext.setObjectMatrix(null);
 
-			Texture2D diffuse = TexturesHandler.getTexture("./models/weapon/flashbang_grenade/flashbang_grenade_albedo.png");
+			Texture2D diffuse = renderingContext.textures().getTexture("./models/weapon/flashbang_grenade/flashbang_grenade_albedo.png");
 			diffuse.setLinearFiltering(false);
 			renderingContext.bindAlbedoTexture(diffuse);
-			renderingContext.bindNormalTexture(TexturesHandler.getTexture("./textures/normalnormal.png"));
-			renderingContext.bindMaterialTexture(TexturesHandler.getTexture("./textures/defaultmaterial.png"));
+			renderingContext.bindNormalTexture(renderingContext.textures().getTexture("./textures/normalnormal.png"));
+			renderingContext.bindMaterialTexture(renderingContext.textures().getTexture("./textures/defaultmaterial.png"));
 		}
 
 		@Override
@@ -84,7 +82,7 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 
 				renderingContext.setObjectMatrix(mutrix);
 
-				ModelLibrary.getRenderableMesh("./models/weapon/flashbang_grenade/flashbang_grenade.obj").render(renderingContext);
+				renderingContext.meshes().getRenderableMeshByName("./models/weapon/flashbang_grenade/flashbang_grenade.obj").render(renderingContext);
 			}
 
 			return e;
@@ -111,7 +109,7 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 				world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/flashbang.ogg", getLocation(), 1, 1, 25, 45);
 			if (world instanceof WorldClient)
 			{
-				Entity e = Client.getInstance().getPlayer().getControlledEntity();
+				Entity e = ((WorldClient) world).getClient().getPlayer().getControlledEntity();
 				if(e != null && e instanceof EntityPlayer)
 				{
 					double distance = e.getLocation().distanceTo(getLocation());

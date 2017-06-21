@@ -3,9 +3,9 @@ package io.xol.dogez.mods.items;
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.interfaces.EntityRotateable;
 import io.xol.chunkstories.api.item.Item;
-import io.xol.chunkstories.api.item.ItemRenderer;
 import io.xol.chunkstories.api.item.ItemType;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
+import io.xol.chunkstories.api.item.renderer.ItemRenderer;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.lightning.SpotLight;
 import io.xol.chunkstories.api.world.World;
@@ -32,7 +32,7 @@ public class DZTorch extends Item{
 	class TorchItemRenderer extends ObjViewModelRenderer{
 
 		public TorchItemRenderer(ItemRenderer fallbackRenderer) {
-			super(fallbackRenderer, "./models/misc/torch/torch.obj", "./models/misc/torch/torchOn.png", "./textures/normalnormal.png", "./models/misc/torch/material.png");
+			super(DZTorch.this, fallbackRenderer, "./models/misc/torch/torch.obj", "./models/misc/torch/torchOn.png", "./textures/normalnormal.png", "./models/misc/torch/material.png");
 		}
 		
 		@Override

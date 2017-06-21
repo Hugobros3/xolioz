@@ -10,12 +10,11 @@ import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
+import io.xol.chunkstories.api.rendering.textures.Texture2D;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.util.WorldEffects;
-import io.xol.engine.graphics.textures.Texture2D;
-import io.xol.engine.graphics.textures.TexturesHandler;
 import io.xol.engine.model.ModelLibrary;
 
 //(c) 2015-2017 XolioWare Interactive
@@ -41,11 +40,11 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 		public void setupRender(RenderingInterface renderingContext) {
 			renderingContext.setObjectMatrix(null);
 
-			Texture2D diffuse = TexturesHandler.getTexture("./models/weapon/frag_grenade/frag_grenade_albedo.png");
+			Texture2D diffuse = renderingContext.textures().getTexture("./models/weapon/frag_grenade/frag_grenade_albedo.png");
 			diffuse.setLinearFiltering(false);
 			renderingContext.bindAlbedoTexture(diffuse);
-			renderingContext.bindNormalTexture(TexturesHandler.getTexture("./textures/normalnormal.png"));
-			renderingContext.bindMaterialTexture(TexturesHandler.getTexture("./textures/defaultmaterial.png"));
+			renderingContext.bindNormalTexture(renderingContext.textures().getTexture("./textures/normalnormal.png"));
+			renderingContext.bindMaterialTexture(renderingContext.textures().getTexture("./textures/defaultmaterial.png"));
 		}
 
 		@Override
@@ -81,7 +80,7 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 
 				renderingContext.setObjectMatrix(mutrix);
 
-				ModelLibrary.getRenderableMesh("./models/weapon/frag_grenade/frag_grenade.obj").render(renderingContext);
+				renderingContext.meshes().getRenderableMeshByName("./models/weapon/frag_grenade/frag_grenade.obj").render(renderingContext);
 			}
 
 			return e;

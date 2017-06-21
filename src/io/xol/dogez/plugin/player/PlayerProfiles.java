@@ -3,7 +3,7 @@ package io.xol.dogez.plugin.player;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.api.player.Player;
 import io.xol.dogez.plugin.DogeZPlugin;
 
 public class PlayerProfiles {

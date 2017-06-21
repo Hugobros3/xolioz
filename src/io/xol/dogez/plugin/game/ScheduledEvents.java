@@ -6,12 +6,12 @@ import java.util.Date;
 import java.util.Random;
 
 import io.xol.chunkstories.api.compatibility.ChatColor;
+import io.xol.chunkstories.api.math.Math2;
+import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.plugin.Scheduler;
-import io.xol.chunkstories.api.server.Player;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.map.PlacesNames;
 import io.xol.dogez.plugin.player.PlayerProfile;
-import io.xol.engine.math.Math2;
 
 public class ScheduledEvents {
 	public long ticksCounter = 0;

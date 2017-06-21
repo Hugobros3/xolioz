@@ -12,7 +12,7 @@ import io.xol.chunkstories.api.events.Listener;
 import io.xol.chunkstories.api.events.entity.EntityDamageEvent;
 import io.xol.chunkstories.api.events.entity.EntityDeathEvent;
 import io.xol.chunkstories.api.events.player.PlayerDeathEvent;
-import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.core.entity.EntityZombie;
 import io.xol.chunkstories.core.item.FirearmShotEvent;
 import io.xol.dogez.plugin.DogeZPlugin;

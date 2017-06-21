@@ -3,7 +3,7 @@ package io.xol.dogez.plugin.zombies;
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
-import io.xol.chunkstories.api.server.Player;
+import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.api.world.chunk.Chunk;

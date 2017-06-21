@@ -4,12 +4,11 @@ import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
+import io.xol.chunkstories.api.rendering.textures.Texture2D;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.WorldMaster;
-import io.xol.engine.graphics.textures.Texture2D;
-import io.xol.engine.graphics.textures.TexturesHandler;
 import io.xol.chunkstories.api.math.Matrix4f;
 import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
 import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
@@ -38,11 +37,11 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements Ent
 		public void setupRender(RenderingInterface renderingContext) {
 			renderingContext.setObjectMatrix(null);
 
-			Texture2D diffuse = TexturesHandler.getTexture("./models/weapon/smoke_grenade/smoke_grenade_albedo.png");
+			Texture2D diffuse = renderingContext.textures().getTexture("./models/weapon/smoke_grenade/smoke_grenade_albedo.png");
 			diffuse.setLinearFiltering(false);
 			renderingContext.bindAlbedoTexture(diffuse);
-			renderingContext.bindNormalTexture(TexturesHandler.getTexture("./textures/normalnormal.png"));
-			renderingContext.bindMaterialTexture(TexturesHandler.getTexture("./textures/defaultmaterial.png"));
+			renderingContext.bindNormalTexture(renderingContext.textures().getTexture("./textures/normalnormal.png"));
+			renderingContext.bindMaterialTexture(renderingContext.textures().getTexture("./textures/defaultmaterial.png"));
 		}
 
 		@Override
@@ -78,7 +77,7 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements Ent
 
 				renderingContext.setObjectMatrix(mutrix);
 
-				ModelLibrary.getRenderableMesh("./models/weapon/smoke_grenade/smoke_grenade.obj").render(renderingContext);
+				renderingContext.meshes().getRenderableMeshByName("./models/weapon/smoke_grenade/smoke_grenade.obj").render(renderingContext);
 			}
 
 			return e;

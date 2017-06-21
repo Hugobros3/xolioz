@@ -5,9 +5,9 @@ package io.xol.dogez.plugin;
 import java.io.File;
 import java.util.logging.Logger;
 
+import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.plugin.PluginInformation;
 import io.xol.chunkstories.api.plugin.ServerPlugin;
-import io.xol.chunkstories.api.server.Player;
 import io.xol.chunkstories.api.server.ServerInterface;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;

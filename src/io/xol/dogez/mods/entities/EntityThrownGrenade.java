@@ -7,11 +7,12 @@ import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.entity.EntityImplementation;
-import io.xol.chunkstories.physics.CollisionBox;
 import io.xol.chunkstories.voxel.VoxelsStore;
-import io.xol.engine.math.Math2;
+import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.math.vector.dp.Vector2dm;
 import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
+import io.xol.chunkstories.api.physics.CollisionBox;
+
 public abstract class EntityThrownGrenade extends EntityImplementation implements EntityRenderable  {
 
 	protected float tilt = 0f;
