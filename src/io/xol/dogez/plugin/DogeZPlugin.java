@@ -23,7 +23,6 @@ import io.xol.dogez.plugin.loot.LootPlaces;
 import io.xol.dogez.plugin.loot.LootTypes;
 import io.xol.dogez.plugin.map.PlacesNames;
 import io.xol.dogez.plugin.player.PlayerProfiles;
-import io.xol.dogez.plugin.weapon.ChunksCleaner;
 import io.xol.dogez.plugin.zombies.ZombieSpawner;
 
 public class DogeZPlugin extends ServerPlugin {
@@ -123,7 +122,6 @@ public class DogeZPlugin extends ServerPlugin {
 		scheduledEvents.unschedule();
 		
 		saveConfigs();
-		ChunksCleaner.cleanAllChunks(this.getGameWorld());
 		this.getLogger().info("[DogeZ] Plugin disabling... waiting 2s for requests to complete...");
 		getPlayerProfiles().saveAll();
 		

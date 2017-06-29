@@ -21,7 +21,6 @@ import io.xol.dogez.plugin.loot.LootType;
 import io.xol.dogez.plugin.map.PlacesNames;
 import io.xol.dogez.plugin.misc.TimeFormatter;
 import io.xol.dogez.plugin.player.PlayerProfile;
-import io.xol.dogez.plugin.weapon.ChunksCleaner;
 import io.xol.dogez.plugin.zombies.ZombieType;
 
 public class DogeZPluginCommandsHandler implements CommandHandler {
@@ -492,7 +491,6 @@ public class DogeZPluginCommandsHandler implements CommandHandler {
 			}
 			// debug
 			if (args[0].equals("cc") && player.hasPermission("dogez.admin.cc")) {
-				ChunksCleaner.cleanAllChunks(player.getControlledEntity().getWorld());
 				sender.sendMessage(ChatColor.AQUA + "Toutes les chunks ont étés nettoyés");
 				return true;
 			}

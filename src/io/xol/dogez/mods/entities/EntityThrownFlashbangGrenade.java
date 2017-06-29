@@ -17,7 +17,6 @@ import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.entity.EntityPlayer;
-import io.xol.engine.model.ModelLibrary;
 
 //(c) 2015-2017 XolioWare Interactive
 //http://chunkstories.xyz

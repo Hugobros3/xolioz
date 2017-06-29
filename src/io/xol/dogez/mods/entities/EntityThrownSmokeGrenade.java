@@ -12,7 +12,6 @@ import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.api.math.Matrix4f;
 import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
 import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
-import io.xol.engine.model.ModelLibrary;
 
 //(c) 2015-2017 XolioWare Interactive
 //http://chunkstories.xyz
