@@ -1,8 +1,0 @@
-name: DogeZ-Plugin
-authors: Gobrosse
-version: 1.2.2
-main: io.xol.dogez.plugin.DogeZPlugin
-
-command: dz dogez xolioz xz
-command: m mp msg tell
-command: r reply

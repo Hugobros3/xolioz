@@ -7,6 +7,8 @@
 apply plugin: 'java'
 apply plugin: 'java-library'
 
+version = '1.3.0'
+description = 'XolioZ is a DayZ clone originally made as a Minecraft server'
 archivesBaseName = "XolioZ"
 
 // In this section you declare where to find the dependencies of your project
@@ -22,11 +24,21 @@ repositories {
 jar {
 	//from 'plugin.info'
 }
-	
-def csVersionBuiltAgainst = '2017.07.04'
+
+ext {
+	csApiBuiltAgainst = '104'
+	csVersionBuiltAgainst = '2017.07.04'
+}
+
+subprojects {
+		ext {
+		csApiBuiltAgainst = rootProject.csApiBuiltAgainst
+		csVersionBuiltAgainst = rootProject.csVersionBuiltAgainst
+	}
+}
 	
 dependencies {
-	compile group: 'io.xol.chunkstories', name: 'api', version: '104'
+	compile group: 'io.xol.chunkstories', name: 'api', version: csApiBuiltAgainst
 	
 	//Uses a nightly build, the first one in the repo actually, just to get things going
 	compile group: 'io.xol.chunkstories', name: 'common', version: csVersionBuiltAgainst

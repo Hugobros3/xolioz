@@ -1,0 +1,42 @@
+// Apply the java plugin to add support for Java
+apply plugin: 'java'
+apply plugin: 'java-library'
+
+//TODO Make version depend on Git ?
+version = '1.0'
+description = 'Handles server-side game logic for XolioZ.'
+
+repositories {
+	mavenCentral();
+	maven {
+		url "http://maven.xol.io/repository/public/"
+	}
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir 'src'
+		}
+		resources {
+			srcDir 'src'
+		}
+	}
+}
+
+jar {
+	from 'plugin.info'
+}
+
+task pluginPackage(type: Zip) {
+	//dependsOn(jar) //It figures it out on it's own apparently, this build system is cleverer than me :(
+	into('DogeZ') {
+		from 'res/default'
+    }
+	from configurations.runtime.allArtifacts.files
+}
+	
+dependencies {
+	compile group: 'io.xol.chunkstories', name: 'api', version: rootProject.ext.csApiBuiltAgainst
+	compile group: 'io.xol.chunkstories', name: 'core', version: rootProject.ext.csVersionBuiltAgainst
+}

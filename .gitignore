@@ -1,2 +1,7 @@
 /bin/
+gradle/
+.gradle/
+.settings
+.project
+.classpath
 *Thumbs.db
