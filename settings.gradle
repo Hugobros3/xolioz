@@ -2,6 +2,8 @@
 //http://chunkstories.xyz
 //http://xol.io
 
-rootProject.name = 'XolioZ'
+rootProject.name = 'xolioz'
 
-include 'plugin'
+include 'xolioz-plugin'
+
+project(":xolioz-plugin").projectDir = file("plugin")
