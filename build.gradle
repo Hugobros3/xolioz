@@ -1,0 +1,62 @@
+/*
+ * I have no idea how gradle works. Just ripping the Forge stuff away
+ * I'll learn later
+ */
+
+// Apply the java plugin to add support for Java
+apply plugin: 'java'
+apply plugin: 'java-library'
+
+archivesBaseName = "XolioZ"
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+	mavenLocal()
+    jcenter()
+	mavenCentral()
+	maven {
+		url "http://maven.xol.io/repository/public/"
+	}
+}
+
+jar {
+	//from 'plugin.info'
+}
+	
+def csVersionBuiltAgainst = '2017.07.04'
+	
+dependencies {
+	compile group: 'io.xol.chunkstories', name: 'api', version: '104'
+	
+	//Uses a nightly build, the first one in the repo actually, just to get things going
+	compile group: 'io.xol.chunkstories', name: 'common', version: csVersionBuiltAgainst
+	compile group: 'io.xol.chunkstories', name: 'core', version: csVersionBuiltAgainst
+}
+
+task mod(type: Zip) {
+	//dependsOn(jar) //It figures it out on it's own apparently, this build system is cleverer than me :(
+    from 'res/'
+    from configurations.runtime.allArtifacts.files
+}
+
+task artifacts {
+		group = "Help"
+			description = "Displays the artifacts associated with each configuration of " + project
+			doFirst {
+				configurations.findAll().each { config ->
+				println "${config}:"
+				
+				config.artifacts.getFiles().each { 
+					file -> println "" + file
+				}
+				
+				println ' '
+				
+				config.allDependencies.each { 
+					file -> println "" + file
+				}
+				
+				println ' zizi'
+			}
+		}
+	}

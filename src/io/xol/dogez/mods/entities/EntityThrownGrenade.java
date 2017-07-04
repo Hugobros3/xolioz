@@ -6,7 +6,6 @@ import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.WorldMaster;
-import io.xol.chunkstories.voxel.VoxelsStore;
 import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.math.vector.dp.Vector2dm;
 import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
@@ -29,7 +28,7 @@ public abstract class EntityThrownGrenade extends EntityBase implements EntityRe
 		Vector3dm velocity = getVelocityComponent().getVelocity();
 
 		if (world instanceof WorldMaster) {
-			Voxel voxelIn = VoxelsStore.get()
+			Voxel voxelIn = world.getGameContext().getContent().voxels()
 					.getVoxelById(VoxelFormat.id(world.getVoxelData(positionComponent.getLocation())));
 			boolean inWater = voxelIn.getType().isLiquid();
 
