@@ -1,3 +1,4 @@
-name=XolioZ:CS
-version=Beta 0.1
-description=The classic gamemode by Xoliocraft.org\nHow much of a mass murderer can you become\nwhile pretending to fight a global zombie threat ?
+internalName: xolioz
+name: XolioZ:CS
+version: Beta 0.1
+description: The classic gamemode by Xoliocraft.org\nHow much of a mass murderer can you become\nwhile pretending to fight a global zombie threat ?
