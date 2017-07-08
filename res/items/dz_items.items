@@ -118,6 +118,8 @@ item 526 m1911
 	fireSound: sounds/dogez/weapon/m1911/shoot.ogg
 	modelObj: ./models/weapon/m1911/m1911.obj
 	modelDiffuse: ./models/weapon/m1911/m1911.png
+	shootingAnimationName: ./animations/human/human_shoot_pistol.bvh
+	shootingAnimationDuration: 200
 end
 
 item 527 m1911mag
@@ -141,6 +143,8 @@ item 528 makarov
 	fireSound: sounds/dogez/weapon/makarov/shoot.ogg
 	modelObj: ./models/weapon/makarov/makarov.obj
 	modelDiffuse: ./models/weapon/makarov/makarov.png
+	shootingAnimationName: ./animations/human/human_shoot_pistol.bvh
+	shootingAnimationDuration: 150
 end
 
 item 529 makarovmag
@@ -222,6 +226,8 @@ item 536 akm
 	damage: 60
 	shots: 1
 	fireSound: sounds/dogez/weapon/akm/shoot.ogg
+	shootingAnimationName: ./animations/human/human_shoot_assault_rifle.bvh
+	shootingAnimationDuration: 110
 end
 
 item 537 akmmag
@@ -248,6 +254,8 @@ item 538 m4
 	fireSound: sounds/dogez/weapon/m4/shoot.ogg
 	modelObj: ./models/weapon/m4/m4.obj
 	modelDiffuse: ./models/weapon/m4/diffuse.png
+	shootingAnimationName: ./animations/human/human_shoot_assault_rifle.bvh
+	shootingAnimationDuration: 90
 end
 
 item 539 m4mag
@@ -348,6 +356,8 @@ item 546 uzi
 	shake: 1.5
 	damage: 32.5
 	fireSound: sounds/dogez/weapon/uzi/shoot.ogg
+	shootingAnimationName: ./animations/human/human_shoot_assault_rifle.bvh
+	shootingAnimationDuration: 85
 end
 
 item 547 uzimag

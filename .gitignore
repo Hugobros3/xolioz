@@ -1,7 +1,9 @@
 /bin/
+build/
 gradle/
 .gradle/
 .settings
 .project
 .classpath
 *Thumbs.db
+/gradle.properties
