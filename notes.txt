@@ -11,7 +11,6 @@ Flamethrower
 Grenades
 RPG-7
 Headshots
-Blocks destruction ( glass )
 Zombie "+XC" effect
 Giant zombies are not a thing
 Animals are not -yet- a thing
