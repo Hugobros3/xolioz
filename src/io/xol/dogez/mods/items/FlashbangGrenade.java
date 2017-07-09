@@ -16,6 +16,7 @@ import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.chunkstories.item.renderer.ObjViewModelRenderer;
 import io.xol.dogez.mods.entities.EntityThrownFlashbangGrenade;
+import io.xol.dogez.mods.entities.EntityThrownFragGrenade;
 import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.math.Matrix4f;
 import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
@@ -63,7 +64,10 @@ public class FlashbangGrenade extends Item{
 			
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownFlashbangGrenade grenade = new EntityThrownFlashbangGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
+			EntityThrownFlashbangGrenade grenade = (EntityThrownFlashbangGrenade) this.getType().store().parent().entities().getEntityTypeByName("flash_grenade").create(pos.getWorld());
+			grenade.getEntityComponentPosition().setPosition(throwLocation);
+			
+					//EntityThrownFlashbangGrenade grenade = new EntityThrownFlashbangGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
 			grenade.getVelocityComponent().setVelocity(throwForce);
 			
 			pos.getWorld().addEntity(grenade);

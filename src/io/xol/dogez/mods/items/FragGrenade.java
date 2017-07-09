@@ -63,7 +63,10 @@ public class FragGrenade extends Item{
 			
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownFragGrenade grenade = new EntityThrownFragGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
+			EntityThrownFragGrenade grenade = (EntityThrownFragGrenade) this.getType().store().parent().entities().getEntityTypeByName("frag_grenade").create(pos.getWorld());
+			grenade.getEntityComponentPosition().setPosition(throwLocation);
+			
+					//new EntityThrownFragGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
 			grenade.getVelocityComponent().setVelocity(throwForce);
 			
 			pos.getWorld().addEntity(grenade);

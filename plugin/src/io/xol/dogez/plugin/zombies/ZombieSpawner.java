@@ -116,7 +116,7 @@ public class ZombieSpawner {
 	{
 		WorldMaster world = plugin.getGameWorld();
 		
-		EntityZombie zomb = new EntityZombie(world, loc.getX(), loc.getY(), loc.getZ());
+		EntityZombie zomb = new EntityZombie(plugin.getPluginExecutionContext().getContent().entities().getEntityTypeByName("zombie"), world, loc.getX(), loc.getY(), loc.getZ());
 		zomb.setHealth((float) (zomb.getHealth() * (0.5 + Math.random())));
 		
 		world.addEntity(zomb);

@@ -1,6 +1,7 @@
 package io.xol.dogez.mods.entities;
 
 import io.xol.chunkstories.api.entity.Entity;
+import io.xol.chunkstories.api.entity.EntityType;
 import io.xol.chunkstories.api.entity.interfaces.EntityOverlay;
 import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.math.Matrix4f;
@@ -27,8 +28,8 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 	int ignitionTimer = 60 * 4; // 4 seconds to ignite
 	int deathTimer = 60 * 5; // Lives 50 seconds
 
-	public EntityThrownFlashbangGrenade(World world, double x, double y, double z) {
-		super(world, x, y, z);
+	public EntityThrownFlashbangGrenade(EntityType type, World world, double x, double y, double z) {
+		super(type, world, x, y, z);
 	}
 
 	@Override

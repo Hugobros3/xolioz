@@ -3,6 +3,7 @@ package io.xol.dogez.mods.entities;
 import io.xol.chunkstories.api.entity.DamageCause;
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityLiving;
+import io.xol.chunkstories.api.entity.EntityType;
 import io.xol.chunkstories.api.math.Matrix4f;
 import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
 import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
@@ -25,8 +26,8 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 	int ignitionTimer = 60 * 5; // 4 seconds to ignite
 	int deathTimer = 0 * 50; // Lives 50 seconds
 
-	public EntityThrownFragGrenade(World world, double x, double y, double z) {
-		super(world, x, y, z);
+	public EntityThrownFragGrenade(EntityType type, World world, double x, double y, double z) {
+		super(type, world, x, y, z);
 	}
 
 	@Override

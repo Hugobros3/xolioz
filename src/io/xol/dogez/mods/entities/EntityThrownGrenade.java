@@ -11,6 +11,7 @@ import io.xol.chunkstories.api.math.vector.dp.Vector2dm;
 import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
 import io.xol.chunkstories.api.physics.CollisionBox;
 import io.xol.chunkstories.api.entity.EntityBase;
+import io.xol.chunkstories.api.entity.EntityType;
 
 public abstract class EntityThrownGrenade extends EntityBase implements EntityRenderable  {
 
@@ -18,8 +19,8 @@ public abstract class EntityThrownGrenade extends EntityBase implements EntityRe
 	protected float direction = 0f;
 	protected float rotation = 0f;
 	
-	public EntityThrownGrenade(World world, double x, double y, double z) {
-		super(world, x, y, z);
+	public EntityThrownGrenade(EntityType type, World world, double x, double y, double z) {
+		super(type, world, x, y, z);
 	}
 
 	@Override

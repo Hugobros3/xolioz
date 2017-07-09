@@ -15,6 +15,7 @@ import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.chunkstories.item.renderer.ObjViewModelRenderer;
+import io.xol.dogez.mods.entities.EntityThrownFragGrenade;
 import io.xol.dogez.mods.entities.EntityThrownSmokeGrenade;
 import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.math.Matrix4f;
@@ -63,7 +64,10 @@ public class SmokeGrenade extends Item{
 			
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownSmokeGrenade grenade = new EntityThrownSmokeGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
+			EntityThrownSmokeGrenade grenade = (EntityThrownSmokeGrenade) this.getType().store().parent().entities().getEntityTypeByName("smoke_grenade").create(pos.getWorld());
+			grenade.getEntityComponentPosition().setPosition(throwLocation);
+			
+					//EntityThrownSmokeGrenade grenade = new EntityThrownSmokeGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
 			grenade.getVelocityComponent().setVelocity(throwForce);
 			
 			pos.getWorld().addEntity(grenade);

@@ -1,3 +1,0 @@
-# 0 means end of components
-# Ids before 1024 are reserved for the game core
-#18 io.xol.chunkstories.core.entity.components.EntityComponentStance
