@@ -11,9 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.Map;
-
-import io.xol.dogez.plugin.loot.LootPlace;
 
 //(c) 2014 XolioWare Interactive
 

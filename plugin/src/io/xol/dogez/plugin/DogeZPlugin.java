@@ -5,6 +5,7 @@ package io.xol.dogez.plugin;
 import java.io.File;
 import java.util.logging.Logger;
 
+import io.xol.chunkstories.api.mods.Mod;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.plugin.PluginInformation;
 import io.xol.chunkstories.api.plugin.ServerPlugin;
@@ -40,8 +41,20 @@ public class DogeZPlugin extends ServerPlugin {
 	
 	private TalkieWalkiesHandler talkieWalkiesHandler = new TalkieWalkiesHandler(this);
 	
+	private final boolean mod_present;
+	
 	public DogeZPlugin(PluginInformation pluginInformation, ServerInterface clientInterface) {
 		super(pluginInformation, clientInterface);
+		
+
+		boolean mod_present = false;
+		for(Mod mod : this.getPluginExecutionContext().getContent().modsManager().getCurrentlyLoadedMods())
+		{
+			if(mod.getModInfo().getInternalName().equals("xolioz"))
+				mod_present = true;
+		}
+		
+		this.mod_present = mod_present;
 	}
 
 	public String version = "undefined";
@@ -56,7 +69,13 @@ public class DogeZPlugin extends ServerPlugin {
 		// Splash screen !
 		version = "" + this.getPluginInformation().getPluginVersion();
 		
-		this.getLogger().info("[DogeZ] Initializing plugin version " + version + " ...");
+		this.getLogger().info("[XolioZ] Initializing plugin version " + version + " ...");
+		
+		if(!mod_present) {
+			this.getLogger().info("[XolioZ] 'xolioz' mod not found in loaded mods, not enabling the plugin. ");
+			return;
+		}
+		
 		// Plugin initialisation !
 		checkFolder();
 		loadConfigs();
@@ -81,7 +100,7 @@ public class DogeZPlugin extends ServerPlugin {
 		
 		// done
 		isGameActive = true;
-		this.getLogger().info("[DogeZ] Plugin initialized.");
+		this.getLogger().info("[XolioZ] Plugin initialized.");
 	}
 
 	private void checkFolder() {
@@ -119,10 +138,13 @@ public class DogeZPlugin extends ServerPlugin {
 	
 	@Override
 	public void onDisable() {
+		if(!mod_present)
+			return;
+		
 		scheduledEvents.unschedule();
 		
 		saveConfigs();
-		this.getLogger().info("[DogeZ] Plugin disabling... waiting 2s for requests to complete...");
+		this.getLogger().info("[XolioZ] Plugin disabling... waiting 2s for requests to complete...");
 		getPlayerProfiles().saveAll();
 		
 		try {
@@ -131,7 +153,7 @@ public class DogeZPlugin extends ServerPlugin {
 			e.printStackTrace();
 		}
 		
-		this.getLogger().info("[DogeZ] Done, terminated");
+		this.getLogger().info("[XolioZ] Done, terminated");
 	}
 
 	public Logger getLogger() {

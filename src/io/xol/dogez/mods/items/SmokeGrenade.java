@@ -15,7 +15,6 @@ import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.chunkstories.item.renderer.ObjViewModelRenderer;
-import io.xol.dogez.mods.entities.EntityThrownFragGrenade;
 import io.xol.dogez.mods.entities.EntityThrownSmokeGrenade;
 import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.math.Matrix4f;

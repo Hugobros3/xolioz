@@ -47,9 +47,6 @@ public class PlayerProfiles {
 			}
 		}
 		
-		//Should never happen
-		if(result == null)
-			System.out.println("FUCK OUT 666");
 		return result;
 	}
 
