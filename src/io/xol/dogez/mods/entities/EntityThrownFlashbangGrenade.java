@@ -1,13 +1,15 @@
 package io.xol.dogez.mods.entities;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityType;
 import io.xol.chunkstories.api.entity.interfaces.EntityOverlay;
 import io.xol.chunkstories.api.math.Math2;
-import io.xol.chunkstories.api.math.Matrix4f;
-import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
-import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
-import io.xol.chunkstories.api.math.vector.sp.Vector4fm;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
@@ -58,12 +60,12 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 			renderingContext.setObjectMatrix(null);
 
 			for (EntityThrownFlashbangGrenade grenade : renderableEntitiesIterator.getElementsInFrustrumOnly()) {
-				if (renderingContext.getCamera().getCameraPosition().distanceTo(grenade.getLocation()) > 32)
+				if (renderingContext.getCamera().getCameraPosition().distance(grenade.getLocation()) > 32)
 					continue;
 
 				e++;
 
-				renderingContext.currentShader().setUniform3f("objectPosition", new Vector3fm(0));
+				renderingContext.currentShader().setUniform3f("objectPosition", new Vector3f(0));
 
 				int modelBlockData = grenade.getWorld().getVoxelData(grenade.getLocation());
 
@@ -74,11 +76,11 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 
 				Matrix4f mutrix = new Matrix4f();
 
-				mutrix.translate(new Vector3fm(0.0f, 0.15f, 0.0f));
-				mutrix.translate(grenade.getLocation().castToSinglePrecision());
+				mutrix.translate(new Vector3f(0.0f, 0.15f, 0.0f));
+				mutrix.translate((float)grenade.getLocation().x(), (float)grenade.getLocation().y(), (float)grenade.getLocation().z());
 
-				mutrix.rotate(grenade.direction, new Vector3fm(0, 1, 0));
-				mutrix.rotate(grenade.rotation, new Vector3fm(0, 0, 1));
+				mutrix.rotate(grenade.direction, new Vector3f(0, 1, 0));
+				mutrix.rotate(grenade.rotation, new Vector3f(0, 0, 1));
 
 				renderingContext.setObjectMatrix(mutrix);
 
@@ -112,20 +114,20 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 				Entity e = ((WorldClient) world).getClient().getPlayer().getControlledEntity();
 				if(e != null && e instanceof EntityPlayer)
 				{
-					double distance = e.getLocation().distanceTo(getLocation());
+					double distance = e.getLocation().distance(getLocation());
 					
-					Vector3dm dir = getLocation().clone();
+					Vector3d dir = new Vector3d(getLocation());
 					dir.sub(e.getLocation().add(0.0, 1.80, 0.0));
 					
 					dir.normalize();
 					
-					Vector3dm edir = ((EntityPlayer)e).getDirectionLookingAt();
+					Vector3dc edir = ((EntityPlayer)e).getDirectionLookingAt();
 					
-					Vector3dm raytrace = world.collisionsManager().raytraceSolidOuter(e.getLocation().add(0.0, 1.80, 0.0), dir, 256.0);
+					Vector3d raytrace = world.collisionsManager().raytraceSolidOuter(e.getLocation().add(0.0, 1.80, 0.0), dir, 256.0);
 					
-					float raytraceOk = raytrace.distanceTo(getLocation()) < 1.5 ? 1f : 0f;
+					float raytraceOk = raytrace.distance(getLocation()) < 1.5 ? 1f : 0f;
 					
-					System.out.println(raytrace + " : " + getLocation() + " distance:" + raytrace.distanceTo(getLocation()));
+					System.out.println(raytrace + " : " + getLocation() + " distance:" + raytrace.distance(getLocation()));
 					
 					long addedtime = 1000L + (long)(5000.0f * Math2.clamp((5f - distance) / 10f, 0, 1))
 						+	(long)((5000.0f) * raytraceOk * Math2.clamp(5 * dir.dot(edir), 0.0, 1.0));
@@ -156,6 +158,6 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 	{
 		float fade = ((int)Math.max(0L, fadeUntil - System.currentTimeMillis())) / 5000.0f;
 		fade = Math2.clamp(fade, 0, 1);
-		renderingInterface.getGuiRenderer().drawBox(-1, -1, 1, 1, 0, 0, 0, 0, null, true, false, new Vector4fm(1,1,1,fade));
+		renderingInterface.getGuiRenderer().drawBox(-1, -1, 1, 1, 0, 0, 0, 0, null, true, false, new Vector4f(1,1,1,fade));
 	}
 }

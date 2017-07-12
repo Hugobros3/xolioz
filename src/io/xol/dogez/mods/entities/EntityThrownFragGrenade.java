@@ -1,12 +1,13 @@
 package io.xol.dogez.mods.entities;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
+
 import io.xol.chunkstories.api.entity.DamageCause;
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityLiving;
 import io.xol.chunkstories.api.entity.EntityType;
-import io.xol.chunkstories.api.math.Matrix4f;
-import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
-import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
@@ -56,12 +57,12 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 			renderingContext.setObjectMatrix(null);
 
 			for (EntityThrownFragGrenade grenade : renderableEntitiesIterator.getElementsInFrustrumOnly()) {
-				if (renderingContext.getCamera().getCameraPosition().distanceTo(grenade.getLocation()) > 32)
+				if (renderingContext.getCamera().getCameraPosition().distance(grenade.getLocation()) > 32)
 					continue;
 
 				e++;
 
-				renderingContext.currentShader().setUniform3f("objectPosition", new Vector3fm(0));
+				renderingContext.currentShader().setUniform3f("objectPosition", new Vector3f(0));
 
 				int modelBlockData = grenade.getWorld().getVoxelData(grenade.getLocation());
 
@@ -72,11 +73,11 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 
 				Matrix4f mutrix = new Matrix4f();
 
-				mutrix.translate(new Vector3fm(0.0f, 0.15f, 0.0f));
-				mutrix.translate(grenade.getLocation().castToSinglePrecision());
+				mutrix.translate(new Vector3f(0.0f, 0.15f, 0.0f));
+				mutrix.translate((float)grenade.getLocation().x(), (float)grenade.getLocation().y(), (float)grenade.getLocation().z());
 
-				mutrix.rotate(grenade.direction, new Vector3fm(0, 1, 0));
-				mutrix.rotate(grenade.rotation, new Vector3fm(0, 0, 1));
+				mutrix.rotate(grenade.direction, new Vector3f(0, 1, 0));
+				mutrix.rotate(grenade.rotation, new Vector3f(0, 0, 1));
 
 				renderingContext.setObjectMatrix(mutrix);
 
@@ -110,12 +111,12 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 				double dmg_radius_maxdmg = 5;
 				
 				double maxDmg = 200;
-				for(Entity e : world.getEntitiesInBox(getLocation(), new Vector3dm(dmg_radius)))
+				for(Entity e : world.getEntitiesInBox(getLocation(), new Vector3d(dmg_radius)))
 				{
 					if(e instanceof EntityLiving) {
 						EntityLiving el = (EntityLiving)e;
 						
-						double distance = el.getLocation().distanceTo(getLocation());
+						double distance = el.getLocation().distance(getLocation());
 						if(distance > dmg_radius)
 							continue;
 						

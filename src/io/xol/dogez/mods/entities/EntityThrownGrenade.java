@@ -7,9 +7,12 @@ import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.api.math.Math2;
-import io.xol.chunkstories.api.math.vector.dp.Vector2dm;
-import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
 import io.xol.chunkstories.api.physics.CollisionBox;
+
+import org.joml.Vector2d;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
+
 import io.xol.chunkstories.api.entity.EntityBase;
 import io.xol.chunkstories.api.entity.EntityType;
 
@@ -26,7 +29,7 @@ public abstract class EntityThrownGrenade extends EntityBase implements EntityRe
 	@Override
 	public void tick() {
 
-		Vector3dm velocity = getVelocityComponent().getVelocity();
+		Vector3d velocity = getVelocityComponent().getVelocity();
 
 		if (world instanceof WorldMaster) {
 			Voxel voxelIn = world.getGameContext().getContent().voxels()
@@ -34,31 +37,31 @@ public abstract class EntityThrownGrenade extends EntityBase implements EntityRe
 			boolean inWater = voxelIn.getType().isLiquid();
 
 			double terminalVelocity = inWater ? -0.05 : -1.5;
-			if (velocity.getY() > terminalVelocity && !this.isOnGround())
-				velocity.setY(velocity.getY() - 0.016);
-			if (velocity.getY() < terminalVelocity)
-				velocity.setY(terminalVelocity);
+			if (velocity.y() > terminalVelocity && !this.isOnGround())
+				velocity.y = (velocity.y() - 0.016);
+			if (velocity.y() < terminalVelocity)
+				velocity.y = (terminalVelocity);
 
-			Vector3dm remainingToMove = moveWithCollisionRestrain(velocity.getX(), velocity.getY(), velocity.getZ());
-			if (remainingToMove.getY() < -0.02 && this.isOnGround()) {
-				if (remainingToMove.getY() < -0.01) {
+			Vector3dc remainingToMove = moveWithCollisionRestrain(velocity.x(), velocity.y(), velocity.z());
+			if (remainingToMove.y() < -0.02 && this.isOnGround()) {
+				if (remainingToMove.y() < -0.01) {
 					//Bounce
-					double originalDownardsVelocity = velocity.getY();
-					velocity.scale(0.65);
-					velocity.setY(-originalDownardsVelocity * 0.65);
+					double originalDownardsVelocity = velocity.y();
+					velocity.mul(0.65);
+					velocity.y = (-originalDownardsVelocity * 0.65);
 					
 					world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/grenade_bounce.ogg", getLocation(), 1, 1, 10, 35);
 				} else
-					velocity.scale(0d);
+					velocity.mul(0d);
 			}
 
-			if (Math.abs(velocity.getX()) < 0.02)
-				velocity.setX(0.0);
-			if (Math.abs(velocity.getZ()) < 0.02)
-				velocity.setZ(0.0);
+			if (Math.abs(velocity.x()) < 0.02)
+				velocity.x = (0.0);
+			if (Math.abs(velocity.z()) < 0.02)
+				velocity.z = (0.0);
 			
-			if (Math.abs(velocity.getY()) < 0.01)
-				velocity.setY(0.0);
+			if (Math.abs(velocity.y()) < 0.01)
+				velocity.y = (0.0);
 
 			getVelocityComponent().setVelocity(velocity);
 		}
@@ -72,22 +75,22 @@ public abstract class EntityThrownGrenade extends EntityBase implements EntityRe
 					Math2.clampd(velocity.length(), 0.0, 0.1) * 10.0);
 
 			
-			Vector2dm direction2d = new Vector2dm(velocity.getX(), velocity.getZ());
+			Vector2d direction2d = new Vector2d(velocity.x(), velocity.z());
 
 			if (direction2d.length() > 0.0) {
 				direction2d.normalize();
 				
-				Math.acos(direction2d.getX());
-				Math.asin(direction2d.getY());
+				Math.acos(direction2d.x());
+				Math.asin(direction2d.y());
 				double directionDegrees;
 				
 				//Y is sin by convention, if > 0 top part of the circle
-				if(direction2d.getY() >= 0.0)
+				if(direction2d.y() >= 0.0)
 				{
-					directionDegrees = -Math.acos(direction2d.getX());
+					directionDegrees = -Math.acos(direction2d.x());
 				}
 				else
-					directionDegrees = Math.acos(direction2d.getX());
+					directionDegrees = Math.acos(direction2d.x());
 				
 				direction = (float)directionDegrees;
 				//direction = (float) -Math.toRadians(directionDegrees);

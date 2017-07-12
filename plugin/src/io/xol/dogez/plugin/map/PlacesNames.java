@@ -59,7 +59,7 @@ public class PlacesNames {
 		Location loc = player.getLocation();
 		if(isInMap(loc))
 		{
-			int rgb = placesImage.getRGB((int)((double)loc.getX())/2, (int)((double)loc.getZ())/2);
+			int rgb = placesImage.getRGB((int)((double)loc.x())/2, (int)((double)loc.z())/2);
 			rgb+=16777216;
 			//System.out.println("rgb"+rgb);
 			if(rgb == 0)

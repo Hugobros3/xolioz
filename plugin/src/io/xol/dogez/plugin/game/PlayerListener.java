@@ -114,8 +114,8 @@ public class PlayerListener implements Listener {
 					// Block b = event.getClickedBlock();
 					if (v instanceof VoxelChest) {
 						PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
-						String coords = selectedLocation.getX() + ":" + selectedLocation.getY() + ":"
-								+ selectedLocation.getZ();
+						String coords = selectedLocation.x() + ":" + selectedLocation.y() + ":"
+								+ selectedLocation.z();
 						if (pp.adding && pp.activeCategory != null) {
 							LootPlace lp = new LootPlace(plugin.getLootPlaces(),
 									coords + ":" + pp.activeCategory + ":" + pp.currentMin + ":" + pp.currentMax,
@@ -137,16 +137,16 @@ public class PlayerListener implements Listener {
 		// loot generation
 		if (selectedLocation != null) {
 			if (v instanceof VoxelChest) {
-				String coords = (int) (double) selectedLocation.getX() + ":" + (int) (double) selectedLocation.getY()
-						+ ":" + (int) (double) selectedLocation.getZ();
+				String coords = (int) (double) selectedLocation.x() + ":" + (int) (double) selectedLocation.y()
+						+ ":" + (int) (double) selectedLocation.z();
 
 				plugin.getLootPlaces().update(coords, player.getWorld());
 
 			} else if (v instanceof VoxelSign)
 
 				event.setCancelled(
-						plugin.getSignShopsHandler().handle(player, v, (int) (double) selectedLocation.getX(),
-								(int) (double) selectedLocation.getY(), (int) (double) selectedLocation.getZ()));
+						plugin.getSignShopsHandler().handle(player, v, (int) (double) selectedLocation.x(),
+								(int) (double) selectedLocation.y(), (int) (double) selectedLocation.z()));
 		}
 
 	}

@@ -145,7 +145,7 @@ public class EntityListener implements Listener {
 			if(e instanceof EntityZombie) {
 				EntityZombie z = (EntityZombie)e;
 				
-				double d = z.getLocation().distanceTo(event.getShooter().getLocation());
+				double d = z.getLocation().distance(event.getShooter().getLocation());
 				if(d < event.getItemFirearm().soundRange * (0.5 + Math.random() * 0.25))
 					z.attack(event.getShooter(), (float) (event.getItemFirearm().soundRange * 0.5 + Math.random() * 15));
 			}

@@ -50,7 +50,7 @@ public class ZombieSpawner {
 				int pZombCount = 0;
 				for(Entity e : plugin.getGameWorld().getAllLoadedEntities())
 				{
-					if(e instanceof EntityZombie && e.getLocation().distanceTo(p.getLocation()) < 75f)
+					if(e instanceof EntityZombie && e.getLocation().distance(p.getLocation()) < 75f)
 					{
 						pZombCount++;
 					}
@@ -59,8 +59,8 @@ public class ZombieSpawner {
 				{
 					int distance = (int) (20+Math.random()*50);
 					double angle = Math.random()*3.14f*2;
-					int posx = (int) (p.getLocation().getX()+distance*Math.sin(angle));
-					int posz = (int) (p.getLocation().getZ()+distance*Math.cos(angle));
+					int posx = (int) (p.getLocation().x()+distance*Math.sin(angle));
+					int posz = (int) (p.getLocation().z()+distance*Math.cos(angle));
 					boolean foundGround = false;
 					int posy = 255;
 					
@@ -116,7 +116,7 @@ public class ZombieSpawner {
 	{
 		WorldMaster world = plugin.getGameWorld();
 		
-		EntityZombie zomb = new EntityZombie(plugin.getPluginExecutionContext().getContent().entities().getEntityTypeByName("zombie"), world, loc.getX(), loc.getY(), loc.getZ());
+		EntityZombie zomb = new EntityZombie(plugin.getPluginExecutionContext().getContent().entities().getEntityTypeByName("zombie"), world, loc.x(), loc.y(), loc.z());
 		zomb.setHealth((float) (zomb.getHealth() * (0.5 + Math.random())));
 		
 		world.addEntity(zomb);

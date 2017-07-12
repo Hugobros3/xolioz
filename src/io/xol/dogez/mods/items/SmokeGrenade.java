@@ -1,5 +1,9 @@
 package io.xol.dogez.mods.items;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
+
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.Entity;
@@ -17,9 +21,6 @@ import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.chunkstories.item.renderer.ObjViewModelRenderer;
 import io.xol.dogez.mods.entities.EntityThrownSmokeGrenade;
 import io.xol.chunkstories.api.math.Math2;
-import io.xol.chunkstories.api.math.Matrix4f;
-import io.xol.chunkstories.api.math.vector.dp.Vector3dm;
-import io.xol.chunkstories.api.math.vector.sp.Vector3fm;;
 
 //(c) 2015-2016 XolioWare Interactive
 //http://chunkstories.xyz
@@ -46,8 +47,8 @@ public class SmokeGrenade extends Item{
 		@Override
 		public void renderItemInWorld(RenderingInterface context, ItemPile pile, World world, Location location, Matrix4f handTransformation)
 		{
-			handTransformation.rotate((float) (Math.PI / 2f), new Vector3fm(1, 0, 0));
-			handTransformation.translate(new Vector3fm(0.1f, 0.0f, 0.0f));
+			handTransformation.rotate((float) (Math.PI / 2f), new Vector3f(1, 0, 0));
+			handTransformation.translate(new Vector3f(0.1f, 0.0f, 0.0f));
 			super.renderItemInWorld(context, pile, world, location, handTransformation);
 		}
 	}
@@ -58,8 +59,8 @@ public class SmokeGrenade extends Item{
 		{
 			//Throw a grenade xDDDDDD
 			Location pos = owner.getLocation();
-			Vector3dm throwLocation = new Vector3dm(pos.getX(), pos.getY() + ((EntityPlayer)owner).eyePosition, pos.getZ());
-			Vector3dm throwForce = ((EntityPlayer)owner).getDirectionLookingAt().scale(0.2 - Math2.clampd(((EntityPlayer)owner).getEntityRotationComponent().getVerticalRotation(), -45, 20) / 45f * 0.3f);
+			Vector3d throwLocation = new Vector3d(pos.x(), pos.y() + ((EntityPlayer)owner).eyePosition, pos.z());
+			Vector3d throwForce = new Vector3d(((EntityPlayer)owner).getDirectionLookingAt()).mul(0.2 - Math2.clampd(((EntityPlayer)owner).getEntityRotationComponent().getVerticalRotation(), -45, 20) / 45f * 0.3f);
 			
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			

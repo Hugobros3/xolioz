@@ -1,5 +1,11 @@
 package io.xol.dogez.mods.items;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.interfaces.EntityRotateable;
 import io.xol.chunkstories.api.item.Item;
@@ -10,9 +16,6 @@ import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.lightning.SpotLight;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.item.renderer.ObjViewModelRenderer;
-import io.xol.chunkstories.api.math.Matrix4f;
-import io.xol.chunkstories.api.math.vector.sp.Vector3fm;
-import io.xol.chunkstories.api.math.vector.sp.Vector4fm;
 
 //(c) 2015-2016 XolioWare Interactive
 //http://chunkstories.xyz
@@ -46,13 +49,18 @@ public class DZTorch extends Item{
 				{
 					if(pile.getInventory().getHolder() instanceof EntityRotateable)
 					{
-						Vector4fm vec4 = new Vector4fm(0.0, 0.0, 0.0, 1.0);
-						Matrix4f.transform(handTransformation, vec4, vec4);
+						Vector4f vec4 = new Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
 						
-						Vector3fm vec3 = new Vector3fm(vec4.getX(), vec4.getY(), vec4.getZ());
+						handTransformation.transform(vec4);
+						//Matrix4f.transform(handTransformation, vec4, vec4);
 						
-						context.getLightsRenderer().queueLight(new SpotLight(new Vector3fm(1f, 1f, 0.9f).scale(1.5f), vec3, 45f, 35f, ((EntityRotateable) pile.getInventory().getHolder()).getDirectionLookingAt().castToSinglePrecision()));
-						context.getLightsRenderer().queueLight(new SpotLight(new Vector3fm(1f, 1f, 0.9f).scale(0.5f), vec3, 95f, 35f, ((EntityRotateable) pile.getInventory().getHolder()).getDirectionLookingAt().castToSinglePrecision()));
+						Vector3f vec3 = new Vector3f(vec4.x(), vec4.y(), vec4.z());
+						
+						Vector3dc dirD = ((EntityRotateable) pile.getInventory().getHolder()).getDirectionLookingAt();
+						Vector3f dir = new Vector3f((float)dirD.x(), (float)dirD.y(), (float)dirD.z());
+						
+						context.getLightsRenderer().queueLight(new SpotLight(new Vector3f(1f, 1f, 0.9f).mul(1.5f), vec3, 45f, 35f, dir));
+						context.getLightsRenderer().queueLight(new SpotLight(new Vector3f(1f, 1f, 0.9f).mul(0.5f), vec3, 95f, 35f, dir));
 					}
 				}
 			}

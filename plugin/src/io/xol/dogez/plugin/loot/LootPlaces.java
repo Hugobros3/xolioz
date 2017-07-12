@@ -190,9 +190,9 @@ public class LootPlaces {
 		int count = 0;
 		PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
 		Location loc = player.getLocation();
-		for(int x = (int) (loc.getX()-radius); x < loc.getX()+radius; x++ )
+		for(int x = (int) (loc.x()-radius); x < loc.x()+radius; x++ )
 		{
-			for(int z = (int) (loc.getZ()-radius); z < loc.getZ()+radius; z++ )
+			for(int z = (int) (loc.z()-radius); z < loc.z()+radius; z++ )
 			{
 				for(int y = 0; y < 255; y ++)
 				{
