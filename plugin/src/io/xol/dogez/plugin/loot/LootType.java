@@ -4,16 +4,17 @@ package io.xol.dogez.plugin.loot;
 
 import java.util.Random;
 
+import io.xol.chunkstories.api.item.ItemType;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 
 public class LootType {
 
-	public LootItem lootItem;
+	public ItemType lootItem;
 	public int proba = 0;
 	public int minAmount = 1;
 	public int maxAmount = 1;
 	
-	public LootType(LootItem li, String initString)
+	public LootType(ItemType li, String initString)
 	{
 		String[] split = initString.split(":");
 		if(split.length < 3)
@@ -55,7 +56,7 @@ public class LootType {
 
 	public ItemPile getItem() {
 		Random rng = new Random();
-		ItemPile item = lootItem.getItem();
+		ItemPile item = new ItemPile(lootItem.newItem());
 		int amount = (maxAmount-minAmount == 0 ? 0 : rng.nextInt(maxAmount-minAmount))+minAmount;
 		//System.out.println(amount+"="+maxAmount+":"+minAmount+":");
 		//amount = 5;

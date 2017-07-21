@@ -11,8 +11,6 @@ import io.xol.chunkstories.core.entity.EntityZombie;
 
 import io.xol.dogez.plugin.DogeZPlugin;
 
-import java.lang.reflect.Field;
-
 //Copyright 2014 XolioWare Interactive
 
 public class ZombieSpawner {
@@ -50,7 +48,7 @@ public class ZombieSpawner {
 				int pZombCount = 0;
 				for(Entity e : plugin.getGameWorld().getAllLoadedEntities())
 				{
-					if(e instanceof EntityZombie && e.getLocation().distance(p.getLocation()) < 75f)
+					if(e instanceof EntityZombie && e.getLocation().distance(p.getLocation()) < 120f)
 					{
 						pZombCount++;
 					}
@@ -89,30 +87,14 @@ public class ZombieSpawner {
 					if(foundGround && zombiesCount <= plugin.config.maxZombies)
 					{
 						zombiesCount++;
-						spawnZombie(new Location(plugin.getGameWorld(), posx + 0.5, posy+1, posz + 0.5),ZombieType.NORMAL);
+						spawnZombie(new Location(plugin.getGameWorld(), posx + 0.5, posy+1, posz + 0.5));
 					}
 				}
 			}
 		}
 	}
 	
-	static public Field forName_Field(@SuppressWarnings("rawtypes") Class Source, String... Names)
-	{
-		Field[] f = Source.getDeclaredFields();
-			for (Field f0 : f)
-			{
-				for (String s0 : Names)
-				{
-					if (f0.getName().equals(s0))
-					return f0;
-				}
-			}
-			if (Source.getSuperclass() == null)
-			return null;
-		return forName_Field(Source.getSuperclass(),Names);
-	}
-	
-	public void spawnZombie(Location loc, ZombieType type)
+	public void spawnZombie(Location loc)
 	{
 		WorldMaster world = plugin.getGameWorld();
 		

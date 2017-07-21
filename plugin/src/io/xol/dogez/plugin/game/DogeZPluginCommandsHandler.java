@@ -16,12 +16,10 @@ import io.xol.chunkstories.api.plugin.commands.CommandHandler;
 import io.xol.chunkstories.core.entity.EntityZombie;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.loot.LootCategory;
-import io.xol.dogez.plugin.loot.LootItem;
 import io.xol.dogez.plugin.loot.LootType;
 import io.xol.dogez.plugin.map.PlacesNames;
 import io.xol.dogez.plugin.misc.TimeFormatter;
 import io.xol.dogez.plugin.player.PlayerProfile;
-import io.xol.dogez.plugin.zombies.ZombieType;
 
 public class DogeZPluginCommandsHandler implements CommandHandler {
 
@@ -434,61 +432,6 @@ public class DogeZPluginCommandsHandler implements CommandHandler {
 					return true;
 				}
 			}
-			if (args[0].equals("item")) {
-				if (player.hasPermission("dogez.admin")) {
-					if (args.length == 1) {
-						sender.sendMessage(ChatColor.DARK_GRAY + "======[" + ChatColor.BLUE
-								+ "Commandes à propos des items" + ChatColor.DARK_GRAY + "]======");
-						sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "item" + ChatColor.DARK_GRAY
-								+ " - " + ChatColor.GRAY + ChatColor.ITALIC + "Voir cette aide.");
-						sender.sendMessage(
-								ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "item list [page]" + ChatColor.DARK_GRAY
-										+ " - " + ChatColor.GRAY + ChatColor.ITALIC + "Voire une liste des items");
-						sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "item give <name> [amount]"
-								+ ChatColor.DARK_GRAY + " - " + ChatColor.GRAY + ChatColor.ITALIC + "Donne un item");
-						return true;
-					} else {
-						if (args[1].equals("list")) {
-							int page = 0;
-							if (args.length == 3)
-								page = Integer.parseInt(args[2]);
-							/*
-							 * while(page*10 > LootItems.lootItems.size())
-							 * page--;
-							 */
-							Object[] keys = plugin.getLootItems().lootItems.keySet().toArray();
-							int lol = 0;
-							for (int i = 0; i < 10; i++) {
-								if (page * 10 + i < keys.length) {
-									LootItem li = plugin.getLootItems().getItem((String) keys[page * 10 + i]);
-									player.sendMessage(
-											ChatColor.AQUA + li.internalName + " " + li.type + " => " + li.name);
-									lol++;
-								}
-							}
-							sender.sendMessage(ChatColor.BLUE + "" + lol + " items sur " + keys.length
-									+ " affichés. ( page " + page + " sur " + keys.length / 10 + ")");
-						}
-						if (args[1].equals("give")) {
-							try {
-								int amount = 1;
-								if (args.length == 4)
-									amount = Integer.parseInt(args[3]);
-								ItemPile gimme = plugin.getLootItems().getItem(args[2]).getItem();
-								gimme.setAmount(amount);
-								((EntityWithInventory) player.getControlledEntity()).getInventory().addItemPile(gimme);
-								// player.updateInventory();
-								sender.sendMessage(
-										ChatColor.AQUA + "Item " + args[2] + " donné en " + amount + " exemplaire(s).");
-
-							} catch (Exception e) {
-								player.sendMessage(ChatColor.RED + "Erreur. " + e.getLocalizedMessage());
-							}
-						}
-					}
-					return true;
-				}
-			}
 			// debug
 			if (args[0].equals("cc") && player.hasPermission("dogez.admin.cc")) {
 				sender.sendMessage(ChatColor.AQUA + "Toutes les chunks ont étés nettoyés");
@@ -512,7 +455,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler {
 				return true;
 			}
 			if (args[0].equals("zmb") && player.hasPermission("dogez.admin.debug")) {
-				plugin.spawner.spawnZombie(player.getLocation(), ZombieType.values()[Integer.parseInt(args[1])]);
+				plugin.spawner.spawnZombie(player.getLocation());
 				return true;
 			}
 			if (args[0].equals("fli") && player.hasPermission("dogez.admin")) {

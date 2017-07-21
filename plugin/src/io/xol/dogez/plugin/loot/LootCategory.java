@@ -27,9 +27,9 @@ public class LootCategory {
 	{
 		if(lt.lootItem != null)
 		{
-			if(!(lt.lootItem.internalName == null))
+			if(!(lt.lootItem.getInternalName() == null))
 			{
-				types.put(lt.lootItem.internalName, lt);
+				types.put(lt.lootItem.getInternalName(), lt);
 				totalWeight+=lt.proba;
 			}
 			else
@@ -50,7 +50,7 @@ public class LootCategory {
 			LootType lt = (LootType)o;
 			current+=lt.proba;
 			probaTable[id] = current;
-			namesTable[id] = lt.lootItem.internalName;
+			namesTable[id] = lt.lootItem.getInternalName();
 			id++;
 		}
 	}

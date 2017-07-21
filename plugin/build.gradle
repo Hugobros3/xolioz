@@ -3,7 +3,7 @@ apply plugin: 'java'
 apply plugin: 'java-library'
 
 //TODO Make version depend on Git ?
-version = '1.0'
+version = rootProject.version
 description = 'Handles server-side game logic for XolioZ.'
 
 repositories {

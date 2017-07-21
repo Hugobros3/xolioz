@@ -19,7 +19,6 @@ import io.xol.dogez.plugin.game.PlayerListener;
 import io.xol.dogez.plugin.game.ScheduledEvents;
 import io.xol.dogez.plugin.game.SpawnPoints;
 import io.xol.dogez.plugin.game.TalkieWalkiesHandler;
-import io.xol.dogez.plugin.loot.LootItems;
 import io.xol.dogez.plugin.loot.LootPlaces;
 import io.xol.dogez.plugin.loot.LootTypes;
 import io.xol.dogez.plugin.map.PlacesNames;
@@ -35,7 +34,7 @@ public class DogeZPlugin extends ServerPlugin {
 	private EntityListener entityListener = new EntityListener(this);
 	private PlayerListener playerListener = new PlayerListener(this);
 	
-	private LootItems lootItems = new LootItems(this);
+	//private LootItems lootItems = new LootItems(this);
 	private LootTypes lootTypes = new LootTypes(this);
 	private LootPlaces lootPlaces = new LootPlaces(this);
 	
@@ -113,7 +112,7 @@ public class DogeZPlugin extends ServerPlugin {
 		// Load configs
 		config.load();
 		
-		lootItems.loadItems();
+		//lootItems.loadItems();
 		lootTypes.loadTypes();
 		
 		World world = getServer().getWorld();
@@ -176,11 +175,6 @@ public class DogeZPlugin extends ServerPlugin {
 	public TalkieWalkiesHandler getTalkieWalkiesHandler()
 	{
 		return talkieWalkiesHandler;
-	}
-	
-	public LootItems getLootItems()
-	{
-		return lootItems;
 	}
 	
 	public LootTypes getLootTypes()

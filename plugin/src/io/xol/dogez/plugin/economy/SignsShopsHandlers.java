@@ -5,6 +5,7 @@ import java.util.Iterator;
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.entity.interfaces.EntityWithInventory;
+import io.xol.chunkstories.api.item.ItemType;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
@@ -39,14 +40,19 @@ public class SignsShopsHandlers {
 				ItemPile item = null;
 				String[] itemLine = safeLineGet(s,2).split(":");
 				
-				if(plugin.getLootItems().contains(itemLine[0]))
+				/*if(plugin.getLootItems().contains(itemLine[0]))
 				{
 					item = plugin.getLootItems().getItem(itemLine[0]).getItem();
 					if(safeLineGet(s,2).contains(":") && safeLineGet(s,2).split(":").length == 2)
 					{
 						item.setAmount(Integer.parseInt(itemLine[1]));
 					}
-				}
+				}*/
+				
+				ItemType type = plugin.getPluginExecutionContext().getContent().items().getItemTypeByName(itemLine[0]);
+				if(type != null)
+					item = new ItemPile(type);
+				
 				//Sell or buy
 				if(safeLineGet(s,0).equalsIgnoreCase("[Vente]") && item != null)
 				{

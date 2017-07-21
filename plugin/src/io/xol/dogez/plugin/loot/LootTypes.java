@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.xol.chunkstories.api.item.ItemType;
 import io.xol.dogez.plugin.DogeZPlugin;
 
 public class LootTypes {
@@ -58,7 +59,9 @@ public class LootTypes {
 				{
 					if(!ligne.startsWith("//"))
 					{
-						LootType addmeh = new LootType(plugin.getLootItems().getItem(ligne.split(":")[0]),ligne);
+						ItemType itemType = plugin.getPluginExecutionContext().getContent().items().getItemTypeByName(ligne.split(":")[0]);
+						
+						LootType addmeh = new LootType(itemType/*plugin.getLootItems().getItem(ligne.split(":")[0])*/,ligne);
 						if(currentCategory != null && addmeh.lootItem != null)
 							currentCategory.add(addmeh);
 						else
