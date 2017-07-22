@@ -12,3 +12,7 @@ end
 entity frag_grenade 66
 	class: io.xol.dogez.mods.entities.EntityThrownFragGrenade
 end
+
+entity uaz_tire_blown 67
+	class: io.xol.dogez.mods.voxel.StaticVehicleEntity
+end

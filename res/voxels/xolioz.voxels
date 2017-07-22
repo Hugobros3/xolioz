@@ -1,0 +1,9 @@
+voxel uaz_tire_blown 512
+	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
+	opaque: false
+	selfOpaque: true
+	texture: invisible
+	xWidth: 5
+	yWidth: 3
+	zWidth: 2
+end
