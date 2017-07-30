@@ -26,8 +26,8 @@ jar {
 }
 
 ext {
-	csApiBuiltAgainst = '109'
-	csVersionBuiltAgainst = '2017.07.12'
+	csApiBuiltAgainst = '110'
+	csVersionBuiltAgainst = '2017.07.22'
 }
 
 subprojects {

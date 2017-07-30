@@ -13,6 +13,7 @@ import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.plugin.commands.Command;
 import io.xol.chunkstories.api.plugin.commands.CommandEmitter;
 import io.xol.chunkstories.api.plugin.commands.CommandHandler;
+import io.xol.chunkstories.api.sound.SoundSource.Mode;
 import io.xol.chunkstories.core.entity.EntityZombie;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.loot.LootCategory;
@@ -439,16 +440,16 @@ public class DogeZPluginCommandsHandler implements CommandHandler {
 			}
 			if (args[0].equals("snd") && player.hasPermission("dogez.admin.snd")) {
 				if (args.length == 2)
-					player.getControlledEntity().getWorld().getSoundManager().playSoundEffect(args[1],
-							player.getLocation(), 1f, 1f);
+					player.getControlledEntity().getWorld().getSoundManager().playSoundEffect(args[1], Mode.NORMAL, 
+							player.getLocation(), 1f, 1f, 5f, 15f);
 				// PlayersPackets.playSound(player.getLocation(),args[1],1f,1f);
 				else if (args.length == 3)
-					player.getControlledEntity().getWorld().getSoundManager().playSoundEffect(args[1],
-							player.getLocation(), Float.parseFloat(args[2]), 1f);
+					player.getControlledEntity().getWorld().getSoundManager().playSoundEffect(args[1],Mode.NORMAL, 
+							player.getLocation(), Float.parseFloat(args[2]), 1f, 5f, 15f);
 				// PlayersPackets.playSound(player.getLocation(),args[1],1f,Float.parseFloat(args[2]));
 				else if (args.length == 4)
-					player.getControlledEntity().getWorld().getSoundManager().playSoundEffect(args[1],
-							player.getLocation(), Float.parseFloat(args[3]), Float.parseFloat(args[2]));
+					player.getControlledEntity().getWorld().getSoundManager().playSoundEffect(args[1],Mode.NORMAL, 
+							player.getLocation(), Float.parseFloat(args[3]), Float.parseFloat(args[2]), 5f, 15f);
 				// PlayersPackets.playSound(player.getLocation(),args[1],Float.parseFloat(args[3]),Float.parseFloat(args[2]));
 				else
 					sender.sendMessage(ChatColor.RED + "Syntaxe : /dz snd node.du.son [pitch] [volume]");

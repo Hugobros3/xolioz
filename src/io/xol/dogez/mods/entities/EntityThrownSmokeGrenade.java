@@ -5,6 +5,7 @@ import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
 import io.xol.chunkstories.api.rendering.textures.Texture2D;
+import io.xol.chunkstories.api.sound.SoundSource.Mode;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldClient;
@@ -103,7 +104,7 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements Ent
 		else if(ignitionTimer == 0)
 		{
 			if (world instanceof WorldMaster)
-				world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/smoke_puff.ogg", getLocation(), 1, 1, 15, 25);
+				world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/smoke_puff.ogg", Mode.NORMAL, getLocation(), 1, 1, 15, 25);
 			ignitionTimer--;
 		}
 		else if (deathTimer > 0) {

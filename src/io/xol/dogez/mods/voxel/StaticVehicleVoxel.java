@@ -5,6 +5,7 @@ import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityVoxel;
 import io.xol.chunkstories.api.exceptions.IllegalBlockModificationException;
 import io.xol.chunkstories.api.input.Input;
+import io.xol.chunkstories.api.voxel.VoxelCustomIcon;
 import io.xol.chunkstories.api.voxel.VoxelEntity;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.voxel.VoxelType;
@@ -13,7 +14,11 @@ import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.World.WorldVoxelContext;
 import io.xol.chunkstories.api.world.chunk.Chunk;
 
-public class StaticVehicleVoxel extends VoxelEntity {
+//(c) 2015-2017 XolioWare Interactive
+//http://chunkstories.xyz
+//http://xol.io
+
+public class StaticVehicleVoxel extends VoxelEntity implements VoxelCustomIcon {
 
 	final int xWidth, yWidth, zWidth;
 	

@@ -1,7 +1,6 @@
 package io.xol.dogez.mods.items;
 
 import org.joml.Matrix4f;
-import org.joml.Vector3d;
 import org.joml.Vector3dc;
 import org.joml.Vector3f;
 import org.joml.Vector4f;

@@ -1,6 +1,7 @@
 package io.xol.dogez.mods.entities;
 
 import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
+import io.xol.chunkstories.api.sound.SoundSource.Mode;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.World;
@@ -50,7 +51,7 @@ public abstract class EntityThrownGrenade extends EntityBase implements EntityRe
 					velocity.mul(0.65);
 					velocity.y = (-originalDownardsVelocity * 0.65);
 					
-					world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/grenade_bounce.ogg", getLocation(), 1, 1, 10, 35);
+					world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/grenade_bounce.ogg", Mode.NORMAL, getLocation(), 1, 1, 10, 35);
 				} else
 					velocity.mul(0d);
 			}

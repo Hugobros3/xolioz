@@ -7,3 +7,33 @@ voxel uaz_tire_blown 512
 	yWidth: 3
 	zWidth: 2
 end
+
+voxel uaz_tire_blown_on_fire 513
+	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
+	opaque: false
+	selfOpaque: true
+	texture: invisible
+	xWidth: 5
+	yWidth: 3
+	zWidth: 2
+end
+
+voxel uh_1h_wreck 514
+	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
+	opaque: false
+	selfOpaque: true
+	texture: invisible
+	xWidth: 13
+	yWidth: 2
+	zWidth: 3
+end
+
+voxel covet_wreck 515
+	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
+	opaque: false
+	selfOpaque: true
+	texture: invisible
+	xWidth: 4
+	yWidth: 2
+	zWidth: 2
+end

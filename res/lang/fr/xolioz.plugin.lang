@@ -1,0 +1,71 @@
+dogez.mustbeplayer Vous devez être un joueur pour utiliser ça !
+dogez.goodsyntaxm Syntaxe correcte : /m <joueur> <message>
+dogez.goodsyntaxr Syntaxe correcte : /r <message>
+dogez.pmfrom MP de la part de
+dogez.pmto MP envoyé à
+dogez.pmnoreplywarn Attention, le joueur auquel vous parlez ne peut pas vous répondre, 
+dogez.pmnotdispo Le joueur auquel vous vous addressez n'est pas disponible.
+dogez.pmrequiretw Il vous faut un talkie-walkie pour faire ça ! 
+dogez.pmnoreply Vous n'avez personne à qui répondre :foreveralone:
+
+dogez.pluginname Plugin XolioZ
+dogez.avaiablecmds Commandes disponibles
+dogez.seethishelp Voir cette aide.
+dogez.play Commencer une nouvelle partie
+dogez.stats Obtenir des statistiques sur votre partie
+dogez.money Connaitre votre argent
+dogez.paysyntax pay <joueur> <montant>
+dogez.pay Envoyer de l'argent
+dogez.kys Se suicider
+
+dogez.operatoronly Les commandes ci-dessous sont réservées aux opérateurs.
+dogez.loot Commandes de gestion du loot
+dogez.reload Recharge les fichiers de configuration
+dogez.togglesynch Active où désactive la synchrinisation heure IRL
+dogez.togglelocalizedchat Active ou désactive le chat localisé
+
+dogez.alreadyig Vous êtes déjà en jeu !
+dogez.goodluck Vous venez de commencer une partie, bonne chance !
+dogez.errorloadingprofile Impossible d'afficher ce profil. ( Erreur de chargement depuis la BDD ?)
+
+dogez.accountstats Statistiques du compte 
+dogez.ig Actuellement dans une partie
+dogez.og Hors-jeu ( spawn où minijeu )
+dogez.spenttime1 Vous avez passé 
+dogez.spenttime2  sur ce serveur
+dogez.alivesince Vous êtes en vie depuis 
+dogez.killed Vous avez tué 
+dogez.kzombies  zombies, dont 
+dogez.kplayers  joueurs, dont 
+dogez.deaths1 Vous avez été tué 
+dogez.deaths2  fois.
+dogez.thisgame  sur cette partie.
+
+dogez.gotmoney  et recu 5% de son argent, soit 
+dogez.youdied Vous êtes mort. Vos statistiques ont été réinitialisées.
+dogez.waskilled  à été tué.
+dogez.gothit Vous avez prit un coup. Vous ne pouvez plus vous déconnecter 10s après chaque coup, pour éviter le déco combat.
+
+dogez.loggedin  vient de se connecter.
+dogez.loggedout  vient de se déconnecter.
+
+dogez.money1 Votre compte est actuellement crédité de 
+dogez.money2 Le compte de 
+dogez.money3  est actuellement crédité de 
+
+dogez.nolessthan1ct Vous ne pouvez pas envoyer moins de 1 centime.
+dogez.nominus Bien tenté ;)
+dogez.nozero Envoyer rien du tout ça sert à [GOTO 8]
+dogez.nofunds Vous ne disposez pas de l'argent nécéssaire... :/
+dogez.noself C'est pas un peu débile de s'envoyer du fric ?
+dogez.noplayer Ce joueur n'existe pas dans la base de données... :/
+dogez.sendmoneyerror Erreur inconnue survenue lors de l'envoi d'argent :/
+dogez.sentok Vous avez envoyé avec succès 
+dogez.sentok2  XolioCoins à 
+dogez.received Vous avez reçu 
+dogez.receivedfrom  XolioCoins de la part de 
+
+dogez.time.minutesand  minutes et 
+dogez.time.hours  heures, 
+dogez.time.days  jours, 
+dogez.time.seconds  secondes

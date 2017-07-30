@@ -15,6 +15,7 @@ import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
 import io.xol.chunkstories.api.rendering.textures.Texture2D;
+import io.xol.chunkstories.api.sound.SoundSource.Mode;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldClient;
@@ -108,7 +109,7 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 		else if(ignitionTimer == 0)
 		{
 			if (world instanceof WorldMaster)
-				world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/flashbang.ogg", getLocation(), 1, 1, 25, 45);
+				world.getSoundManager().playSoundEffect("./sounds/dogez/weapon/grenades/flashbang.ogg", Mode.NORMAL, getLocation(), 1, 1, 25, 45);
 			if (world instanceof WorldClient)
 			{
 				Entity e = ((WorldClient) world).getClient().getPlayer().getControlledEntity();
