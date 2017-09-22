@@ -14,7 +14,7 @@ import io.xol.chunkstories.api.item.renderer.ItemRenderer;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.lightning.SpotLight;
 import io.xol.chunkstories.api.world.World;
-import io.xol.chunkstories.item.renderer.ObjViewModelRenderer;
+import io.xol.chunkstories.core.item.renderer.ObjViewModelRenderer;
 
 //(c) 2015-2016 XolioWare Interactive
 //http://chunkstories.xyz

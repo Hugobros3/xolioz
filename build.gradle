@@ -26,12 +26,12 @@ jar {
 }
 
 ext {
-	csApiBuiltAgainst = '110'
-	csVersionBuiltAgainst = '2017.07.22'
+	csApiBuiltAgainst = '111'
+	csVersionBuiltAgainst = 'Alpha1.0rc4'
 }
 
 subprojects {
-		ext {
+	ext {
 		csApiBuiltAgainst = rootProject.csApiBuiltAgainst
 		csVersionBuiltAgainst = rootProject.csVersionBuiltAgainst
 	}
@@ -40,8 +40,8 @@ subprojects {
 dependencies {
 	compile group: 'io.xol.chunkstories', name: 'api', version: csApiBuiltAgainst
 	
-	//Uses a nightly build, the first one in the repo actually, just to get things going
-	compile group: 'io.xol.chunkstories', name: 'common', version: csVersionBuiltAgainst
+	//Removed depency from actual game code; pending splitting of 'core' with the game implementation
+	//compile group: 'io.xol.chunkstories', name: 'common', version: csVersionBuiltAgainst
 	compile group: 'io.xol.chunkstories', name: 'core', version: csVersionBuiltAgainst
 }
 
