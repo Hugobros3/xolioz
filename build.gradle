@@ -26,8 +26,8 @@ jar {
 }
 
 ext {
-	csApiBuiltAgainst = '111'
-	csVersionBuiltAgainst = 'Alpha1.0rc4'
+	csApiBuiltAgainst = '113'
+	csVersionBuiltAgainst = 'Alpha1.0rc5_03'
 }
 
 subprojects {
