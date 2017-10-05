@@ -45,17 +45,6 @@ dependencies {
 	compile group: 'io.xol.chunkstories', name: 'core', version: csVersionBuiltAgainst
 }
 
-sourceSets {
-	main {
-		java {
-			srcDir 'src'
-		}
-		resources {
-			srcDir 'src'
-		}
-	}
-}
-
 task mod(type: Zip) {
 	//dependsOn(jar) //It figures it out on it's own apparently, this build system is cleverer than me :(
     from 'res/'

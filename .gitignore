@@ -5,3 +5,5 @@ build/
 .classpath
 *Thumbs.db
 /gradle.properties
+*.class
+/bin/
