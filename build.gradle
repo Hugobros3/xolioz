@@ -27,7 +27,7 @@ jar {
 
 ext {
 	csApiBuiltAgainst = '113'
-	csVersionBuiltAgainst = 'Alpha1.0rc5_03'
+	csVersionBuiltAgainst = '120'
 }
 
 subprojects {
@@ -41,7 +41,6 @@ dependencies {
 	compile group: 'io.xol.chunkstories', name: 'api', version: csApiBuiltAgainst
 	
 	//Removed depency from actual game code; pending splitting of 'core' with the game implementation
-	//compile group: 'io.xol.chunkstories', name: 'common', version: csVersionBuiltAgainst
 	compile group: 'io.xol.chunkstories', name: 'core', version: csVersionBuiltAgainst
 }
 
