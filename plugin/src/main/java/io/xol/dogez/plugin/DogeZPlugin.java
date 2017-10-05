@@ -3,6 +3,9 @@ package io.xol.dogez.plugin;
 //Copyright 2014 XolioWare Interactive
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import io.xol.chunkstories.api.mods.Mod;
@@ -20,10 +23,10 @@ import io.xol.dogez.plugin.game.ScheduledEvents;
 import io.xol.dogez.plugin.game.SpawnPoints;
 import io.xol.dogez.plugin.game.TalkieWalkiesHandler;
 import io.xol.dogez.plugin.loot.LootPlaces;
-import io.xol.dogez.plugin.loot.LootTypes;
+import io.xol.dogez.plugin.loot.LootCategories;
 import io.xol.dogez.plugin.map.PlacesNames;
 import io.xol.dogez.plugin.player.PlayerProfiles;
-import io.xol.dogez.plugin.zombies.ZombieSpawner;
+import io.xol.dogez.plugin.zombies.ZombiesPopulation;
 
 public class DogeZPlugin extends ServerPlugin {
 
@@ -35,12 +38,14 @@ public class DogeZPlugin extends ServerPlugin {
 	private PlayerListener playerListener = new PlayerListener(this);
 	
 	//private LootItems lootItems = new LootItems(this);
-	private LootTypes lootTypes = new LootTypes(this);
+	private LootCategories lootTypes = new LootCategories(this);
 	private LootPlaces lootPlaces = new LootPlaces(this);
 	
 	private TalkieWalkiesHandler talkieWalkiesHandler = new TalkieWalkiesHandler(this);
 	
 	private final boolean mod_present;
+	
+	public static final String pluginFolder = "./plugins/XolioZ/";
 	
 	public DogeZPlugin(PluginInformation pluginInformation, ServerInterface clientInterface) {
 		super(pluginInformation, clientInterface);
@@ -61,7 +66,7 @@ public class DogeZPlugin extends ServerPlugin {
 
 	public Config config = new Config();
 
-	public ZombieSpawner spawner;
+	public ZombiesPopulation spawner;
 
 	@Override
 	public void onEnable() {
@@ -71,7 +76,8 @@ public class DogeZPlugin extends ServerPlugin {
 		this.getLogger().info("[XolioZ] Initializing plugin version " + version + " ...");
 		
 		if(!mod_present) {
-			this.getLogger().info("[XolioZ] 'xolioz' mod not found in loaded mods, not enabling the plugin. ");
+			this.getLogger().info("[XolioZ] 'xolioz' mod not found in loaded mods, not enabling the plugin. "
+					+ "Please put 'xolioz_content.zip' in your mods/ folder and enable it through the --mods launch argument.");
 			return;
 		}
 		
@@ -89,7 +95,7 @@ public class DogeZPlugin extends ServerPlugin {
 		this.getPluginManager().registerCommandHandler("m", dogezCmdHandler);
 
 		// Initlialize custom behaviors
-		spawner = new ZombieSpawner(this);
+		spawner = new ZombiesPopulation(this);
 
 		// fix reloading issues
 		for (Player p : getGameWorld().getPlayers())
@@ -103,14 +109,21 @@ public class DogeZPlugin extends ServerPlugin {
 	}
 
 	private void checkFolder() {
-		File folder = new File("./plugins/DogeZ");
-		if (folder.exists())
+		File folder = new File(pluginFolder);
+		if (!folder.exists()) {
+			this.getLogger().info("Couldn't find the plugins/XolioZ/ folder; creating it and filling it using the default settings.");
 			folder.mkdir();
+			new UnpackDefaults(folder);
+		}
 	}
 
 	public void loadConfigs() {
 		// Load configs
-		config.load();
+		try {
+			config.load(new FileInputStream(new File(pluginFolder + "config.dz")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		//lootItems.loadItems();
 		lootTypes.loadTypes();
@@ -124,10 +137,14 @@ public class DogeZPlugin extends ServerPlugin {
 
 	private void saveConfigs() {
 		// Save configs
-		config.save();
+		try {
+			config.store(new FileOutputStream(new File(pluginFolder + "config.dz")), null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-		World w = getServer().getWorld();
-		lootPlaces.saveLootFile(w);
+		World world = getServer().getWorld();
+		lootPlaces.saveLootFile(world);
 	}
 
 	public WorldMaster getGameWorld()
@@ -177,7 +194,7 @@ public class DogeZPlugin extends ServerPlugin {
 		return talkieWalkiesHandler;
 	}
 	
-	public LootTypes getLootTypes()
+	public LootCategories getLootTypes()
 	{
 		return lootTypes;
 	}

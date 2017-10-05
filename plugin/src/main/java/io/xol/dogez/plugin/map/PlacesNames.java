@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.player.Player;
+import io.xol.dogez.plugin.DogeZPlugin;
 
 //(c) 2014 XolioWare Interactive
 
@@ -27,9 +28,9 @@ public class PlacesNames {
 	{
 		placesNames = new HashMap<Integer,String>();
 		try {
-			System.out.println("[DogeZ-Plugin] Loading places names...");
-			placesImage = ImageIO.read(new File("./plugins/DogeZ/places.png"));
-			InputStream ips = new FileInputStream(new File("./plugins/DogeZ/places.dz"));
+			System.out.println("[XolioZ-Plugin] Loading places names...");
+			placesImage = ImageIO.read(new File(DogeZPlugin.pluginFolder+"places.png"));
+			InputStream ips = new FileInputStream(new File(DogeZPlugin.pluginFolder+"places.dz"));
 			InputStreamReader ipsr = new InputStreamReader(ips, "UTF-8");
 			BufferedReader br = new BufferedReader(ipsr);
 			String ligne;
@@ -42,9 +43,9 @@ public class PlacesNames {
 			}
 			br.close();
 			initialized = true;
-			System.out.println("[DogeZ-Plugin] Done !");
+			System.out.println("[XolioZ-Plugin] Done !");
 		} catch (IOException e) {
-			System.out.println("[DogeZ-Plugin] Error while loading places names:");
+			System.out.println("[XolioZ-Plugin] Error while loading places names:");
 			e.printStackTrace();
 		}
 	}

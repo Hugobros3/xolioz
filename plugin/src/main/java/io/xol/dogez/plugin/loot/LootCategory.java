@@ -33,10 +33,10 @@ public class LootCategory {
 				totalWeight+=lt.proba;
 			}
 			else
-				System.out.println("DogeZ error : null internalName");
+				System.out.println("XolioZ error : null internalName");
 		}
 		else
-			System.out.println("DogeZ error : null loot type");
+			System.out.println("XolioZ error : null loot type");
 	}
 	
 	public void computeProbs()

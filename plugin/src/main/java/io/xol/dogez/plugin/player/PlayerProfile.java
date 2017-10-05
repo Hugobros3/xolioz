@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import io.xol.dogez.plugin.DogeZPlugin;
+
 //(c) 2014 XolioWare Interactive
 
 public class PlayerProfile {
@@ -70,7 +72,7 @@ public class PlayerProfile {
 
 	public void reloadProfile() {
 
-		File userProfile = new File("./plugins/DogeZ/users/" + uuid + ".dz");
+		File userProfile = new File(DogeZPlugin.pluginFolder+"users/" + uuid + ".dz");
 		userProfile.getParentFile().mkdirs();
 
 		if (userProfile.exists()) {
@@ -140,7 +142,7 @@ public class PlayerProfile {
 	public void saveProfile() {
 		timeCalc();
 
-		File userProfile = new File("./plugins/DogeZ/users/" + uuid + ".dz");
+		File userProfile = new File(DogeZPlugin.pluginFolder+"users/" + uuid + ".dz");
 		try {
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(userProfile), "UTF-8"));
 			

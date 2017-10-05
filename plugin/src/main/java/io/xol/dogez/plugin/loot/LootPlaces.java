@@ -29,6 +29,7 @@ import javax.imageio.ImageIO;
 
 public class LootPlaces {
 	
+	/** Debug method that makes a heatmap of the loot points */
 	public static void main(String[] a)
 	{
 		int scale = 4;
@@ -114,7 +115,7 @@ public class LootPlaces {
 	}
 	
 	private File getFile(World w) {
-		File file = new File("./plugins/DogeZ/lootPlaces-namalsk.dz");
+		File file = new File(DogeZPlugin.pluginFolder+"lootPlaces-namalsk.dz");
 		if(!file.exists())
 			try {
 				file.createNewFile();
@@ -140,11 +141,12 @@ public class LootPlaces {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//SECURITY
-		File folder = new File("./plugins/DogeZ/backups");
+	
+		//These files have an infuriating tendency to self-corrupt, so yeah...
+		File folder = new File(DogeZPlugin.pluginFolder+"backups");
 		if(!folder.exists())
 			folder.mkdir();
-		file = new File("./plugins/DogeZ/backups/lootPlaces-"+System.currentTimeMillis()+".dz");
+		file = new File(DogeZPlugin.pluginFolder+"backups/lootPlaces-"+System.currentTimeMillis()+".dz");
 		try {
 			file.createNewFile();
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
