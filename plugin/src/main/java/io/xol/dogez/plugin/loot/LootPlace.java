@@ -5,11 +5,11 @@ package io.xol.dogez.plugin.loot;
 import java.util.Random;
 
 import io.xol.chunkstories.api.item.inventory.Inventory;
+import io.xol.chunkstories.api.voxel.components.VoxelInventoryComponent;
 import io.xol.chunkstories.api.world.VoxelContext;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
 import io.xol.chunkstories.core.voxel.VoxelChest;
-import io.xol.chunkstories.core.voxel.components.VoxelInventoryComponent;
 
 public class LootPlace {
 

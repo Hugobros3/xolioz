@@ -9,6 +9,7 @@ import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
 import io.xol.chunkstories.api.events.voxel.WorldModificationCause;
 import io.xol.chunkstories.api.exceptions.world.voxel.IllegalBlockModificationException;
 import io.xol.chunkstories.api.input.Input;
+import io.xol.chunkstories.api.item.inventory.BasicInventory;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.VoxelCustomIcon;
 import io.xol.chunkstories.api.voxel.VoxelDynamicallyRendered;
@@ -18,12 +19,11 @@ import io.xol.chunkstories.api.voxel.VoxelLogic;
 import io.xol.chunkstories.api.voxel.VoxelType;
 import io.xol.chunkstories.api.voxel.components.VoxelComponent;
 import io.xol.chunkstories.api.voxel.components.VoxelComponentDynamicRenderer;
+import io.xol.chunkstories.api.voxel.components.VoxelInventoryComponent;
 import io.xol.chunkstories.api.world.VoxelContext;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
-import io.xol.chunkstories.core.item.inventory.BasicInventory;
 import io.xol.chunkstories.core.voxel.BigVoxel;
-import io.xol.chunkstories.core.voxel.components.VoxelInventoryComponent;
 
 //(c) 2015-2017 XolioWare Interactive
 //http://chunkstories.xyz
