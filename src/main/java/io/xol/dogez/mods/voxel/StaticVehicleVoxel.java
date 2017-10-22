@@ -1,135 +1,140 @@
 package io.xol.dogez.mods.voxel;
 
-import io.xol.chunkstories.api.Location;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
+
+import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.Entity;
-import io.xol.chunkstories.api.entity.EntityVoxel;
-import io.xol.chunkstories.api.exceptions.IllegalBlockModificationException;
+import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
+import io.xol.chunkstories.api.events.voxel.WorldModificationCause;
+import io.xol.chunkstories.api.exceptions.world.voxel.IllegalBlockModificationException;
 import io.xol.chunkstories.api.input.Input;
+import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.VoxelCustomIcon;
-import io.xol.chunkstories.api.voxel.VoxelEntity;
+import io.xol.chunkstories.api.voxel.VoxelDynamicallyRendered;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
+import io.xol.chunkstories.api.voxel.VoxelInteractive;
+import io.xol.chunkstories.api.voxel.VoxelLogic;
 import io.xol.chunkstories.api.voxel.VoxelType;
+import io.xol.chunkstories.api.voxel.components.VoxelComponent;
+import io.xol.chunkstories.api.voxel.components.VoxelComponentDynamicRenderer;
 import io.xol.chunkstories.api.world.VoxelContext;
-import io.xol.chunkstories.api.world.World;
-import io.xol.chunkstories.api.world.World.WorldVoxelContext;
-import io.xol.chunkstories.api.world.chunk.Chunk;
+import io.xol.chunkstories.api.world.WorldMaster;
+import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
+import io.xol.chunkstories.core.item.inventory.BasicInventory;
+import io.xol.chunkstories.core.voxel.BigVoxel;
+import io.xol.chunkstories.core.voxel.components.VoxelInventoryComponent;
 
 //(c) 2015-2017 XolioWare Interactive
 //http://chunkstories.xyz
 //http://xol.io
 
-public class StaticVehicleVoxel extends VoxelEntity implements VoxelCustomIcon {
-
-	final int xWidth, yWidth, zWidth;
+public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon, VoxelLogic, VoxelInteractive, VoxelDynamicallyRendered {
 	
-	final int xBits, yBits, zBits;
-	final int xMask, yMask, zMask;
-	final int xShift, yShift, zShift;
+	final float rotate;
+	final Vector3f translate;
+	final boolean isBurning;
+	final boolean darkSmoke;
+	final String model;
+	final String diffuseTexture;
+	
+	final Vector3d size;
+	
+	final Vector3d burnZoneStart;
+	final Vector3d burnZoneSize;
 	
 	public StaticVehicleVoxel(VoxelType type) {
 		super(type);
 		
-		this.xWidth = Integer.parseInt(type.resolveProperty("xWidth", "1"));
-		this.yWidth = Integer.parseInt(type.resolveProperty("yWidth", "1"));
-		this.zWidth = Integer.parseInt(type.resolveProperty("zWidth", "1"));
+		this.rotate = Float.parseFloat(type.resolveProperty("rotate", "0"));
+		String ts = type.resolveProperty("translate", "0 0 0");
+		String[] tss = ts.split(" ");
 		
-		xBits = (int)Math.ceil(Math.log(xWidth) / Math.log(2.0));
-		yBits = (int)Math.ceil(Math.log(yWidth) / Math.log(2.0));
-		zBits = (int)Math.ceil(Math.log(zWidth) / Math.log(2.0));
+		this.translate = new Vector3f(Float.parseFloat(tss[0]), Float.parseFloat(tss[1]), Float.parseFloat(tss[2]));
+		this.isBurning = type.resolveProperty("isBurning", "false").equals("true");
+		this.darkSmoke = type.resolveProperty("darkSmoke", "false").equals("true");
+		this.model = type.resolveProperty("model", "error");
+		this.diffuseTexture = type.resolveProperty("diffuseTexture", "error");
+
+		ts = type.resolveProperty("size", "1 1 1");
+		tss = ts.split(" ");
+		this.size = new Vector3d(Float.parseFloat(tss[0]), Float.parseFloat(tss[1]), Float.parseFloat(tss[2]));
 		
-		xMask = (int) Math.pow(2, xBits) - 1;
-		yMask = (int) Math.pow(2, yBits) - 1;
-		zMask = (int) Math.pow(2, zBits) - 1;
+		ts = type.resolveProperty("burnZoneStart", "1 1 1");
+		tss = ts.split(" ");
+		this.burnZoneStart = new Vector3d(Float.parseFloat(tss[0]), Float.parseFloat(tss[1]), Float.parseFloat(tss[2]));
 		
-		xShift = 0;
-		yShift = xBits;
-		zShift = yShift + yBits;
-		
-		if(xBits + yBits + zBits > 8) {
-			throw new RuntimeException("Metadata requirements can't allow you to have more than a total of 8 bits to describe the length of those");
-		}
+		ts = type.resolveProperty("burnZoneSize", "1 1 1");
+		tss = ts.split(" ");
+		this.burnZoneSize = new Vector3d(Float.parseFloat(tss[0]), Float.parseFloat(tss[1]), Float.parseFloat(tss[2]));
 	}
 	
 	@Override
-	public int onPlace(World world, final int x, final int y, final int z, int voxelData, Entity entity) throws IllegalBlockModificationException {
-		if(entity == null)
-			return voxelData;
+	public int onPlace(ChunkVoxelContext context, int voxelData, WorldModificationCause cause) throws IllegalBlockModificationException {
 		
-		//Check if there is space for it ...
-		for(int a = x; a < x + xWidth; a++) {
-			for(int b = y; b < y + yWidth; b++) {
-				for(int c = z; c < z + zWidth; c++) {
-					Chunk chunk = world.getChunkWorldCoordinates(a, b, c);
+		//TODO configure the size of the inventory depending on the entity config
+		if(VoxelFormat.meta(voxelData) == 0)
+			context.components().put("inventory", new VoxelInventoryComponent(context.components(), new BasicInventory(10, 4)));
+		context.components().put("renderer", new StaticVehicleRendererComponent(this, context.components(), 60L));
+		return super.onPlace(context, voxelData, cause);
+	}
+
+	@Override
+	public void onRemove(ChunkVoxelContext context, WorldModificationCause cause) throws IllegalBlockModificationException {
+		
+		context.components().erase();
+		super.onRemove(context, cause);
+	}
+
+	@Override
+	public boolean handleInteraction(Entity entity, ChunkVoxelContext context, Input input) {
+		if(input.getName().equals("mouse.right") && context.getWorld() instanceof WorldMaster) {
+
+			int x = context.getX();
+			int y = context.getY();
+			int z = context.getZ();
+			
+			//Only actual players can open that kind of stuff
+			if(entity instanceof EntityControllable) {
+				EntityControllable e = (EntityControllable)entity;
+				Controller c = e.getController();
+				
+				if(c instanceof Player) {
+					Player p = (Player)c;
 					
-					if(chunk == null)
-						throw new IllegalBlockModificationException("All chunks upon wich this block places itself must be fully loaded !");
+					//Backpedal to find the root block
+					int meta = context.getMetaData();
 					
-					VoxelContext stuff = world.peek(a, b, c);
-					if(stuff.getVoxel() == null || stuff.getVoxel().getId() == 0 || !stuff.getVoxel().getType().isSolid())
-					{
-						//These blocks are replaceable
-						continue;
+					int ap = (meta >> xShift) & xMask;
+					int bp = (meta >> yShift) & yMask;
+					int cp = (meta >> zShift) & zMask;
+					
+					int startX = x - ap;
+					int startY = y - bp;
+					int startZ = z - cp;
+					
+					VoxelContext worldContext = context.getWorld().peekSafely(startX, startY, startZ);
+					
+					//Check the chunk holding the origin block is actually loaded
+					if(worldContext instanceof ChunkVoxelContext) {
+						VoxelComponent component = ((ChunkVoxelContext) worldContext).components().get("inventory");
+						if(component != null) {
+							VoxelInventoryComponent invComponent = (VoxelInventoryComponent)component;
+							p.openInventory(invComponent.getInventory());
+							return true;
+						}
 					}
-					else throw new IllegalBlockModificationException("Can't overwrite block at "+a+": "+b+": "+c);
+					
 				}
+				
 			}
 		}
-		
-		//Actually build the thing then
-		for(int a = 0; a < 0 + xWidth; a++) {
-			for(int b = 0; b < 0 + yWidth; b++) {
-				for(int c = 0; c < 0 + zWidth; c++) {
-					int metadata = (byte) (((a & xMask ) << xShift) | ((b & yMask) << yShift) | ((c & zMask) << zShift));
-					world.setVoxelData(a + x, b + y, c + z, VoxelFormat.changeMeta(this.getId(), metadata));
-				}
-			}
-		}
-		
-		//Return okay for the user
-		return super.onPlace(world, x, y, z, voxelData, entity);
-	}
-
-	@Override
-	public void onRemove(World world, int x, int y, int z, int voxelData, Entity entity) throws IllegalBlockModificationException {
-		//Don't mess with machine removal
-		if(entity == null)
-			return;
-		
-		//Backpedal to find the root block
-		int meta = VoxelFormat.meta(voxelData);
-		
-		int ap = (meta >> xShift) & xMask;
-		int bp = (meta >> yShift) & yMask;
-		int cp = (meta >> zShift) & zMask;
-		
-		System.out.println("Removingz "+ap+": "+bp+": "+cp);
-		
-		int startX = x - ap;
-		int startY = y - bp;
-		int startZ = z - cp;
-		
-		for(int a = startX; a < startX + xWidth; a++) {
-			for(int b = startY; b < startY + yWidth; b++) {
-				for(int c = startZ; c < startZ + zWidth; c++) {
-					world.setVoxelData(a, b, c, 0);
-				}
-			}
-		}
-		
-		super.onRemove(world, startX, startY, startZ, voxelData, entity);
-	}
-
-	@Override
-	public boolean handleInteraction(Entity entity, WorldVoxelContext voxelContext, Input input) {
-		//TODO inventory
 		return false;
 	}
 
 	@Override
-	protected EntityVoxel createVoxelEntity(World world, int x, int y, int z) {
-		StaticVehicleEntity entityVoxel = (StaticVehicleEntity) world.getGameContext().getContent().entities().getEntityTypeByName(this.getName()).create(world);
-		entityVoxel.setLocation(new Location(world, x, y, z));
-		return entityVoxel;
+	public VoxelComponentDynamicRenderer getDynamicRendererComponent(ChunkVoxelContext context) {
+		return (VoxelComponentDynamicRenderer) context.components().get("renderer");
 	}
 
 }

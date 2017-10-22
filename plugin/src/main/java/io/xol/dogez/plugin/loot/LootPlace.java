@@ -5,10 +5,11 @@ package io.xol.dogez.plugin.loot;
 import java.util.Random;
 
 import io.xol.chunkstories.api.item.inventory.Inventory;
-import io.xol.chunkstories.api.voxel.Voxel;
+import io.xol.chunkstories.api.world.VoxelContext;
 import io.xol.chunkstories.api.world.World;
-import io.xol.chunkstories.core.entity.voxel.EntityChest;
+import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
 import io.xol.chunkstories.core.voxel.VoxelChest;
+import io.xol.chunkstories.core.voxel.components.VoxelInventoryComponent;
 
 public class LootPlace {
 
@@ -52,16 +53,17 @@ public class LootPlace {
 	
 	private Inventory getContainerInv()
 	{
-		Voxel v = parent.getPlugin().getServer().getContent().voxels().getVoxelById(world.getVoxelData(x, y, z));
+		VoxelContext peek = world.peekSafely(x, y, z);
 		
-		//Block b = w.getBlockAt(x, y, z);
-		//if(b.getType().equals(Material.CHEST))
-		if(v instanceof VoxelChest)
-		{
-			VoxelChest chest = (VoxelChest)v;
-			EntityChest c = chest.getVoxelEntity(world, x, y, z);
-			return c.getInventory();
+		//The chunk is loaded
+		if(peek instanceof ChunkVoxelContext) {
+			//The voxel is the correct type
+			if(peek.getVoxel() instanceof VoxelChest)// || peek.getVoxel() instanceof StaticVehicleVoxel)
+			{
+				return ((VoxelInventoryComponent)((ChunkVoxelContext) peek).components().get("inventory")).getInventory();
+			}
 		}
+		
 		return null;
 	}
 	

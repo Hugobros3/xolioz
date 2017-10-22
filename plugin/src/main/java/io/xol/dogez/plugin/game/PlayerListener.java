@@ -5,6 +5,7 @@ import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.entity.DamageCause;
 import io.xol.chunkstories.api.entity.EntityLiving;
 import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
+import io.xol.chunkstories.api.entity.interfaces.EntityWithSelectedItem;
 import io.xol.chunkstories.api.events.EventHandler;
 import io.xol.chunkstories.api.events.Listener;
 import io.xol.chunkstories.api.events.player.PlayerInputPressedEvent;
@@ -14,7 +15,6 @@ import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
-import io.xol.chunkstories.core.entity.interfaces.EntityWithSelectedItem;
 import io.xol.chunkstories.core.voxel.VoxelChest;
 import io.xol.chunkstories.core.voxel.VoxelSign;
 import io.xol.dogez.plugin.DogeZPlugin;
@@ -89,14 +89,15 @@ public class PlayerListener implements Listener {
 			return;
 
 		Player player = event.getPlayer();
-		
+
 		EntityControllable playerEntity = player.getControlledEntity();
 		Location selectedLocation = playerEntity.getBlockLookingAt(true);
 
-		Voxel v = plugin.getServer().getContent().voxels().getVoxelById(0);
+		// Voxel v = plugin.getServer().getContent().voxels().getVoxelById(0);
 		if (selectedLocation != null) {
-			v = plugin.getServer().getContent().voxels()
-					.getVoxelById(playerEntity.getWorld().getVoxelData(selectedLocation));
+			Voxel voxel = player.getWorld().peekSafely(selectedLocation).getVoxel();
+			// v =
+			// plugin.getServer().getContent().voxels().getVoxelById(playerEntity.getWorld().getVoxelData(selectedLocation));
 
 			// if
 			// (!playerEntity.getWorld().getWorldInfo().getName().equals(DogeZPlugin.config.activeWorld))
@@ -106,16 +107,15 @@ public class PlayerListener implements Listener {
 
 			ItemPile itemInHand = null;
 			if (playerEntity instanceof EntityWithSelectedItem)
-				itemInHand = ((EntityWithSelectedItem) playerEntity).getSelectedItemComponent().getSelectedItem();
+				itemInHand = ((EntityWithSelectedItem) playerEntity).getSelectedItem();
 
 			// loot placement and removal
 			if (player.hasPermission("dogez.admin")) {
 				if (itemInHand != null && itemInHand.getItem().getName().equals("dz_loot_tool")) {
 					// Block b = event.getClickedBlock();
-					if (v instanceof VoxelChest) {
+					if (voxel instanceof VoxelChest) {
 						PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
-						String coords = selectedLocation.x() + ":" + selectedLocation.y() + ":"
-								+ selectedLocation.z();
+						String coords = selectedLocation.x() + ":" + selectedLocation.y() + ":" + selectedLocation.z();
 						if (pp.adding && pp.activeCategory != null) {
 							LootPlace lp = new LootPlace(plugin.getLootPlaces(),
 									coords + ":" + pp.activeCategory + ":" + pp.currentMin + ":" + pp.currentMax,
@@ -136,16 +136,17 @@ public class PlayerListener implements Listener {
 		}
 		// loot generation
 		if (selectedLocation != null) {
-			if (v instanceof VoxelChest) {
-				String coords = (int) (double) selectedLocation.x() + ":" + (int) (double) selectedLocation.y()
-						+ ":" + (int) (double) selectedLocation.z();
+			Voxel voxel = player.getWorld().peekSafely(selectedLocation).getVoxel();
+			if (voxel instanceof VoxelChest) {
+				String coords = (int) (double) selectedLocation.x() + ":" + (int) (double) selectedLocation.y() + ":"
+						+ (int) (double) selectedLocation.z();
 
 				plugin.getLootPlaces().update(coords, player.getWorld());
 
-			} else if (v instanceof VoxelSign)
+			} else if (voxel instanceof VoxelSign)
 
 				event.setCancelled(
-						plugin.getSignShopsHandler().handle(player, v, (int) (double) selectedLocation.x(),
+						plugin.getSignShopsHandler().handle(player, voxel, (int) (double) selectedLocation.x(),
 								(int) (double) selectedLocation.y(), (int) (double) selectedLocation.z()));
 		}
 

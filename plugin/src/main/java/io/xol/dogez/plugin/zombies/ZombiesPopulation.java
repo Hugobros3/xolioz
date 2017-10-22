@@ -76,7 +76,7 @@ public class ZombiesPopulation {
 					{
 						posy--;
 						
-						Voxel v = plugin.getServer().getContent().voxels().getVoxelById(plugin.getGameWorld().getVoxelData(posx, posy, posz));
+						Voxel v = plugin.getGameWorld().peekSafely(posx, posy, posz).getVoxel();
 						
 						if(v.getType().isLiquid())
 							break;
@@ -106,7 +106,7 @@ public class ZombiesPopulation {
 	{
 		WorldMaster world = plugin.getGameWorld();
 		
-		EntityZombie zomb = new EntityZombie(plugin.getPluginExecutionContext().getContent().entities().getEntityTypeByName("zombie"), world, loc.x(), loc.y(), loc.z());
+		EntityZombie zomb = new EntityZombie(plugin.getPluginExecutionContext().getContent().entities().getEntityTypeByName("zombie"), loc);
 		zomb.setHealth((float) (zomb.getHealth() * (0.5 + Math.random())));
 		
 		world.addEntity(zomb);

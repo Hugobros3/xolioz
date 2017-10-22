@@ -59,15 +59,15 @@ public class FragGrenade extends Item{
 		{
 			//Throw a grenade xDDDDDD
 			Location pos = owner.getLocation();
-			Vector3d throwLocation = new Vector3d(pos.x(), pos.y() + ((EntityPlayer)owner).eyePosition, pos.z());
+			Location throwLocation = new Location(pos.getWorld(), pos.x(), pos.y() + ((EntityPlayer)owner).eyePosition, pos.z());
 			Vector3d throwForce = new Vector3d(((EntityPlayer)owner).getDirectionLookingAt()).mul(0.2 - Math2.clampd(((EntityPlayer)owner).getEntityRotationComponent().getVerticalRotation(), -45, 20) / 45f * 0.3f);
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownFragGrenade grenade = (EntityThrownFragGrenade) this.getType().store().parent().entities().getEntityTypeByName("frag_grenade").create(pos.getWorld());
-			grenade.getEntityComponentPosition().setPosition(throwLocation);
+			EntityThrownFragGrenade grenade = (EntityThrownFragGrenade) this.getType().store().parent().entities().getEntityTypeByName("frag_grenade").create(throwLocation);
+			grenade.positionComponent.setPosition(throwLocation);
 			
 					//new EntityThrownFragGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
-			grenade.getVelocityComponent().setVelocity(throwForce);
+			grenade.velocityComponent.setVelocity(throwForce);
 			
 			pos.getWorld().addEntity(grenade);
 			

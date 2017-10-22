@@ -198,7 +198,7 @@ public class LootPlaces {
 			{
 				for(int y = 0; y < 255; y ++)
 				{
-					Voxel v = plugin.getServer().getContent().voxels().getVoxelById(player.getControlledEntity().getWorld().getVoxelData(x, y, z));
+					Voxel v = player.getWorld().peekSafely(x, y, z).getVoxel();//plugin.getServer().getContent().voxels().getVoxelById(player.getControlledEntity().getWorld().getVoxelData(x, y, z));
 					
 					if(v != null && v instanceof VoxelChest && pp.activeCategory != null)
 					{

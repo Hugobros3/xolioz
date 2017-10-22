@@ -3,8 +3,6 @@ package io.xol.dogez.mods.entities;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.sound.SoundSource.Mode;
 import io.xol.chunkstories.api.voxel.Voxel;
-import io.xol.chunkstories.api.voxel.VoxelFormat;
-import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.api.math.Math2;
@@ -14,8 +12,10 @@ import org.joml.Vector2d;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
+import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.EntityBase;
 import io.xol.chunkstories.api.entity.EntityType;
+import io.xol.chunkstories.api.entity.components.EntityComponentVelocity;
 
 public abstract class EntityThrownGrenade extends EntityBase implements EntityRenderable  {
 
@@ -23,18 +23,19 @@ public abstract class EntityThrownGrenade extends EntityBase implements EntityRe
 	protected float direction = 0f;
 	protected float rotation = 0f;
 	
-	public EntityThrownGrenade(EntityType type, World world, double x, double y, double z) {
-		super(type, world, x, y, z);
+	public final EntityComponentVelocity velocityComponent = new EntityComponentVelocity(this);
+	
+	public EntityThrownGrenade(EntityType type, Location loc) {
+		super(type, loc);
 	}
 
 	@Override
 	public void tick() {
 
-		Vector3d velocity = getVelocityComponent().getVelocity();
+		Vector3d velocity = velocityComponent.getVelocity();
 
 		if (world instanceof WorldMaster) {
-			Voxel voxelIn = world.getGameContext().getContent().voxels()
-					.getVoxelById(VoxelFormat.id(world.getVoxelData(positionComponent.getLocation())));
+			Voxel voxelIn = world.peekSafely(positionComponent.getLocation()).getVoxel();
 			boolean inWater = voxelIn.getType().isLiquid();
 
 			double terminalVelocity = inWater ? -0.05 : -1.5;
@@ -64,15 +65,15 @@ public abstract class EntityThrownGrenade extends EntityBase implements EntityRe
 			if (Math.abs(velocity.y()) < 0.01)
 				velocity.y = (0.0);
 
-			getVelocityComponent().setVelocity(velocity);
+			velocityComponent.setVelocity(velocity);
 		}
 
 		if (world instanceof WorldClient) {
 			
 			if(!this.isOnGround())
 			{
-			rotation += getVelocityComponent().getVelocity().length() * Math.random();
-			tilt = (float) Math2.mix(0.0, tilt + getVelocityComponent().getVelocity().length() * Math.random(),
+			rotation += velocityComponent.getVelocity().length() * Math.random();
+			tilt = (float) Math2.mix(0.0, tilt + velocityComponent.getVelocity().length() * Math.random(),
 					Math2.clampd(velocity.length(), 0.0, 0.1) * 10.0);
 
 			

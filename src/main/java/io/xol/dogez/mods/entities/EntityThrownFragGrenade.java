@@ -4,6 +4,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
+import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.DamageCause;
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityLiving;
@@ -14,7 +15,6 @@ import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
 import io.xol.chunkstories.api.rendering.textures.Texture2D;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
-import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.util.WorldEffects;
 
@@ -27,8 +27,8 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 	int ignitionTimer = 60 * 5; // 4 seconds to ignite
 	int deathTimer = 0 * 50; // Lives 50 seconds
 
-	public EntityThrownFragGrenade(EntityType type, World world, double x, double y, double z) {
-		super(type, world, x, y, z);
+	public EntityThrownFragGrenade(EntityType type, Location loc) {
+		super(type, loc);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 
 				renderingContext.currentShader().setUniform3f("objectPosition", new Vector3f(0));
 
-				int modelBlockData = grenade.getWorld().getVoxelData(grenade.getLocation());
+				int modelBlockData = grenade.getWorld().peekSafely(grenade.getLocation()).getData();
 
 				int lightSky = VoxelFormat.sunlight(modelBlockData);
 				int lightBlock = VoxelFormat.blocklight(modelBlockData);

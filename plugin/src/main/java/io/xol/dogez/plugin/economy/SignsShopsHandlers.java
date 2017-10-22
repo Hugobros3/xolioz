@@ -9,8 +9,11 @@ import io.xol.chunkstories.api.item.ItemType;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
-import io.xol.chunkstories.core.entity.voxel.EntitySign;
+import io.xol.chunkstories.api.voxel.components.VoxelComponent;
+import io.xol.chunkstories.api.world.VoxelContext;
+import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
 import io.xol.chunkstories.core.voxel.VoxelSign;
+import io.xol.chunkstories.core.voxel.components.VoxelComponentSignText;
 import io.xol.dogez.plugin.DogeZPlugin;
 import io.xol.dogez.plugin.player.PlayerProfile;
 
@@ -26,19 +29,19 @@ public class SignsShopsHandlers {
 	
 	public boolean handle(Player player, Voxel voxel, int x, int y, int z) {
 		try{
-			VoxelSign voxelSign = (VoxelSign) voxel;
-			EntitySign s = voxelSign.getVoxelEntity(player.getWorld(), x, y, z);
+			VoxelContext peek = player.getWorld().peekSafely(x, y, z);
+			//EntitySign s = voxelSign.getVoxelEntity(player.getWorld(), x, y, z);
 			
-			if(safeLineGet(s,0).equalsIgnoreCase("[Vente]") || safeLineGet(s,0).equalsIgnoreCase("[Achat]"))
+			if(safeLineGet(peek,0).equalsIgnoreCase("[Vente]") || safeLineGet(peek,0).equalsIgnoreCase("[Achat]"))
 			{
-				if(safeLineGet(s,1).equals("") || safeLineGet(s,2).equals("") || safeLineGet(s,3).equals(""))
+				if(safeLineGet(peek,1).equals("") || safeLineGet(peek,2).equals("") || safeLineGet(peek,3).equals(""))
 				{
 					player.sendMessage(ChatColor.RED+"Panneau mal configuré.");
 					return true;
 				}
-				float price = Float.parseFloat(safeLineGet(s,3).replace("xc", ""));
+				float price = Float.parseFloat(safeLineGet(peek,3).replace("xc", ""));
 				ItemPile item = null;
-				String[] itemLine = safeLineGet(s,2).split(":");
+				String[] itemLine = safeLineGet(peek,2).split(":");
 				
 				/*if(plugin.getLootItems().contains(itemLine[0]))
 				{
@@ -54,25 +57,25 @@ public class SignsShopsHandlers {
 					item = new ItemPile(type);
 				
 				//Sell or buy
-				if(safeLineGet(s,0).equalsIgnoreCase("[Vente]") && item != null)
+				if(safeLineGet(peek,0).equalsIgnoreCase("[Vente]") && item != null)
 				{
-					sellPlayer(player,safeLineGet(s,1),item,price);
+					sellPlayer(player,safeLineGet(peek,1),item,price);
 				}
-				if(safeLineGet(s,0).equalsIgnoreCase("[Achat]") && item != null)
+				if(safeLineGet(peek,0).equalsIgnoreCase("[Achat]") && item != null)
 				{
-					buyPlayer(player,safeLineGet(s,1),item,price);
+					buyPlayer(player,safeLineGet(peek,1),item,price);
 				}
 				return true;
 			}
-			else if(safeLineGet(s,0).equalsIgnoreCase("[Transport]"))
+			else if(safeLineGet(peek,0).equalsIgnoreCase("[Transport]"))
 			{
 				PlayerProfile client = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
-				String[] coords = safeLineGet(s,2).split(" ");
+				String[] coords = safeLineGet(peek,2).split(" ");
 				Location destination = new Location(player.getWorld(),Integer.parseInt(coords[0]),Integer.parseInt(coords[1]),Integer.parseInt(coords[2]));
-				float price = Float.parseFloat(safeLineGet(s,3).replace("xc", ""));
+				float price = Float.parseFloat(safeLineGet(peek,3).replace("xc", ""));
 				if(client.xcBalance >= price)
 				{
-					player.sendMessage(ChatColor.AQUA+"Vous êtes partis à "+safeLineGet(s,1)+" pour "+price+" xc.");
+					player.sendMessage(ChatColor.AQUA+"Vous êtes partis à "+safeLineGet(peek,1)+" pour "+price+" xc.");
 					player.setLocation(destination);
 					client.addBalance(-price);
 				}
@@ -92,19 +95,25 @@ public class SignsShopsHandlers {
 		return false;
 	}
 
-	private String safeLineGet(EntitySign s, int i) {
-		if(s == null)
-			return "";
-		String content = s.getText();
-		if(content == null)
-			return "";
-		
-		String[] splitted = content.split("\n");
-		
-		if(i > splitted.length)
-			i = splitted.length;
-		
-		return ChatColor.stripColor(splitted[i]);
+	private String safeLineGet(VoxelContext peek, int i) {
+		if(peek != null && peek instanceof ChunkVoxelContext) {
+			VoxelComponent component = ((ChunkVoxelContext) peek).components().get("signData");
+			if(component != null && component instanceof VoxelComponentSignText) {
+
+				String content = ((VoxelComponentSignText) component).getSignText();
+				if(content == null)
+					return "";
+				
+				String[] splitted = content.split("\n");
+				
+				if(i > splitted.length)
+					i = splitted.length;
+				
+				return ChatColor.stripColor(splitted[i]);
+			}
+		}
+
+		return "";
 	}
 
 	private void sellPlayer(Player player, String name, ItemPile item, float price) {

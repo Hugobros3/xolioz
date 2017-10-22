@@ -59,16 +59,16 @@ public class FlashbangGrenade extends Item{
 		{
 			//Throw a grenade xDDDDDD
 			Location pos = owner.getLocation();
-			Vector3d throwLocation = new Vector3d(pos.x(), pos.y() + ((EntityPlayer)owner).eyePosition, pos.z());
+			Location throwLocation = new Location(pos.getWorld(), pos.x(), pos.y() + ((EntityPlayer)owner).eyePosition, pos.z());
 			Vector3d throwForce = new Vector3d(((EntityPlayer)owner).getDirectionLookingAt()).mul(0.2 - Math2.clampd(((EntityPlayer)owner).getEntityRotationComponent().getVerticalRotation(), -45, 20) / 45f * 0.3f);
 			
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownFlashbangGrenade grenade = (EntityThrownFlashbangGrenade) this.getType().store().parent().entities().getEntityTypeByName("flash_grenade").create(pos.getWorld());
-			grenade.getEntityComponentPosition().setPosition(throwLocation);
+			EntityThrownFlashbangGrenade grenade = (EntityThrownFlashbangGrenade) this.getType().store().parent().entities().getEntityTypeByName("flash_grenade").create(throwLocation);
+			grenade.setLocation(throwLocation);
 			
-					//EntityThrownFlashbangGrenade grenade = new EntityThrownFlashbangGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
-			grenade.getVelocityComponent().setVelocity(throwForce);
+			//EntityThrownFlashbangGrenade grenade = new EntityThrownFlashbangGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
+			grenade.velocityComponent.setVelocity(throwForce);
 			
 			pos.getWorld().addEntity(grenade);
 			

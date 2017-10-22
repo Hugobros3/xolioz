@@ -28,5 +28,5 @@ task pluginPackage(type: Zip) {
 	
 dependencies {
 	compile group: 'io.xol.chunkstories', name: 'api', version: rootProject.ext.csApiBuiltAgainst
-	compile group: 'io.xol.chunkstories', name: 'core', version: rootProject.ext.csVersionBuiltAgainst
+	compile group: 'io.xol.chunkstories', name: 'core', version: rootProject.ext.coreContentVersionBuiltAgainst
 }

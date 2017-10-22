@@ -1,8 +1,3 @@
-/*
- * I have no idea how gradle works. Just ripping the Forge stuff away
- * I'll learn later
- */
-
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'java-library'
@@ -26,14 +21,14 @@ jar {
 }
 
 ext {
-	csApiBuiltAgainst = '113'
-	csVersionBuiltAgainst = '120'
+	csApiBuiltAgainst = '114'
+	coreContentVersionBuiltAgainst = '123'
 }
 
 subprojects {
 	ext {
 		csApiBuiltAgainst = rootProject.csApiBuiltAgainst
-		csVersionBuiltAgainst = rootProject.csVersionBuiltAgainst
+		coreContentVersionBuiltAgainst = rootProject.coreContentVersionBuiltAgainst
 	}
 }
 	
@@ -41,7 +36,7 @@ dependencies {
 	compile group: 'io.xol.chunkstories', name: 'api', version: csApiBuiltAgainst
 	
 	//Removed depency from actual game code; pending splitting of 'core' with the game implementation
-	compile group: 'io.xol.chunkstories', name: 'core', version: csVersionBuiltAgainst
+	compile group: 'io.xol.chunkstories', name: 'core', version: coreContentVersionBuiltAgainst
 }
 
 task mod(type: Zip) {
