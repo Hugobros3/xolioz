@@ -9,7 +9,6 @@ import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
 import io.xol.chunkstories.api.events.voxel.WorldModificationCause;
 import io.xol.chunkstories.api.exceptions.world.voxel.IllegalBlockModificationException;
 import io.xol.chunkstories.api.input.Input;
-import io.xol.chunkstories.api.item.inventory.BasicInventory;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.VoxelCustomIcon;
 import io.xol.chunkstories.api.voxel.VoxelDynamicallyRendered;
@@ -74,7 +73,7 @@ public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon, Vox
 		
 		//TODO configure the size of the inventory depending on the entity config
 		if(VoxelFormat.meta(voxelData) == 0)
-			context.components().put("inventory", new VoxelInventoryComponent(context.components(), new BasicInventory(10, 4)));
+			context.components().put("inventory", new VoxelInventoryComponent(context.components(), 10, 4));
 		context.components().put("renderer", new StaticVehicleRendererComponent(this, context.components(), 60L));
 		return super.onPlace(context, voxelData, cause);
 	}
