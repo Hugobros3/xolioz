@@ -10,7 +10,7 @@ import org.joml.Vector3f;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.math.Math2;
-import io.xol.chunkstories.api.player.PlayerClient;
+import io.xol.chunkstories.api.player.LocalPlayer;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.lightning.Light;
 import io.xol.chunkstories.api.serialization.StreamSource;
@@ -63,7 +63,7 @@ public class StaticVehicleRendererComponent extends VoxelComponentDynamicRendere
 			world.getParticlesManager().spawnParticleAtPositionWithVelocity("fire_small", loc.add(vehicleType.burnZoneStart.x + Math.random() * vehicleType.burnZoneSize.x, vehicleType.burnZoneStart.y + Math.random() * vehicleType.burnZoneSize.y, vehicleType.burnZoneStart.z + Math.random() * vehicleType.burnZoneSize.z), vel);
 			
 			//Sound magic is here
-			PlayerClient player = ((WorldClient)world).getClient().getPlayer();
+			LocalPlayer player = ((WorldClient)world).getClient().getPlayer();
 			Location playerLocation = player.getLocation();
 			if(playerLocation != null) {
 				

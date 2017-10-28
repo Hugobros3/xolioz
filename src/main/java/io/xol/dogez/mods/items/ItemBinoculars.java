@@ -10,7 +10,7 @@ import io.xol.chunkstories.api.item.ItemType;
 import io.xol.chunkstories.api.item.interfaces.ItemOverlay;
 import io.xol.chunkstories.api.item.interfaces.ItemZoom;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
-import io.xol.chunkstories.api.player.PlayerClient;
+import io.xol.chunkstories.api.player.LocalPlayer;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 
 public class ItemBinoculars extends Item implements ItemZoom, ItemOverlay {
@@ -29,7 +29,7 @@ public class ItemBinoculars extends Item implements ItemZoom, ItemOverlay {
 			Controller controller = owner2.getController();
 
 			//For now only client-side players can trigger shooting actions
-			if (controller instanceof PlayerClient)
+			if (controller instanceof LocalPlayer)
 			{
 				isScoped = controller.getInputsManager().getInputByName("mouse.right").isPressed();
 			}
