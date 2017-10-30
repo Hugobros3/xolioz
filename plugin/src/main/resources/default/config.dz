@@ -8,3 +8,5 @@ zombiesDamageMultiplier = 1.0
 maxZombiesOnMap = 420
 irlTimeCycleSync = false
 lootRespawnDelay = 600
+zombiesSpawnMinDistance=50
+zombiesSpawnMaxDistance=80

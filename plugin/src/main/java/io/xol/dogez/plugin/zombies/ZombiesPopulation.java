@@ -41,8 +41,8 @@ public class ZombiesPopulation {
 	
 	public void spawnZombies()
 	{
-		int minimalDistance = plugin.config.getInt("zombies-min-distance");
-		int maximalDistance = 70;
+		int minimalDistance = plugin.config.getInt("zombiesSpawnMinDistance");
+		int maximalDistance = plugin.config.getInt("zombiesSpawnMaxDistance");
 		
 		for(Player p : plugin.getGameWorld().getPlayers())
 		{

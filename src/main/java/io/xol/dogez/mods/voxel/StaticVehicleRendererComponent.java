@@ -87,11 +87,15 @@ public class StaticVehicleRendererComponent extends VoxelComponentDynamicRendere
 		if(world instanceof WorldClient && vehicleType.darkSmoke) {
 
 			Location loc = new Location(location);
+			loc.add(vehicleType.burnZoneStart.x + Math.random() * vehicleType.burnZoneSize.x,
+					vehicleType.burnZoneStart.y + Math.random() * 2 + vehicleType.burnZoneSize.y,
+					vehicleType.burnZoneStart.z + Math.random() * vehicleType.burnZoneSize.z);
+			//System.out.println("loc:"+loc);
 			
 			for(int i = 0; i< 3; i++) {
 			Vector3d vel = new Vector3d(Math.random() * 2.0 - 1.0, 2 + Math.random() * 2.0 + Math.random() * Math2.clamp(Math.random() * 1.5f - 1f, 0, 1) * Math.random() * 50, Math.random() * 2.0 - 1.0);
 			vel.mul(0.02);
-				world.getParticlesManager().spawnParticleAtPositionWithVelocity("black_smoke", loc.add(vehicleType.burnZoneStart.x + Math.random() * vehicleType.burnZoneSize.x, vehicleType.burnZoneStart.y + Math.random() * 2 + vehicleType.burnZoneSize.y, vehicleType.burnZoneStart.z + Math.random() * vehicleType.burnZoneSize.z), vel);
+				world.getParticlesManager().spawnParticleAtPositionWithVelocity("black_smoke", loc, vel);
 			}
 		}
 	}
