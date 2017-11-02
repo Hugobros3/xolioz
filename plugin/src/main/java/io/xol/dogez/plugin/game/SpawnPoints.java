@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import io.xol.dogez.plugin.DogeZPlugin;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
 
 //Copyright 2014 XolioWare Interactive
 
@@ -42,7 +42,7 @@ public class SpawnPoints {
 	}
 	
 	private static File getFile() {
-		File file = new File(DogeZPlugin.pluginFolder+"spawnPoints.dz");
+		File file = new File(XolioZGamemodePlugin.pluginFolder+"spawnPoints.dz");
 		if(!file.exists())
 			try {
 				file.createNewFile();

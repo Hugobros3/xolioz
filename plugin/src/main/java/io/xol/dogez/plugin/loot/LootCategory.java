@@ -12,6 +12,8 @@ import io.xol.chunkstories.api.item.inventory.ItemPile;
 
 public class LootCategory {
 	
+	public final String name;
+	
 	float generalSpawnProb = 1f;
 	
 	private Map<String,LootType> types = new HashMap<String,LootType>();
@@ -19,7 +21,12 @@ public class LootCategory {
 	int[] probaTable;
 	String[] namesTable;
 	
-	public LootCategory(float gsp) {
+	public String getName() {
+		return name;
+	}
+	
+	public LootCategory(String name, float gsp) {
+		this.name = name;
 		generalSpawnProb = gsp;
 	}
 

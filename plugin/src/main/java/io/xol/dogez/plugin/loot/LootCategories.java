@@ -12,20 +12,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.xol.chunkstories.api.item.ItemType;
-import io.xol.dogez.plugin.DogeZPlugin;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
 
 public class LootCategories {
 
-	private final DogeZPlugin plugin;
+	private final XolioZGamemodePlugin plugin;
 
-	public LootCategories(DogeZPlugin dogeZPlugin) {
+	public LootCategories(XolioZGamemodePlugin dogeZPlugin) {
 		plugin = dogeZPlugin;
 	}
 
 	public Map<String, LootCategory> categories = new HashMap<String, LootCategory>();
 
 	public void loadTypes() {
-		File file = new File(DogeZPlugin.pluginFolder+"lootCategories.dz");
+		File file = new File(XolioZGamemodePlugin.pluginFolder+"lootCategories.dz");
 		if (!file.exists())
 			try {
 				file.createNewFile();
@@ -48,7 +48,7 @@ public class LootCategories {
 						name = data[0];
 						gsp = Float.parseFloat(data[1]);
 					}
-					currentCategory = new LootCategory(gsp);
+					currentCategory = new LootCategory(name, gsp);
 					categories.put(name, currentCategory);
 				} else {
 					if (!ligne.startsWith("//")) {

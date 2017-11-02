@@ -15,18 +15,18 @@ import io.xol.chunkstories.api.plugin.commands.CommandEmitter;
 import io.xol.chunkstories.api.plugin.commands.CommandHandler;
 import io.xol.chunkstories.api.sound.SoundSource.Mode;
 import io.xol.chunkstories.core.entity.EntityZombie;
-import io.xol.dogez.plugin.DogeZPlugin;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.loot.LootCategory;
 import io.xol.dogez.plugin.loot.LootType;
 import io.xol.dogez.plugin.map.PlacesNames;
 import io.xol.dogez.plugin.misc.TimeFormatter;
 import io.xol.dogez.plugin.player.PlayerProfile;
 
-public class DogeZPluginCommandsHandler implements CommandHandler {
+public class XolioZCommandsHandler implements CommandHandler {
 
-	private final DogeZPlugin plugin;
+	private final XolioZGamemodePlugin plugin;
 
-	public DogeZPluginCommandsHandler(DogeZPlugin dogeZPlugin) {
+	public XolioZCommandsHandler(XolioZGamemodePlugin dogeZPlugin) {
 		plugin = dogeZPlugin;
 	}
 
@@ -357,37 +357,44 @@ public class DogeZPluginCommandsHandler implements CommandHandler {
 								+ ChatColor.ITALIC + "set les loots à x blocs à la ronde");
 						return true;
 					} else {
+						//Add loot spawn points mode
 						if (args[1].equals("add") && args.length >= 3) {
-							String category = args[2];
-							if (plugin.getLootTypes().categories.keySet().contains(category)) {
-								PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
-								pp.activeCategory = category;
-								pp.adding = true;
+							
+							//Parse the category name supplied
+							String categoryName = args[2];
+							LootCategory category = plugin.getLootTypes().getCategory(categoryName);
+							
+							//Check the supplied one exist
+							if (category != null) {
+								//Grab his profile & configure it like so
+								PlayerProfile profile = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
+								
+								profile.activeCategory = category;
+								profile.adding = true;
+								
 								if (args.length >= 4)
-									pp.currentMin = Integer.parseInt(args[3]);
+									profile.currentMin = Integer.parseInt(args[3]);
 								if (args.length >= 5)
-									pp.currentMax = Integer.parseInt(args[4]);
+									profile.currentMax = Integer.parseInt(args[4]);
+								
 								player.sendMessage(ChatColor.AQUA + "Vous placez désormais des points de loot ["
-										+ category + ":" + pp.currentMin + "-" + pp.currentMax + "]");
+										+ categoryName + ":" + profile.currentMin + "-" + profile.currentMax + "]");
 							} else {
 								player.sendMessage(
-										ChatColor.RED + "La catégorie de loot \"" + category + "\" n'éxiste pas.");
+										ChatColor.RED + "La catégorie de loot \"" + categoryName + "\" n'éxiste pas.");
 							}
 							return true;
-						}
-						if (args[1].equals("remove")) {
+						} else if (args[1].equals("remove")) {
 							PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
 							pp.adding = false;
 							player.sendMessage(ChatColor.AQUA + "Vous supprimmez désormais des points de loot");
 							return true;
-						}
-						if (args[1].equals("stats")) {
+						} else if (args[1].equals("stats")) {
 							player.sendMessage(ChatColor.AQUA + "Il existe "
 									+ plugin.getLootPlaces().count(player.getControlledEntity().getWorld())
 									+ " points de loot dans le fichier.");
 							return true;
-						}
-						if (args[1].equals("list")) {
+						} else if (args[1].equals("list")) {
 							String list = "";
 							for (String c : plugin.getLootTypes().categories.keySet()) {
 								list += c + ",";
@@ -395,24 +402,20 @@ public class DogeZPluginCommandsHandler implements CommandHandler {
 							list = list.substring(0, list.length() - 1);
 							player.sendMessage(ChatColor.AQUA + "Types de loot :" + list);
 							return true;
-						}
-						if (args[1].equals("reload")) {
+						} else if (args[1].equals("reload")) {
 							plugin.getLootPlaces().loadLootFile(player.getControlledEntity().getWorld());
 							player.sendMessage(ChatColor.AQUA + "Fichier de loot rechargé.");
 							return true;
-						}
-						if (args[1].equals("save")) {
+						} else if (args[1].equals("save")) {
 							plugin.getLootPlaces().saveLootFile(player.getControlledEntity().getWorld());
 							player.sendMessage(ChatColor.AQUA + "Fichier de loot sauvegardé.");
 							return true;
-						}
-						if (args[1].equals("reloot")) {
+						} else if (args[1].equals("reloot")) {
 							player.sendMessage(ChatColor.AQUA + ""
 									+ plugin.getLootPlaces().respawnLoot(player.getControlledEntity().getWorld())
 									+ " points de loot respawnés.");
 							return true;
-						}
-						if (args[1].equals("arround")) {
+						} else if (args[1].equals("arround")) {
 							if (args.length >= 3) {
 								boolean force = (args.length == 4 && args[3].endsWith("force"));
 								int radius = Integer.parseInt(args[2]);
@@ -420,7 +423,7 @@ public class DogeZPluginCommandsHandler implements CommandHandler {
 									player.sendMessage(ChatColor.AQUA + "Rayon trop élevé, cappé à 50");
 									radius = 50;
 								}
-								int amount = plugin.getLootPlaces().lootArroundPlayer(player, radius, force);
+								int amount = plugin.getLootPlaces().generateLootPointsArroundPlayer(player, radius, force);
 								player.sendMessage(ChatColor.AQUA + "" + amount
 										+ " nouveaux points de loot ajoutés ( f=" + force + " )");
 							} else
@@ -505,8 +508,10 @@ public class DogeZPluginCommandsHandler implements CommandHandler {
 			}
 
 			if (args[0].equals("togglesynch") && player.hasPermission("dogez.admin")) {
-				plugin.config.synchTime = !plugin.config.synchTime;
-				sender.sendMessage("Synchronization heure IRL : " + plugin.config.synchTime);
+				
+				plugin.config.setProperty("irlTimeCycleSync", ""+(!plugin.config.getBoolean("irlTimeCycleSync", true)));
+				//plugin.config.setProperty("irlTimeCycleSync", plugin.config.getProperty("irlTimeCycleSync", "true").equals("true") ? "false" : "true");// = !plugin.config.synchTime;
+				sender.sendMessage("Synchronization heure IRL : " + plugin.config.getBoolean("irlTimeCycleSync"));
 				return true;
 			}
 		}

@@ -30,17 +30,21 @@ import io.xol.chunkstories.core.voxel.BigVoxel;
 
 public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon, VoxelLogic, VoxelInteractive, VoxelDynamicallyRendered {
 	
-	final float rotate;
-	final Vector3f translate;
-	final boolean isBurning;
-	final boolean darkSmoke;
-	final String model;
-	final String diffuseTexture;
+	public final float rotate;
+	public final Vector3f translate;
+	public final boolean isBurning;
+	public final boolean darkSmoke;
+	public final String model;
+	public final String diffuseTexture;
 	
-	final Vector3d size;
+	public final Vector3d size;
 	
-	final Vector3d burnZoneStart;
-	final Vector3d burnZoneSize;
+	public final Vector3d burnZoneStart;
+	public final Vector3d burnZoneSize;
+	
+	public final String lootCategoryName;
+	public final int lootAmountMin;
+	public final int lootAmountMax;
 	
 	public StaticVehicleVoxel(VoxelType type) {
 		super(type);
@@ -66,6 +70,10 @@ public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon, Vox
 		ts = type.resolveProperty("burnZoneSize", "1 1 1");
 		tss = ts.split(" ");
 		this.burnZoneSize = new Vector3d(Float.parseFloat(tss[0]), Float.parseFloat(tss[1]), Float.parseFloat(tss[2]));
+		
+		lootCategoryName = type.resolveProperty("lootCategory", "<name>");
+		lootAmountMin = Integer.parseInt(type.resolveProperty("lootAmountMin", "1"));
+		lootAmountMax = Integer.parseInt(type.resolveProperty("lootAmountMax", "<lootAmountMin>"));
 	}
 	
 	@Override

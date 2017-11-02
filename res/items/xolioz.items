@@ -505,3 +505,6 @@ end
 item 587 binoculars
 	customClass: io.xol.dogez.mods.items.ItemBinoculars
 end
+
+item 588 dz_loot_tool
+end

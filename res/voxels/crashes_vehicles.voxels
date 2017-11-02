@@ -13,6 +13,9 @@ voxel uaz_tire_blown 512
 	translate: -1f 0 2.25f
 	rotate: 90f
 	size: 5 3 2
+	
+	lootCategory: milit
+	lootAmountMax: 8
 end
 
 voxel uaz_tire_blown_on_fire 513
@@ -32,6 +35,9 @@ voxel uaz_tire_blown_on_fire 513
 	size: 5 3 2
 	burnZoneStart: 0.5 1.0 0.5
 	burnZoneSize: 3.0 0.0 1.0
+	
+	lootCategory: milit
+	lootAmountMax: 8
 end
 
 voxel uh_1h_wreck 514
@@ -52,8 +58,8 @@ voxel uh_1h_wreck 514
 	darkSmoke: true
 	burnZoneStart: 7.5 0.5 0.5
 	burnZoneSize: 3.5 0.5 2.0
-	lootType: milit
-	lootItemsMax: 8
+	lootCategory: milit
+	lootAmountMax: 8
 end
 
 voxel covet_wreck 515
@@ -73,6 +79,7 @@ voxel covet_wreck 515
 	size: 13 2 3
 	burnZoneStart: 7.5 0.5 0.5
 	burnZoneSize: 3.5 0.5 2.0
-	lootType: milit
-	lootItemsMax: 8
+	
+	lootCategory: milit
+	lootAmountMax: 8
 end

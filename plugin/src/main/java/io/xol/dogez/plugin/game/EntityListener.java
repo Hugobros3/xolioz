@@ -15,14 +15,14 @@ import io.xol.chunkstories.api.events.player.PlayerDeathEvent;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.core.entity.EntityZombie;
 import io.xol.chunkstories.core.item.FirearmShotEvent;
-import io.xol.dogez.plugin.DogeZPlugin;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.player.PlayerProfile;
 
 public class EntityListener implements Listener {
 
-	private final DogeZPlugin plugin;
+	private final XolioZGamemodePlugin plugin;
 
-	public EntityListener(DogeZPlugin plugin) {
+	public EntityListener(XolioZGamemodePlugin plugin) {
 		this.plugin = plugin;
 	}
 

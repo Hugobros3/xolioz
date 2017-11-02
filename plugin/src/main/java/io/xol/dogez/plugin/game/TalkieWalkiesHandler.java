@@ -5,15 +5,15 @@ import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
 import io.xol.chunkstories.api.entity.interfaces.EntityWithInventory;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
-import io.xol.dogez.plugin.DogeZPlugin;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
 
 //(c) 2015 XolioWare Interactive
 
 public class TalkieWalkiesHandler {
 	
-	private final DogeZPlugin plugin;
+	private final XolioZGamemodePlugin plugin;
 
-	public TalkieWalkiesHandler(DogeZPlugin dogeZPlugin) {
+	public TalkieWalkiesHandler(XolioZGamemodePlugin dogeZPlugin) {
 		plugin = dogeZPlugin;
 	}
 	

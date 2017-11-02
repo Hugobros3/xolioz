@@ -5,7 +5,7 @@ import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.core.voxel.VoxelChest;
-import io.xol.dogez.plugin.DogeZPlugin;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.player.PlayerProfile;
 
 import java.awt.image.BufferedImage;
@@ -41,8 +41,8 @@ public class LootPlaces {
 		int count = 0;
 		for(LootPlace pl : lp.places.values())
 		{
-			int px = pl.x / scale;
-			int py = pl.z / scale;
+			int px = ((int)pl.getLocation().x) / scale;
+			int py = ((int)pl.getLocation().z) / scale;
 			
 			img.setRGB(px, py, 255 << 16);
 			
@@ -59,13 +59,13 @@ public class LootPlaces {
 		System.out.println("Found "+count+" lootplaces.");
 	}
 	
-	private final DogeZPlugin plugin;
+	private final XolioZGamemodePlugin plugin;
 
-	public LootPlaces(DogeZPlugin dogeZPlugin) {
+	public LootPlaces(XolioZGamemodePlugin dogeZPlugin) {
 		plugin = dogeZPlugin;
 	}
 	
-	public DogeZPlugin getPlugin()
+	public XolioZGamemodePlugin getPlugin()
 	{
 		return plugin;
 	}
@@ -90,10 +90,10 @@ public class LootPlaces {
 		return count;
 	}
 	
-	public void loadLootFile(World w)
+	public void loadLootFile(World world)
 	{
-		Map<String,LootPlace> places = getData(w);
-		File file = getFile(w);
+		Map<String,LootPlace> places = getData(world);
+		File file = getFile(world);
 		places.clear();
 		try {
 			InputStream ips = new FileInputStream(file);
@@ -101,12 +101,40 @@ public class LootPlaces {
 			BufferedReader br = new BufferedReader(ipsr);
 			String ligne;
 			while ((ligne = br.readLine()) != null) {
-				LootPlace lp = new LootPlace(this, ligne,w);
-				if(lp.type != null)
+				
+				String[] split = ligne.split(":");
+				if(split.length >= 5)
+				{
+					// x:y:z:type:minamount:max
+					int x = Integer.parseInt(split[0]);
+					int y = Integer.parseInt(split[1]);
+					int z = Integer.parseInt(split[2]);
+					Location location = new Location(world, x, y, z);
+					
+					String type = split[3];
+					LootCategory category = this.plugin.getLootTypes().getCategory(type);
+					if(category == null)
+						continue;
+					
+					int minAmountToSpawn = Integer.parseInt(split[4]);
+					int maxAmountToSpawn;
+					
+					if(split.length >= 6)
+						maxAmountToSpawn = Integer.parseInt(split[5]);
+					else
+						maxAmountToSpawn = minAmountToSpawn;
+					
+					LootPlace lootPlace = new LootPlace(plugin, location, category, minAmountToSpawn, maxAmountToSpawn);
+					String coordinatesInText = ((int)location.x)+":"+((int)location.y)+":"+((int)location.z);
+					places.put(coordinatesInText, lootPlace);
+				}
+				
+				/*LootPlace lp = new LootPlace(this, ligne, world);
+				if(lp.category != null)
 				{
 					String coords = lp.x+":"+lp.y+":"+lp.z;
 					places.put(coords, lp);
-				}
+				}*/
 			}
 			br.close();
 		} catch (IOException e) {
@@ -115,7 +143,7 @@ public class LootPlaces {
 	}
 	
 	private File getFile(World w) {
-		File file = new File(DogeZPlugin.pluginFolder+"lootPlaces-namalsk.dz");
+		File file = new File(XolioZGamemodePlugin.pluginFolder+"lootPlaces.dz");
 		if(!file.exists())
 			try {
 				file.createNewFile();
@@ -143,10 +171,10 @@ public class LootPlaces {
 		}
 	
 		//These files have an infuriating tendency to self-corrupt, so yeah...
-		File folder = new File(DogeZPlugin.pluginFolder+"backups");
+		File folder = new File(XolioZGamemodePlugin.pluginFolder+"backups");
 		if(!folder.exists())
 			folder.mkdir();
-		file = new File(DogeZPlugin.pluginFolder+"backups/lootPlaces-"+System.currentTimeMillis()+".dz");
+		file = new File(XolioZGamemodePlugin.pluginFolder+"backups/lootPlaces-"+System.currentTimeMillis()+".dz");
 		try {
 			file.createNewFile();
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
@@ -187,7 +215,7 @@ public class LootPlaces {
 			places.get(coords).update();
 	}
 
-	public int lootArroundPlayer(Player player, int radius, boolean forceReplace) {
+	public int generateLootPointsArroundPlayer(Player player, int radius, boolean forceReplace) {
 		Map<String,LootPlace> places = getData(player.getControlledEntity().getWorld());
 		int count = 0;
 		PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
@@ -203,7 +231,9 @@ public class LootPlaces {
 					if(v != null && v instanceof VoxelChest && pp.activeCategory != null)
 					{
 						String coords = x+":"+y+":"+z;
-						LootPlace lp = new LootPlace(this, coords+":"+pp.activeCategory+":"+pp.currentMin+":"+pp.currentMax,player.getControlledEntity().getWorld());
+						
+						LootPlace lp = new LootPlace(plugin, new Location(player.getWorld(), x, y, z), pp.activeCategory, pp.currentMin, pp.currentMax);
+						//new LootPlace(this, coords+":"+pp.activeCategory+":"+pp.currentMin+":"+pp.currentMax,player.getControlledEntity().getWorld());
 						if(forceReplace || !places.containsKey(coords))
 						{
 							if(places.containsKey(coords))

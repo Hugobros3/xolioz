@@ -9,16 +9,16 @@ import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.api.world.chunk.Chunk;
 import io.xol.chunkstories.core.entity.EntityZombie;
 
-import io.xol.dogez.plugin.DogeZPlugin;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
 
 //Copyright 2014 XolioWare Interactive
 
 public class ZombiesPopulation {
 
-	DogeZPlugin plugin;
+	XolioZGamemodePlugin plugin;
 	public int zombiesCount = 0;
 	
-	public ZombiesPopulation(DogeZPlugin p)
+	public ZombiesPopulation(XolioZGamemodePlugin p)
 	{
 		plugin = p;
 	}
@@ -41,8 +41,8 @@ public class ZombiesPopulation {
 	
 	public void spawnZombies()
 	{
-		int minimalDistance = plugin.config.getInt("zombiesSpawnMinDistance");
-		int maximalDistance = plugin.config.getInt("zombiesSpawnMaxDistance");
+		int minimalDistance = plugin.config.getInt("zombiesSpawnMinDistance", 30);
+		int maximalDistance = plugin.config.getInt("zombiesSpawnMaxDistance", 60);
 		
 		for(Player p : plugin.getGameWorld().getPlayers())
 		{
@@ -92,7 +92,7 @@ public class ZombiesPopulation {
 						if(v.getType().isSolid())
 							break;
 					}
-					if(foundGround && zombiesCount <= plugin.config.maxZombies)
+					if(foundGround && zombiesCount <= plugin.config.getInt("maxZombiesOnMap", 420))
 					{
 						zombiesCount++;
 						spawnZombie(new Location(plugin.getGameWorld(), posx + 0.5, posy+1, posz + 0.5));

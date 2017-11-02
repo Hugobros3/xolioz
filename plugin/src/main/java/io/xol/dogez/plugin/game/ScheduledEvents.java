@@ -9,14 +9,14 @@ import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.plugin.Scheduler;
-import io.xol.dogez.plugin.DogeZPlugin;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.map.PlacesNames;
 import io.xol.dogez.plugin.player.PlayerProfile;
 
 public class ScheduledEvents {
 	public long ticksCounter = 0;
 
-	public ScheduledEvents(DogeZPlugin plugin) {
+	public ScheduledEvents(XolioZGamemodePlugin plugin) {
 
 		Scheduler scheduler = plugin.getGameWorld().getGameLogic().getScheduler();
 		
@@ -39,12 +39,12 @@ public class ScheduledEvents {
 				}
 				plugin.spawner.countZombies();
 				plugin.spawner.spawnZombies();
-				if (plugin.config.synchTime) {
+				if (plugin.config.getBoolean("irlTimeCycleSync", true)) {
 
 					// Synchs time
 					Date time = new Date();
 					@SuppressWarnings("deprecation")
-					double cstime = (time.getHours() - 0) * 60 + time.getMinutes();
+					double cstime = (time.getHours() - 0) * 60 + time.getMinutes() + plugin.config.getInt("timeSyncOffsetInMinutes", 0);
 					cstime = cstime / 1440;
 					cstime = cstime * 10000;
 					cstime %= 10000;

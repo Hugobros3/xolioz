@@ -16,19 +16,20 @@ import io.xol.chunkstories.api.server.ServerInterface;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.dogez.plugin.economy.SignsShopsHandlers;
-import io.xol.dogez.plugin.game.DogeZPluginCommandsHandler;
+import io.xol.dogez.plugin.game.XolioZCommandsHandler;
 import io.xol.dogez.plugin.game.EntityListener;
 import io.xol.dogez.plugin.game.PlayerListener;
 import io.xol.dogez.plugin.game.ScheduledEvents;
 import io.xol.dogez.plugin.game.SpawnPoints;
 import io.xol.dogez.plugin.game.TalkieWalkiesHandler;
 import io.xol.dogez.plugin.loot.LootPlaces;
+import io.xol.dogez.plugin.loot.crashes.CrashesHandler;
 import io.xol.dogez.plugin.loot.LootCategories;
 import io.xol.dogez.plugin.map.PlacesNames;
 import io.xol.dogez.plugin.player.PlayerProfiles;
 import io.xol.dogez.plugin.zombies.ZombiesPopulation;
 
-public class DogeZPlugin extends ServerPlugin {
+public class XolioZGamemodePlugin extends ServerPlugin {
 
 	private PlayerProfiles playerProfiles = new PlayerProfiles(this);
 	private ScheduledEvents scheduledEvents;
@@ -37,9 +38,10 @@ public class DogeZPlugin extends ServerPlugin {
 	private EntityListener entityListener = new EntityListener(this);
 	private PlayerListener playerListener = new PlayerListener(this);
 	
-	//private LootItems lootItems = new LootItems(this);
 	private LootCategories lootTypes = new LootCategories(this);
 	private LootPlaces lootPlaces = new LootPlaces(this);
+	
+	private final CrashesHandler crashesHandler = new CrashesHandler(this);
 	
 	private TalkieWalkiesHandler talkieWalkiesHandler = new TalkieWalkiesHandler(this);
 	
@@ -47,10 +49,10 @@ public class DogeZPlugin extends ServerPlugin {
 	
 	public static final String pluginFolder = "./plugins/XolioZ/";
 	
-	public DogeZPlugin(PluginInformation pluginInformation, ServerInterface clientInterface) {
+	public XolioZGamemodePlugin(PluginInformation pluginInformation, ServerInterface clientInterface) {
 		super(pluginInformation, clientInterface);
 		
-
+		//Non-presence of the accompanying mod in the server configuration is fatal
 		boolean mod_present = false;
 		for(Mod mod : this.getPluginExecutionContext().getContent().modsManager().getCurrentlyLoadedMods())
 		{
@@ -70,7 +72,6 @@ public class DogeZPlugin extends ServerPlugin {
 
 	@Override
 	public void onEnable() {
-		// Splash screen !
 		version = "" + this.getPluginInformation().getPluginVersion();
 		
 		this.getLogger().info("[XolioZ] Initializing plugin version " + version + " ...");
@@ -81,15 +82,14 @@ public class DogeZPlugin extends ServerPlugin {
 			return;
 		}
 		
-		// Plugin initialisation !
 		checkFolder();
 		loadConfigs();
-		// initialize handlers
 
 		getServer().getPluginManager().registerEventListener(entityListener, this);
 		getServer().getPluginManager().registerEventListener(playerListener, this);
+		getServer().getPluginManager().registerEventListener(crashesHandler, this);
 
-		DogeZPluginCommandsHandler dogezCmdHandler = new DogeZPluginCommandsHandler(this);
+		XolioZCommandsHandler dogezCmdHandler = new XolioZCommandsHandler(this);
 		this.getPluginManager().registerCommandHandler("dz", dogezCmdHandler);
 		this.getPluginManager().registerCommandHandler("r", dogezCmdHandler);
 		this.getPluginManager().registerCommandHandler("m", dogezCmdHandler);
@@ -202,5 +202,9 @@ public class DogeZPlugin extends ServerPlugin {
 	public LootPlaces getLootPlaces()
 	{
 		return lootPlaces;
+	}
+
+	public CrashesHandler getCrashesHandler() {
+		return crashesHandler;
 	}
 }

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.xol.chunkstories.api.player.Player;
-import io.xol.dogez.plugin.DogeZPlugin;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
 
 public class PlayerProfiles {
 
-	private final DogeZPlugin plugin;
+	private final XolioZGamemodePlugin plugin;
 
-	public PlayerProfiles(DogeZPlugin plugin) {
+	public PlayerProfiles(XolioZGamemodePlugin plugin) {
 		this.plugin = plugin;
 	}
 

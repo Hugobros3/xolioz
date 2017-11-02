@@ -12,7 +12,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import io.xol.dogez.plugin.DogeZPlugin;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
+import io.xol.dogez.plugin.loot.LootCategory;
 
 //(c) 2014 XolioWare Interactive
 
@@ -44,7 +45,7 @@ public class PlayerProfile {
 
 	// map-building shit
 	public boolean adding = true;
-	public String activeCategory;
+	public LootCategory activeCategory;
 	public int currentMin = 1;
 	public int currentMax = 5;
 
@@ -72,7 +73,7 @@ public class PlayerProfile {
 
 	public void reloadProfile() {
 
-		File userProfile = new File(DogeZPlugin.pluginFolder+"users/" + uuid + ".dz");
+		File userProfile = new File(XolioZGamemodePlugin.pluginFolder+"users/" + uuid + ".dz");
 		userProfile.getParentFile().mkdirs();
 
 		if (userProfile.exists()) {
@@ -142,7 +143,7 @@ public class PlayerProfile {
 	public void saveProfile() {
 		timeCalc();
 
-		File userProfile = new File(DogeZPlugin.pluginFolder+"users/" + uuid + ".dz");
+		File userProfile = new File(XolioZGamemodePlugin.pluginFolder+"users/" + uuid + ".dz");
 		try {
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(userProfile), "UTF-8"));
 			

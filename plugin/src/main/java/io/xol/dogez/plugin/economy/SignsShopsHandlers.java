@@ -14,16 +14,16 @@ import io.xol.chunkstories.api.world.VoxelContext;
 import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
 import io.xol.chunkstories.core.voxel.VoxelSign;
 import io.xol.chunkstories.core.voxel.components.VoxelComponentSignText;
-import io.xol.dogez.plugin.DogeZPlugin;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.player.PlayerProfile;
 
 //Copyright 2014 XolioWare Interactive
 
 public class SignsShopsHandlers {
 
-	private final DogeZPlugin plugin;
+	private final XolioZGamemodePlugin plugin;
 
-	public SignsShopsHandlers(DogeZPlugin dogeZPlugin) {
+	public SignsShopsHandlers(XolioZGamemodePlugin dogeZPlugin) {
 		plugin = dogeZPlugin;
 	}
 	

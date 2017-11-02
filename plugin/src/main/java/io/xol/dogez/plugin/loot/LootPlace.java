@@ -4,64 +4,53 @@ package io.xol.dogez.plugin.loot;
 
 import java.util.Random;
 
+import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.item.inventory.Inventory;
 import io.xol.chunkstories.api.voxel.components.VoxelInventoryComponent;
 import io.xol.chunkstories.api.world.VoxelContext;
-import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
 import io.xol.chunkstories.core.voxel.VoxelChest;
+import io.xol.dogez.mods.voxel.StaticVehicleVoxel;
+import io.xol.dogez.plugin.XolioZGamemodePlugin;
 
 public class LootPlace {
+	private final XolioZGamemodePlugin plugin;
 
-	public String type;
+	public final Location location;
+	public LootCategory category;
+	
 	public int minAmountToSpawn = 0;
 	public int maxAmountToSpawn = 0;
 	
-	public int x;
-	public int y;
-	public int z;
-	
 	public long lastUpdate = 0;
 	
-	World world;
-	
-	private final LootPlaces parent;
-	
-	public LootPlace(LootPlaces dad, String ligne, World world) {
-		
-		this.parent = dad;
-		this.world = world;
-		String[] split = ligne.split(":");
-		if(split.length >= 5)
-		{
-			// x:y:z:type:minamount:max
-			x = Integer.parseInt(split[0]);
-			y = Integer.parseInt(split[1]);
-			z = Integer.parseInt(split[2]);
-			type = split[3];
-			minAmountToSpawn = Integer.parseInt(split[4]);
-			if(split.length >= 6)
-				maxAmountToSpawn = Integer.parseInt(split[5]);
-			else
-				maxAmountToSpawn = minAmountToSpawn;
-		}
-	}
-
-	public boolean shouldReloot(){
-		return ((System.currentTimeMillis() - lastUpdate)/1000 > parent.getPlugin().config.timeBetweenReloots);
+	public LootPlace(XolioZGamemodePlugin plugin, Location location, LootCategory category, int minAmountToSpawn,
+			int maxAmountToSpawn) {
+		super();
+		this.plugin = plugin;
+		this.location = location;
+		this.category = category;
+		this.minAmountToSpawn = minAmountToSpawn;
+		this.maxAmountToSpawn = maxAmountToSpawn;
 	}
 	
-	private Inventory getContainerInv()
+	public boolean shouldRespawnLoot(){
+		return ((System.currentTimeMillis() - lastUpdate)/1000 > plugin.config.getInt("lootRespawnDelay", 600));
+	}
+	
+	protected Inventory getContainerInv()
 	{
-		VoxelContext peek = world.peekSafely(x, y, z);
+		VoxelContext peek = location.getWorld().peekSafely(location);
 		
 		//The chunk is loaded
 		if(peek instanceof ChunkVoxelContext) {
 			//The voxel is the correct type
-			if(peek.getVoxel() instanceof VoxelChest)// || peek.getVoxel() instanceof StaticVehicleVoxel)
-			{
+			if(peek.getVoxel() instanceof VoxelChest) {
+				//return ((VoxelChest) peek.getVoxel()).getInventory((ChunkVoxelContext) peek);
+				return ((VoxelInventoryComponent)((ChunkVoxelContext) peek).components().get("chestInventory")).getInventory();
+			} else if(peek.getVoxel() instanceof StaticVehicleVoxel) {
 				return ((VoxelInventoryComponent)((ChunkVoxelContext) peek).components().get("inventory")).getInventory();
-			}
+			} 
 		}
 		
 		return null;
@@ -69,40 +58,45 @@ public class LootPlace {
 	
 	public void update()
 	{
-		//System.out.println("Updating place "+this);
-		if(shouldReloot())
+		if(shouldRespawnLoot())
+			spawnLoot();
+	}
+	
+	public void spawnLoot() {
+		Inventory inv = getContainerInv();
+		
+		if(inv == null)
+			return;
+		
+		inv.clear();
+		Random rng = new Random();
+		int amount2spawn = (maxAmountToSpawn-minAmountToSpawn <= 0 ? 0 : rng.nextInt(maxAmountToSpawn-minAmountToSpawn))+minAmountToSpawn;
+		while(amount2spawn > 0)
 		{
-			Inventory inv = getContainerInv();
-			if(inv == null)
-				return;
-			inv.clear();
-			Random rng = new Random();
-			int amount2spawn = (maxAmountToSpawn-minAmountToSpawn == 0 ? 0 : rng.nextInt(maxAmountToSpawn-minAmountToSpawn))+minAmountToSpawn;
-			while(amount2spawn > 0)
+			LootType lootType = /*plugin.getLootTypes().getCategory(type).*/category.getRandomSpawn();
+			if(lootType != null)
 			{
-				LootType lt = parent.getPlugin().getLootTypes().getCategory(type).getRandomSpawn();
-				if(lt != null)
-				{
-					//Randomize position inside chest
-					int positionX = rng.nextInt(inv.getWidth());
-					int positionY = rng.nextInt(inv.getHeight());
-					
-					inv.setItemPileAt(positionX, positionY, lt.getItem());
-					//int position = rng.nextInt(inv.getSize()-1);
-					//inv.setItem(position, lt.getItem());
-				}
-				amount2spawn--;
+				//Randomize position inside chest
+				int positionX = rng.nextInt(inv.getWidth());
+				int positionY = rng.nextInt(inv.getHeight());
+				
+				inv.setItemPileAt(positionX, positionY, lootType.getItem());
 			}
-			lastUpdate = System.currentTimeMillis();
+			amount2spawn--;
 		}
+		lastUpdate = System.currentTimeMillis();
 	}
 	
 	public String toString()
 	{
-		return "(x="+x+",y="+y+",z="+z+",type="+type+")";
+		return "[LootPlace location: "+location+", type:"+category+"]";
 	}
 
 	public String save() {
-		return x+":"+y+":"+z+":"+type+":"+minAmountToSpawn+(minAmountToSpawn == maxAmountToSpawn ? "" : ":"+maxAmountToSpawn);
+		return ((int)location.x)+":"+((int)location.y)+":"+((int)location.z)+":"+category.getName()+":"+minAmountToSpawn+(minAmountToSpawn == maxAmountToSpawn ? "" : ":"+maxAmountToSpawn);
+	}
+
+	public Location getLocation() {
+		return location;
 	}
 }

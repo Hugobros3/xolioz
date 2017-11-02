@@ -19,15 +19,11 @@ public class LootType {
 		String[] split = initString.split(":");
 		if(split.length < 3)
 		{
-			//System.out.println("Wrong initstrig given ("+initString+")");
 			return;
 		}
 		else
 		{
 			lootItem = li;
-			/*typeId = Integer.parseInt(split[0]);
-			metaData = Integer.parseInt(split[1]);
-			name = ChatFormatter.convertString(split[2]);*/
 			proba = Integer.parseInt(split[1]);
 			if(split.length >= 3)
 			{
