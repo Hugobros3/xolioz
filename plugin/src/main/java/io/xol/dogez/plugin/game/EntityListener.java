@@ -1,8 +1,5 @@
 package io.xol.dogez.plugin.game;
 
-//(c) 2014 XolioWare Interactive
-
-import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.entity.DamageCause;
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityLiving;
@@ -13,6 +10,7 @@ import io.xol.chunkstories.api.events.entity.EntityDamageEvent;
 import io.xol.chunkstories.api.events.entity.EntityDeathEvent;
 import io.xol.chunkstories.api.events.player.PlayerDeathEvent;
 import io.xol.chunkstories.api.player.Player;
+import io.xol.chunkstories.api.util.compatibility.ChatColor;
 import io.xol.chunkstories.core.entity.EntityZombie;
 import io.xol.chunkstories.core.item.FirearmShotEvent;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;

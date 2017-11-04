@@ -10,7 +10,7 @@ import io.xol.chunkstories.api.item.ItemType;
 import io.xol.chunkstories.api.item.interfaces.ItemOverlay;
 import io.xol.chunkstories.api.item.interfaces.ItemZoom;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
-import io.xol.chunkstories.api.player.LocalPlayer;
+import io.xol.chunkstories.api.client.LocalPlayer;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 
 public class ItemBinoculars extends Item implements ItemZoom, ItemOverlay {

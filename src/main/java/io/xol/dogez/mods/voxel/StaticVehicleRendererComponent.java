@@ -10,11 +10,11 @@ import org.joml.Vector3f;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.math.Math2;
-import io.xol.chunkstories.api.player.LocalPlayer;
+import io.xol.chunkstories.api.client.LocalPlayer;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.lightning.Light;
-import io.xol.chunkstories.api.serialization.StreamSource;
-import io.xol.chunkstories.api.serialization.StreamTarget;
+import io.xol.chunkstories.api.world.serialization.StreamSource;
+import io.xol.chunkstories.api.world.serialization.StreamTarget;
 import io.xol.chunkstories.api.sound.SoundSource;
 import io.xol.chunkstories.api.sound.SoundSource.Mode;
 import io.xol.chunkstories.api.util.IterableIterator;

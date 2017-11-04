@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import io.xol.chunkstories.api.mods.Mod;
+import io.xol.chunkstories.api.content.mods.Mod;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.plugin.PluginInformation;
 import io.xol.chunkstories.api.plugin.ServerPlugin;

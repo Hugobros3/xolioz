@@ -1,14 +1,11 @@
 package io.xol.dogez.plugin.game;
 
-//(c) 2014 XolioWare Interactive
-
 import java.util.Date;
 import java.util.Random;
-
-import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.plugin.Scheduler;
+import io.xol.chunkstories.api.util.compatibility.ChatColor;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.map.PlacesNames;
 import io.xol.dogez.plugin.player.PlayerProfile;

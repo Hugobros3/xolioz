@@ -3,21 +3,18 @@ package io.xol.dogez.plugin.economy;
 import java.util.Iterator;
 
 import io.xol.chunkstories.api.Location;
-import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.entity.interfaces.EntityWithInventory;
 import io.xol.chunkstories.api.item.ItemType;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
+import io.xol.chunkstories.api.util.compatibility.ChatColor;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.voxel.components.VoxelComponent;
 import io.xol.chunkstories.api.world.VoxelContext;
 import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
-import io.xol.chunkstories.core.voxel.VoxelSign;
 import io.xol.chunkstories.core.voxel.components.VoxelComponentSignText;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.player.PlayerProfile;
-
-//Copyright 2014 XolioWare Interactive
 
 public class SignsShopsHandlers {
 

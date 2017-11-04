@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import io.xol.chunkstories.api.Location;
-import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
 import io.xol.chunkstories.api.entity.interfaces.EntityWithSelectedItem;

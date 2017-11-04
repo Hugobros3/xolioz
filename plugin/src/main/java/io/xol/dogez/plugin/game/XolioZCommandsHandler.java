@@ -3,7 +3,6 @@ package io.xol.dogez.plugin.game;
 //Copyright 2014 XolioWare Interactive
 
 import io.xol.chunkstories.api.Location;
-import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityLiving;
 import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
@@ -14,6 +13,7 @@ import io.xol.chunkstories.api.plugin.commands.Command;
 import io.xol.chunkstories.api.plugin.commands.CommandEmitter;
 import io.xol.chunkstories.api.plugin.commands.CommandHandler;
 import io.xol.chunkstories.api.sound.SoundSource.Mode;
+import io.xol.chunkstories.api.util.compatibility.ChatColor;
 import io.xol.chunkstories.core.entity.EntityZombie;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.loot.LootCategory;

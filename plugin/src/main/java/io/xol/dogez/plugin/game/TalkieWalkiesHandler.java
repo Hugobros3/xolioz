@@ -1,13 +1,11 @@
 package io.xol.dogez.plugin.game;
 
-import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
 import io.xol.chunkstories.api.entity.interfaces.EntityWithInventory;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
+import io.xol.chunkstories.api.util.compatibility.ChatColor;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;
-
-//(c) 2015 XolioWare Interactive
 
 public class TalkieWalkiesHandler {
 	

@@ -1,7 +1,6 @@
 package io.xol.dogez.plugin.game;
 
 import io.xol.chunkstories.api.Location;
-import io.xol.chunkstories.api.compatibility.ChatColor;
 import io.xol.chunkstories.api.entity.DamageCause;
 import io.xol.chunkstories.api.entity.EntityLiving;
 import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
@@ -14,6 +13,7 @@ import io.xol.chunkstories.api.events.player.PlayerLogoutEvent;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
+import io.xol.chunkstories.api.util.compatibility.ChatColor;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.VoxelContext;
 import io.xol.chunkstories.core.voxel.VoxelChest;
@@ -22,8 +22,6 @@ import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.loot.LootPlace;
 import io.xol.dogez.plugin.misc.ChatFormatter;
 import io.xol.dogez.plugin.player.PlayerProfile;
-
-//(c) 2014 XolioWare Interactive
 
 public class PlayerListener implements Listener {
 
