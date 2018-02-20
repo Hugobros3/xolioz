@@ -14,7 +14,7 @@ import org.joml.Vector3dc;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.EntityBase;
-import io.xol.chunkstories.api.entity.EntityType;
+import io.xol.chunkstories.api.entity.EntityDefinition;
 import io.xol.chunkstories.api.entity.components.EntityComponentVelocity;
 
 public abstract class EntityThrownGrenade extends EntityBase implements EntityRenderable  {
@@ -25,7 +25,7 @@ public abstract class EntityThrownGrenade extends EntityBase implements EntityRe
 	
 	public final EntityComponentVelocity velocityComponent = new EntityComponentVelocity(this);
 	
-	public EntityThrownGrenade(EntityType type, Location loc) {
+	public EntityThrownGrenade(EntityDefinition type, Location loc) {
 		super(type, loc);
 	}
 
@@ -36,7 +36,7 @@ public abstract class EntityThrownGrenade extends EntityBase implements EntityRe
 
 		if (world instanceof WorldMaster) {
 			Voxel voxelIn = world.peekSafely(positionComponent.getLocation()).getVoxel();
-			boolean inWater = voxelIn.getType().isLiquid();
+			boolean inWater = voxelIn.getDefinition().isLiquid();
 
 			double terminalVelocity = inWater ? -0.05 : -1.5;
 			if (velocity.y() > terminalVelocity && !this.isOnGround())

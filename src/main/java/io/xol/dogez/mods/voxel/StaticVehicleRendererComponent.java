@@ -20,10 +20,10 @@ import io.xol.chunkstories.api.sound.SoundSource.Mode;
 import io.xol.chunkstories.api.util.IterableIterator;
 import io.xol.chunkstories.api.voxel.components.VoxelComponent;
 import io.xol.chunkstories.api.voxel.components.VoxelComponentDynamicRenderer;
-import io.xol.chunkstories.api.voxel.components.VoxelComponents;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldClient;
-import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
+import io.xol.chunkstories.api.world.cell.CellComponents;
+import io.xol.chunkstories.api.world.chunk.Chunk.ChunkCell;
 
 public class StaticVehicleRendererComponent extends VoxelComponentDynamicRenderer {
 
@@ -32,7 +32,7 @@ public class StaticVehicleRendererComponent extends VoxelComponentDynamicRendere
 	float fuelRemaining;
 	int secondsOnFire;
 	
-	public StaticVehicleRendererComponent(StaticVehicleVoxel vehicleType, VoxelComponents holder, float initialFuel) {
+	public StaticVehicleRendererComponent(StaticVehicleVoxel vehicleType, CellComponents holder, float initialFuel) {
 		super(holder);
 		
 		this.vehicleType = vehicleType;
@@ -111,11 +111,11 @@ public class StaticVehicleRendererComponent extends VoxelComponentDynamicRendere
 
 
 		@Override
-		public void renderVoxels(RenderingInterface renderingInterface, IterableIterator<ChunkVoxelContext> voxelsOfThisType) {
+		public void renderVoxels(RenderingInterface renderingInterface, IterableIterator<ChunkCell> voxelsOfThisType) {
 			renderingInterface.bindNormalTexture(renderingInterface.textures().getTexture("./textures/normalnormal.png"));
 			renderingInterface.bindMaterialTexture(renderingInterface.textures().getTexture("./textures/defaultmaterial.png"));
 			
-			for(ChunkVoxelContext context : voxelsOfThisType) {
+			for(ChunkCell context : voxelsOfThisType) {
 			
 					if(context.getMetaData() != 0)
 						continue;

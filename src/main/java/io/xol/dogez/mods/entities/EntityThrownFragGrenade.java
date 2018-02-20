@@ -8,7 +8,7 @@ import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.DamageCause;
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityLiving;
-import io.xol.chunkstories.api.entity.EntityType;
+import io.xol.chunkstories.api.entity.EntityDefinition;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
@@ -16,6 +16,7 @@ import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
 import io.xol.chunkstories.api.rendering.textures.Texture2D;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.WorldMaster;
+import io.xol.chunkstories.api.world.cell.CellData;
 import io.xol.chunkstories.core.util.WorldEffects;
 
 //(c) 2015-2017 XolioWare Interactive
@@ -27,7 +28,7 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 	int ignitionTimer = 60 * 5; // 4 seconds to ignite
 	int deathTimer = 0 * 50; // Lives 50 seconds
 
-	public EntityThrownFragGrenade(EntityType type, Location loc) {
+	public EntityThrownFragGrenade(EntityDefinition type, Location loc) {
 		super(type, loc);
 	}
 
@@ -64,12 +65,12 @@ public class EntityThrownFragGrenade extends EntityThrownGrenade implements Enti
 
 				renderingContext.currentShader().setUniform3f("objectPosition", new Vector3f(0));
 
-				int modelBlockData = grenade.getWorld().peekSafely(grenade.getLocation()).getData();
+				CellData cell = grenade.getWorld().peekSafely(grenade.getLocation());
+				//int modelBlockData = grenade.getWorld().peekSafely(grenade.getLocation()).getData();
 
-				int lightSky = VoxelFormat.sunlight(modelBlockData);
-				int lightBlock = VoxelFormat.blocklight(modelBlockData);
-				renderingContext.currentShader().setUniform3f("givenLightmapCoords", lightBlock / 15f, lightSky / 15f,
-						0f);
+				//int lightSky = VoxelFormat.sunlight(modelBlockData);
+				//int lightBlock = VoxelFormat.blocklight(modelBlockData);
+				renderingContext.currentShader().setUniform3f("givenLightmapCoords", cell.getBlocklight() / 15f, cell.getSunlight() / 15f, 0f);
 
 				Matrix4f mutrix = new Matrix4f();
 

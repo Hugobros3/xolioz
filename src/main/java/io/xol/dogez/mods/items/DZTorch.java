@@ -8,7 +8,7 @@ import org.joml.Vector4f;
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.interfaces.EntityRotateable;
 import io.xol.chunkstories.api.item.Item;
-import io.xol.chunkstories.api.item.ItemType;
+import io.xol.chunkstories.api.item.ItemDefinition;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.item.renderer.ItemRenderer;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
@@ -22,7 +22,7 @@ import io.xol.chunkstories.core.item.renderer.ObjViewModelRenderer;
 
 public class DZTorch extends Item{
 
-	public DZTorch(ItemType type) {
+	public DZTorch(ItemDefinition type) {
 		super(type);
 	}
 	

@@ -10,7 +10,7 @@ import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.item.Item;
-import io.xol.chunkstories.api.item.ItemType;
+import io.xol.chunkstories.api.item.ItemDefinition;
 import io.xol.chunkstories.api.item.inventory.Inventory;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.item.renderer.ItemRenderer;
@@ -28,7 +28,7 @@ import io.xol.chunkstories.api.math.Math2;
 
 public class SmokeGrenade extends Item{
 
-	public SmokeGrenade(ItemType type) {
+	public SmokeGrenade(ItemDefinition type) {
 		super(type);
 	}
 

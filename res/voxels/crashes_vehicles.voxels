@@ -1,4 +1,4 @@
-voxel uaz_tire_blown 512
+voxel uaz_tire_blown
 	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
 	opaque: false
 	selfOpaque: true
@@ -18,7 +18,7 @@ voxel uaz_tire_blown 512
 	lootAmountMax: 8
 end
 
-voxel uaz_tire_blown_on_fire 513
+voxel uaz_tire_blown_on_fire
 	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
 	opaque: false
 	selfOpaque: true
@@ -40,7 +40,7 @@ voxel uaz_tire_blown_on_fire 513
 	lootAmountMax: 8
 end
 
-voxel uh_1h_wreck 514
+voxel uh_1h_wreck
 	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
 	opaque: false
 	selfOpaque: true
@@ -62,7 +62,7 @@ voxel uh_1h_wreck 514
 	lootAmountMax: 8
 end
 
-voxel covet_wreck 515
+voxel covet_wreck
 	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
 	opaque: false
 	selfOpaque: true

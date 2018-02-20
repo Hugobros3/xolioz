@@ -1,14 +1,13 @@
-# Here you assign entities their ID and class. An optional name might be provided for convinience, else the simple name of the class will be used.
-# ID 0 is reserved
+# Here you assign entities their name and class, along with any custom parameters the entity class might have an use for
 
-entity smoke_grenade 64
+entity smoke_grenade
 	class: io.xol.dogez.mods.entities.EntityThrownSmokeGrenade
 end
 
-entity flash_grenade 65
+entity flash_grenade
 	class: io.xol.dogez.mods.entities.EntityThrownFlashbangGrenade
 end
 
-entity frag_grenade 66
+entity frag_grenade
 	class: io.xol.dogez.mods.entities.EntityThrownFragGrenade
 end

@@ -6,29 +6,24 @@ import org.joml.Vector3f;
 import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
-import io.xol.chunkstories.api.events.voxel.WorldModificationCause;
-import io.xol.chunkstories.api.exceptions.world.voxel.IllegalBlockModificationException;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.VoxelCustomIcon;
-import io.xol.chunkstories.api.voxel.VoxelDynamicallyRendered;
-import io.xol.chunkstories.api.voxel.VoxelFormat;
-import io.xol.chunkstories.api.voxel.VoxelInteractive;
-import io.xol.chunkstories.api.voxel.VoxelLogic;
-import io.xol.chunkstories.api.voxel.VoxelType;
+import io.xol.chunkstories.api.voxel.VoxelDefinition;
 import io.xol.chunkstories.api.voxel.components.VoxelComponent;
 import io.xol.chunkstories.api.voxel.components.VoxelComponentDynamicRenderer;
 import io.xol.chunkstories.api.voxel.components.VoxelInventoryComponent;
-import io.xol.chunkstories.api.world.VoxelContext;
 import io.xol.chunkstories.api.world.WorldMaster;
-import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
+import io.xol.chunkstories.api.world.cell.CellData;
+import io.xol.chunkstories.api.world.chunk.Chunk.ChunkCell;
+import io.xol.chunkstories.api.world.chunk.Chunk.FreshChunkCell;
 import io.xol.chunkstories.core.voxel.BigVoxel;
 
 //(c) 2015-2017 XolioWare Interactive
 //http://chunkstories.xyz
 //http://xol.io
 
-public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon, VoxelLogic, VoxelInteractive, VoxelDynamicallyRendered {
+public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon {
 	
 	public final float rotate;
 	public final Vector3f translate;
@@ -46,7 +41,7 @@ public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon, Vox
 	public final int lootAmountMin;
 	public final int lootAmountMax;
 	
-	public StaticVehicleVoxel(VoxelType type) {
+	public StaticVehicleVoxel(VoxelDefinition type) {
 		super(type);
 		
 		this.rotate = Float.parseFloat(type.resolveProperty("rotate", "0"));
@@ -75,26 +70,18 @@ public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon, Vox
 		lootAmountMin = Integer.parseInt(type.resolveProperty("lootAmountMin", "1"));
 		lootAmountMax = Integer.parseInt(type.resolveProperty("lootAmountMax", "<lootAmountMin>"));
 	}
-	
+
 	@Override
-	public int onPlace(ChunkVoxelContext context, int voxelData, WorldModificationCause cause) throws IllegalBlockModificationException {
-		
+	public void whenPlaced(FreshChunkCell cell) {
 		//TODO configure the size of the inventory depending on the entity config
-		if(VoxelFormat.meta(voxelData) == 0)
-			context.components().put("inventory", new VoxelInventoryComponent(context.components(), 10, 4));
-		context.components().put("renderer", new StaticVehicleRendererComponent(this, context.components(), 60L));
-		return super.onPlace(context, voxelData, cause);
+		if(cell.getMetaData() == 0)
+			cell.registerComponent("inventory", new VoxelInventoryComponent(cell.components(), 10, 4));
+		cell.registerComponent("renderer", new StaticVehicleRendererComponent(this, cell.components(), 60L));
+		super.whenPlaced(cell);
 	}
 
 	@Override
-	public void onRemove(ChunkVoxelContext context, WorldModificationCause cause) throws IllegalBlockModificationException {
-		
-		context.components().erase();
-		super.onRemove(context, cause);
-	}
-
-	@Override
-	public boolean handleInteraction(Entity entity, ChunkVoxelContext context, Input input) {
+	public boolean handleInteraction(Entity entity, ChunkCell context, Input input) {
 		if(input.getName().equals("mouse.right") && context.getWorld() instanceof WorldMaster) {
 
 			int x = context.getX();
@@ -120,11 +107,11 @@ public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon, Vox
 					int startY = y - bp;
 					int startZ = z - cp;
 					
-					VoxelContext worldContext = context.getWorld().peekSafely(startX, startY, startZ);
+					CellData worldContext = context.getWorld().peekSafely(startX, startY, startZ);
 					
 					//Check the chunk holding the origin block is actually loaded
-					if(worldContext instanceof ChunkVoxelContext) {
-						VoxelComponent component = ((ChunkVoxelContext) worldContext).components().get("inventory");
+					if(worldContext instanceof ChunkCell) {
+						VoxelComponent component = ((ChunkCell) worldContext).components().get("inventory");
 						if(component != null) {
 							VoxelInventoryComponent invComponent = (VoxelInventoryComponent)component;
 							p.openInventory(invComponent.getInventory());
@@ -139,8 +126,7 @@ public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon, Vox
 		return false;
 	}
 
-	@Override
-	public VoxelComponentDynamicRenderer getDynamicRendererComponent(ChunkVoxelContext context) {
+	public VoxelComponentDynamicRenderer getDynamicRendererComponent(ChunkCell context) {
 		return (VoxelComponentDynamicRenderer) context.components().get("renderer");
 	}
 

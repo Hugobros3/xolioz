@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.xol.chunkstories.api.item.ItemType;
+import io.xol.chunkstories.api.item.ItemDefinition;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;
 
 public class LootCategories {
@@ -52,10 +52,10 @@ public class LootCategories {
 					categories.put(name, currentCategory);
 				} else {
 					if (!ligne.startsWith("//")) {
-						ItemType itemType = plugin.getPluginExecutionContext().getContent().items()
+						ItemDefinition ItemDefinition = plugin.getPluginExecutionContext().getContent().items()
 								.getItemTypeByName(ligne.split(":")[0]);
 
-						LootType addmeh = new LootType(itemType, ligne);
+						LootType addmeh = new LootType(ItemDefinition, ligne);
 						if (currentCategory != null && addmeh.lootItem != null)
 							currentCategory.add(addmeh);
 						else

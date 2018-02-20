@@ -7,8 +7,8 @@ import java.util.Random;
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.item.inventory.Inventory;
 import io.xol.chunkstories.api.voxel.components.VoxelInventoryComponent;
-import io.xol.chunkstories.api.world.VoxelContext;
-import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
+import io.xol.chunkstories.api.world.cell.CellData;
+import io.xol.chunkstories.api.world.chunk.Chunk.ChunkCell;
 import io.xol.chunkstories.core.voxel.VoxelChest;
 import io.xol.dogez.mods.voxel.StaticVehicleVoxel;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;
@@ -40,16 +40,16 @@ public class LootPlace {
 	
 	protected Inventory getContainerInv()
 	{
-		VoxelContext peek = location.getWorld().peekSafely(location);
+		CellData peek = location.getWorld().peekSafely(location);
 		
 		//The chunk is loaded
-		if(peek instanceof ChunkVoxelContext) {
+		if(peek instanceof ChunkCell) {
 			//The voxel is the correct type
 			if(peek.getVoxel() instanceof VoxelChest) {
 				//return ((VoxelChest) peek.getVoxel()).getInventory((ChunkVoxelContext) peek);
-				return ((VoxelInventoryComponent)((ChunkVoxelContext) peek).components().get("chestInventory")).getInventory();
+				return ((VoxelInventoryComponent)((ChunkCell) peek).components().get("chestInventory")).getInventory();
 			} else if(peek.getVoxel() instanceof StaticVehicleVoxel) {
-				return ((VoxelInventoryComponent)((ChunkVoxelContext) peek).components().get("inventory")).getInventory();
+				return ((VoxelInventoryComponent)((ChunkCell) peek).components().get("inventory")).getInventory();
 			} 
 		}
 		

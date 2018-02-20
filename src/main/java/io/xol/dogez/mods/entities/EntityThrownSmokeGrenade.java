@@ -9,13 +9,14 @@ import io.xol.chunkstories.api.sound.SoundSource.Mode;
 import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.WorldMaster;
+import io.xol.chunkstories.api.world.cell.CellData;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 import io.xol.chunkstories.api.Location;
-import io.xol.chunkstories.api.entity.EntityType;
+import io.xol.chunkstories.api.entity.EntityDefinition;
 
 //(c) 2015-2017 XolioWare Interactive
 //http://chunkstories.xyz
@@ -26,7 +27,7 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements Ent
 	int ignitionTimer = 60 * 4; // 4 seconds to ignite
 	int deathTimer = 60 * 50; // Lives 50 seconds
 
-	public EntityThrownSmokeGrenade(EntityType type, Location location) {
+	public EntityThrownSmokeGrenade(EntityDefinition type, Location location) {
 		super(type, location);
 	}
 
@@ -63,12 +64,12 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements Ent
 
 				renderingContext.currentShader().setUniform3f("objectPosition", new Vector3f(0));
 
-				int modelBlockData = grenade.getWorld().peekSafely(grenade.getLocation()).getData();
+				CellData cell = grenade.getWorld().peekSafely(grenade.getLocation());
+				//int modelBlockData = grenade.getWorld().peekSafely(grenade.getLocation()).getData();
 
-				int lightSky = VoxelFormat.sunlight(modelBlockData);
-				int lightBlock = VoxelFormat.blocklight(modelBlockData);
-				renderingContext.currentShader().setUniform3f("givenLightmapCoords", lightBlock / 15f, lightSky / 15f,
-						0f);
+				//int lightSky = VoxelFormat.sunlight(modelBlockData);
+				//int lightBlock = VoxelFormat.blocklight(modelBlockData);
+				renderingContext.currentShader().setUniform3f("givenLightmapCoords", cell.getBlocklight() / 15f, cell.getSunlight() / 15f, 0f);
 
 				Matrix4f mutrix = new Matrix4f();
 

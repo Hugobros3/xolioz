@@ -78,7 +78,7 @@ public class ZombiesPopulation {
 						
 						Voxel v = plugin.getGameWorld().peekSafely(posx, posy, posz).getVoxel();
 						
-						if(v.getType().isLiquid())
+						if(v.getDefinition().isLiquid())
 							break;
 						
 						for(String m : allowedMaterials)
@@ -89,7 +89,7 @@ public class ZombiesPopulation {
 								break;
 							}
 						}
-						if(v.getType().isSolid())
+						if(v.getDefinition().isSolid())
 							break;
 					}
 					if(foundGround && zombiesCount <= plugin.config.getInt("maxZombiesOnMap", 420))

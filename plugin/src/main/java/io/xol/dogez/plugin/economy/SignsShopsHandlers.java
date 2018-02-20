@@ -4,14 +4,14 @@ import java.util.Iterator;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.interfaces.EntityWithInventory;
-import io.xol.chunkstories.api.item.ItemType;
+import io.xol.chunkstories.api.item.ItemDefinition;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.util.compatibility.ChatColor;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.voxel.components.VoxelComponent;
-import io.xol.chunkstories.api.world.VoxelContext;
-import io.xol.chunkstories.api.world.chunk.Chunk.ChunkVoxelContext;
+import io.xol.chunkstories.api.world.cell.CellData;
+import io.xol.chunkstories.api.world.chunk.Chunk.ChunkCell;
 import io.xol.chunkstories.core.voxel.components.VoxelComponentSignText;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.player.PlayerProfile;
@@ -26,14 +26,14 @@ public class SignsShopsHandlers {
 	
 	public boolean handle(Player player, Voxel voxel, int x, int y, int z) {
 		try{
-			VoxelContext peek = player.getWorld().peekSafely(x, y, z);
+			CellData peek = player.getWorld().peekSafely(x, y, z);
 			//EntitySign s = voxelSign.getVoxelEntity(player.getWorld(), x, y, z);
 			
 			if(safeLineGet(peek,0).equalsIgnoreCase("[Vente]") || safeLineGet(peek,0).equalsIgnoreCase("[Achat]"))
 			{
 				if(safeLineGet(peek,1).equals("") || safeLineGet(peek,2).equals("") || safeLineGet(peek,3).equals(""))
 				{
-					player.sendMessage(ChatColor.RED+"Panneau mal configuré.");
+					player.sendMessage(ChatColor.RED+"Panneau mal configurï¿½.");
 					return true;
 				}
 				float price = Float.parseFloat(safeLineGet(peek,3).replace("xc", ""));
@@ -49,7 +49,7 @@ public class SignsShopsHandlers {
 					}
 				}*/
 				
-				ItemType type = plugin.getPluginExecutionContext().getContent().items().getItemTypeByName(itemLine[0]);
+				ItemDefinition type = plugin.getPluginExecutionContext().getContent().items().getItemTypeByName(itemLine[0]);
 				if(type != null)
 					item = new ItemPile(type);
 				
@@ -72,13 +72,13 @@ public class SignsShopsHandlers {
 				float price = Float.parseFloat(safeLineGet(peek,3).replace("xc", ""));
 				if(client.xcBalance >= price)
 				{
-					player.sendMessage(ChatColor.AQUA+"Vous êtes partis à "+safeLineGet(peek,1)+" pour "+price+" xc.");
+					player.sendMessage(ChatColor.AQUA+"Vous ï¿½tes partis ï¿½ "+safeLineGet(peek,1)+" pour "+price+" xc.");
 					player.setLocation(destination);
 					client.addBalance(-price);
 				}
 				else
 				{
-					player.sendMessage(ChatColor.RED+"Vous n'avez pas les moyens d'utiliser ce téléporteur.");
+					player.sendMessage(ChatColor.RED+"Vous n'avez pas les moyens d'utiliser ce tï¿½lï¿½porteur.");
 					return false;
 				}
 			}
@@ -92,9 +92,9 @@ public class SignsShopsHandlers {
 		return false;
 	}
 
-	private String safeLineGet(VoxelContext peek, int i) {
-		if(peek != null && peek instanceof ChunkVoxelContext) {
-			VoxelComponent component = ((ChunkVoxelContext) peek).components().get("signData");
+	private String safeLineGet(CellData peek, int i) {
+		if(peek != null && peek instanceof ChunkCell) {
+			VoxelComponent component = ((ChunkCell) peek).components().get("signData");
 			if(component != null && component instanceof VoxelComponentSignText) {
 
 				String content = ((VoxelComponentSignText) component).getSignText();
@@ -124,13 +124,13 @@ public class SignsShopsHandlers {
 			}
 			else
 			{
-				player.sendMessage(ChatColor.AQUA+"Vous avez acheté "+name+" pour "+price+" xc.");
+				player.sendMessage(ChatColor.AQUA+"Vous avez achetï¿½ "+name+" pour "+price+" xc.");
 				client.addBalance(-price);
 			}
 		}
 		else
 		{
-			player.sendMessage(ChatColor.RED+"Vous n'avez pas les moyens d'acheter ça.");
+			player.sendMessage(ChatColor.RED+"Vous n'avez pas les moyens d'acheter ï¿½a.");
 			return;
 		}
 	}

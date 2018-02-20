@@ -15,7 +15,7 @@ import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.util.compatibility.ChatColor;
 import io.xol.chunkstories.api.voxel.Voxel;
-import io.xol.chunkstories.api.world.VoxelContext;
+import io.xol.chunkstories.api.world.cell.CellData;
 import io.xol.chunkstories.core.voxel.VoxelChest;
 import io.xol.chunkstories.core.voxel.VoxelSign;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;
@@ -93,7 +93,7 @@ public class PlayerListener implements Listener {
 		Location selectedLocation = playerEntity.getBlockLookingAt(true);
 
 		if (selectedLocation != null) {
-			VoxelContext context = player.getWorld().peekSafely(selectedLocation);
+			CellData context = player.getWorld().peekSafely(selectedLocation);
 			
 			if (!plugin.isActive())
 				return;
@@ -117,9 +117,9 @@ public class PlayerListener implements Listener {
 									player.getWorld());*/
 							LootPlace lootPlace = new LootPlace(plugin, selectedLocation, profile.activeCategory, profile.currentMin, profile.currentMax);
 							if (plugin.getLootPlaces().add(loot_coordinates, lootPlace, player.getWorld()))
-								player.sendMessage(ChatColor.AQUA + "Point de loot ajouté " + lootPlace.toString());
+								player.sendMessage(ChatColor.AQUA + "Point de loot ajoutï¿½ " + lootPlace.toString());
 							else
-								player.sendMessage(ChatColor.RED + "Ce point existe déjà !");
+								player.sendMessage(ChatColor.RED + "Ce point existe dï¿½jï¿½ !");
 						} else if (!profile.adding) {
 							if (!plugin.getLootPlaces().removePlace(loot_coordinates, player.getWorld())) {
 								player.sendMessage(ChatColor.RED + "Il n'y a pas de point de loot ici !");

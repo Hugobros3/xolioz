@@ -7,26 +7,18 @@ import java.util.Map;
 import java.util.Set;
 
 import io.xol.chunkstories.api.Location;
-import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
-import io.xol.chunkstories.api.entity.interfaces.EntityWithSelectedItem;
 import io.xol.chunkstories.api.events.EventHandler;
 import io.xol.chunkstories.api.events.Listener;
 import io.xol.chunkstories.api.events.player.PlayerInputPressedEvent;
 import io.xol.chunkstories.api.events.player.voxel.PlayerVoxelModificationEvent;
 import io.xol.chunkstories.api.input.Input;
-import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
-import io.xol.chunkstories.api.voxel.VoxelFormat;
-import io.xol.chunkstories.api.world.VoxelContext;
-import io.xol.chunkstories.core.voxel.VoxelChest;
-import io.xol.chunkstories.core.voxel.VoxelSign;
+import io.xol.chunkstories.api.world.cell.CellData;
 import io.xol.dogez.mods.voxel.StaticVehicleVoxel;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.loot.LootCategory;
-import io.xol.dogez.plugin.loot.LootPlace;
-import io.xol.dogez.plugin.player.PlayerProfile;
 
 /** 
  * Remebers where, when and what was inside of a crash site 
@@ -53,11 +45,10 @@ public class CrashesHandler implements Listener {
 	
 	@EventHandler
 	public void onPlayerPoke(PlayerVoxelModificationEvent event) {
-		int id = VoxelFormat.id(event.getNewData());
-		if(id != 0) {
-			Voxel placed = xolioZGamemodePlugin.getPluginExecutionContext().getContent().voxels().getVoxelById(id);
+		if(!event.getContext().getVoxel().isAir()) {
+			Voxel placed = event.getContext().getVoxel();
 			if(registeredVoxels.contains(placed)) {
-				if(VoxelFormat.meta(event.getNewData()) == 0) {
+				if(event.getContext().getMetaData() == 0) {
 					StaticVehicleVoxel vehicleType = (StaticVehicleVoxel)placed;
 					LootCategory category = xolioZGamemodePlugin.getLootTypes().getCategory(vehicleType.lootCategoryName);
 					
@@ -94,7 +85,7 @@ public class CrashesHandler implements Listener {
 		Location selectedLocation = playerEntity.getBlockLookingAt(true);
 
 		if (selectedLocation != null) {
-			VoxelContext context = player.getWorld().peekSafely(selectedLocation);
+			CellData context = player.getWorld().peekSafely(selectedLocation);
 		
 			// loot regeneration
 			Voxel voxel = player.getWorld().peekSafely(selectedLocation).getVoxel();

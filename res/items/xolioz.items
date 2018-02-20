@@ -2,7 +2,7 @@
 #Dernière maj : 01/09/2016
 
 #Armes CaC
-item 512 baseballbat
+item baseballbat
 	customClass: io.xol.chunkstories.core.item.ItemMeleeWeapon
 	width: 1
 	height: 2
@@ -12,7 +12,7 @@ item 512 baseballbat
 	maxStackSize: 1
 end
 
-item 513 hammer
+item hammer
 	customClass: io.xol.chunkstories.core.item.ItemMeleeWeapon
 	width: 1
 	height: 1
@@ -22,7 +22,7 @@ item 513 hammer
 	maxStackSize: 1
 end
 
-item 514 machette
+item machette
 	customClass: io.xol.chunkstories.core.item.ItemMeleeWeapon
 	width: 2
 	height: 1
@@ -32,7 +32,7 @@ item 514 machette
 	maxStackSize: 1
 end
 
-item 515 katana
+item katana
 	customClass: io.xol.chunkstories.core.item.ItemMeleeWeapon
 	width: 2
 	height: 2
@@ -42,11 +42,11 @@ item 515 katana
 	maxStackSize: 1
 end
 
-item 516 chainsaw
+item chainsaw
 #TBI
 end
 
-item 517 crowbar
+item crowbar
 	customClass: io.xol.chunkstories.core.item.ItemMeleeWeapon
 	width: 1
 	height: 2
@@ -57,7 +57,7 @@ end
 
 
 #Armes à feu
-item 526 m1911
+item m1911
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 2
 	height: 2
@@ -76,13 +76,13 @@ item 526 m1911
 	shootingAnimationDuration: 200
 end
 
-item 527 m1911mag
+item m1911mag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	forWeapon: m1911
 	maxStackSize: 7
 end
 
-item 528 makarov
+item makarov
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 2
 	height: 2
@@ -101,13 +101,13 @@ item 528 makarov
 	shootingAnimationDuration: 150
 end
 
-item 529 makarovmag
+item makarovmag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	forWeapon: makarov
 	maxStackSize: 7
 end
 
-item 530 shotgun
+item shotgun
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 2
@@ -124,7 +124,7 @@ item 530 shotgun
 	fireSound: sounds/dogez/weapon/shotgun/shoot.ogg
 end
 
-item 531 shotgunmag
+item shotgunmag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	width: 1
 	height: 1
@@ -132,7 +132,7 @@ item 531 shotgunmag
 	maxStackSize: 12
 end
 
-item 532 svd
+item svd
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
@@ -151,7 +151,7 @@ item 532 svd
 	scopeSlow: 4
 end
 
-item 533 svdmag
+item svdmag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	width: 1
 	height: 2
@@ -159,14 +159,14 @@ item 533 svdmag
 	maxStackSize: 10
 end
 
-item 534 ak74
+item ak74
 #weapon_ak47
 end
 
-item 535 ak74mag
+item ak74mag
 end
 
-item 536 akm
+item akm
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
@@ -184,7 +184,7 @@ item 536 akm
 	shootingAnimationDuration: 110
 end
 
-item 537 akmmag
+item akmmag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	width: 2
 	height: 2
@@ -192,7 +192,7 @@ item 537 akmmag
 	maxStackSize: 30
 end
 
-item 538 m4
+item m4
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
@@ -212,7 +212,7 @@ item 538 m4
 	shootingAnimationDuration: 90
 end
 
-item 539 m4mag
+item m4mag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	width: 2
 	height: 2
@@ -220,7 +220,7 @@ item 539 m4mag
 	maxStackSize: 30
 end
 
-item 540 dmr
+item dmr
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
@@ -241,7 +241,7 @@ item 540 dmr
 	scopeSlow: 4
 end
 
-item 541 dmrmag
+item dmrmag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	width: 2
 	height: 2
@@ -250,7 +250,7 @@ item 541 dmrmag
 end
 
 #Armes adminshop
-item 542 m249
+item m249
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 4
 	height: 3
@@ -268,13 +268,13 @@ item 542 m249
 	modelDiffuse: ./models/weapon/m249/m249.png
 end
 
-item 543 m249mag
+item m249mag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	forWeapon: m249
 	maxStackSize: 100
 end
 
-item 544 m9sd
+item m9sd
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 2
 	height: 2
@@ -289,14 +289,14 @@ item 544 m9sd
 	fireSound: sounds/dogez/weapon/m9sd/shoot.ogg
 end
 
-item 545 m9sdmag
+item m9sdmag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	forWeapon: m9sd, m1911
 	maxStackSize: 15
 end
 
 #Armes maj ISIS
-item 546 uzi
+item uzi
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 2
 	height: 2
@@ -314,13 +314,13 @@ item 546 uzi
 	shootingAnimationDuration: 85
 end
 
-item 547 uzimag
+item uzimag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	forWeapon: uzi
 	maxStackSize: 20
 end
 
-item 548 aa12
+item aa12
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 2
@@ -337,13 +337,13 @@ item 548 aa12
 	fireSound: sounds/dogez/weapon/aa12/shoot.ogg
 end
 
-item 549 aa12mag
+item aa12mag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	forWeapon: aa12
 	maxStackSize: 15
 end
 
-item 550 pkm
+item pkm
 	customClass: io.xol.chunkstories.core.item.ItemFirearm
 	width: 3
 	height: 3
@@ -359,56 +359,56 @@ item 550 pkm
 	fireSound: sounds/dogez/weapon/pkm/shoot.ogg
 end
 
-item 551 pkmmag
+item pkmmag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	forWeapon: pkm
 	maxStackSize: 50
 end
 
 #Fringues/armures
-item 552 ghilie1
+item ghilie1
 	customClass: io.xol.chunkstories.core.item.armor.ItemArmorHead
 	damageMultiplier: 0.8
 	overlay: ./textures/armor/ghilie.png
 end
 
-item 553 ghilie2
+item ghilie2
 	customClass: io.xol.chunkstories.core.item.armor.ItemArmorChest
 	damageMultiplier: 0.8
 	overlay: ./textures/armor/ghilie.png
 end
 
-item 554 ghilie3
+item ghilie3
 	customClass: io.xol.chunkstories.core.item.armor.ItemArmorLegs
 	damageMultiplier: 0.8
 	overlay: ./textures/armor/ghilie.png
 end
 
-item 555 ghilie4
+item ghilie4
 	customClass: io.xol.chunkstories.core.item.armor.ItemArmorBoots
 	damageMultiplier: 0.8
 	overlay: ./textures/armor/ghilie.png
 end
 
-item 556 isis1
+item isis1
 	customClass: io.xol.chunkstories.core.item.armor.ItemArmorHead
 	damageMultiplier: 0.7
 	overlay: ./textures/armor/isis.png
 end
 
-item 557 isis2
+item isis2
 	customClass: io.xol.chunkstories.core.item.armor.ItemArmorChest
 	damageMultiplier: 0.6
 	overlay: ./textures/armor/isis.png
 end
 
-item 558 isis3
+item isis3
 	customClass: io.xol.chunkstories.core.item.armor.ItemArmorLegs
 	damageMultiplier: 0.75
 	overlay: ./textures/armor/isis.png
 end
 
-item 559 isis4
+item isis4
 	customClass: io.xol.chunkstories.core.item.armor.ItemArmorBoots
 	damageMultiplier: 0.5
 	overlay: ./textures/armor/isis.png
@@ -416,95 +416,95 @@ end
 
 #Armes spéciales
 
-item 562 firethrower
+item firethrower
 end
 
-item 563 grefrag
+item grefrag
 	customClass: io.xol.dogez.mods.items.FragGrenade
 end
 
-item 564 greflash
+item greflash
 	customClass: io.xol.dogez.mods.items.FlashbangGrenade
 end
 
-item 565 rpg7
+item rpg7
 end
 
-item 566 rpg7mag
+item rpg7mag
 	customClass: io.xol.chunkstories.core.item.ItemFirearmMagazine
 	forWeapon: rpg7
 	maxStackSize: 1
 end
 
-item 567 suicidebelt
+item suicidebelt
 end
 
 #Craft (cuck)
-item 568 nails
+item nails
 end
 
-item 569 vis
+item vis
 end
 
-item 570 razor
+item razor
 end
 
 #Divers
-item 571 watch
+item watch
 end
 
-item 572 compass
+item compass
 end
 
-item 574 bone
+item bone
 end
 
-item 575 book
+item book
 end
 
-item 576 fuel
+item fuel
 end
 
-item 577 tw
+item tw
 end
 
-item 578 billet
+item billet
 end
 
 #Disques
-item 579 recordwhatislove
+item recordwhatislove
 end
 
 #Maj haloween
-item 580 battery
+item battery
 end
 
-item 581 torch
+item torch
 	customClass: io.xol.dogez.mods.items.DZTorch
 end
 
 #Nowel
-item 582 nowel
+item nowel
 end
 
 #Disabled
-#item 583 faucheuse
+#item faucheuse
 #end
 
 #Soin
-item 584 heal1
+item heal1
 end
 
-item 585 heal2
+item heal2
 end
 
-item 586 gresmoke
+item gresmoke
 	customClass: io.xol.dogez.mods.items.SmokeGrenade
 end
 
-item 587 binoculars
+item binoculars
 	customClass: io.xol.dogez.mods.items.ItemBinoculars
 end
 
-item 588 dz_loot_tool
+item dz_loot_tool
 end

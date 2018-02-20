@@ -6,7 +6,7 @@ import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
 import io.xol.chunkstories.api.item.Item;
-import io.xol.chunkstories.api.item.ItemType;
+import io.xol.chunkstories.api.item.ItemDefinition;
 import io.xol.chunkstories.api.item.interfaces.ItemOverlay;
 import io.xol.chunkstories.api.item.interfaces.ItemZoom;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
@@ -16,7 +16,7 @@ import io.xol.chunkstories.api.rendering.RenderingInterface;
 public class ItemBinoculars extends Item implements ItemZoom, ItemOverlay {
 	private boolean isScoped = false;
 	
-	public ItemBinoculars(ItemType type) {
+	public ItemBinoculars(ItemDefinition type) {
 		super(type);
 	}
 
