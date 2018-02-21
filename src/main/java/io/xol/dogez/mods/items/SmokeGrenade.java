@@ -13,14 +13,14 @@ import io.xol.chunkstories.api.item.Item;
 import io.xol.chunkstories.api.item.ItemDefinition;
 import io.xol.chunkstories.api.item.inventory.Inventory;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
-import io.xol.chunkstories.api.item.renderer.ItemRenderer;
+import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
+import io.xol.chunkstories.api.rendering.item.ItemRenderer;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.chunkstories.core.item.renderer.ObjViewModelRenderer;
 import io.xol.dogez.mods.entities.EntityThrownSmokeGrenade;
-import io.xol.chunkstories.api.math.Math2;
 
 //(c) 2015-2016 XolioWare Interactive
 //http://chunkstories.xyz
@@ -64,7 +64,7 @@ public class SmokeGrenade extends Item{
 			
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownSmokeGrenade grenade = (EntityThrownSmokeGrenade) this.getType().store().parent().entities().getEntityTypeByName("smoke_grenade").create(throwLocation);
+			EntityThrownSmokeGrenade grenade = (EntityThrownSmokeGrenade) this.getDefinition().store().parent().entities().getEntityTypeByName("smoke_grenade").create(throwLocation);
 			grenade.positionComponent.setPosition(throwLocation);
 			
 			grenade.velocityComponent.setVelocity(throwForce);

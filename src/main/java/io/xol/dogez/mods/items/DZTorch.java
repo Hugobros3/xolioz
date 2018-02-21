@@ -10,8 +10,8 @@ import io.xol.chunkstories.api.entity.interfaces.EntityRotateable;
 import io.xol.chunkstories.api.item.Item;
 import io.xol.chunkstories.api.item.ItemDefinition;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
-import io.xol.chunkstories.api.item.renderer.ItemRenderer;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
+import io.xol.chunkstories.api.rendering.item.ItemRenderer;
 import io.xol.chunkstories.api.rendering.lightning.SpotLight;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.core.item.renderer.ObjViewModelRenderer;
@@ -31,7 +31,7 @@ public class DZTorch extends Item{
 		return new TorchItemRenderer(fallbackRenderer);
 	}
 
-	class TorchItemRenderer extends ObjViewModelRenderer{
+	class TorchItemRenderer extends ObjViewModelRenderer {
 
 		public TorchItemRenderer(ItemRenderer fallbackRenderer) {
 			super(DZTorch.this, fallbackRenderer, "./models/misc/torch/torch.obj", "./models/misc/torch/torchOn.png", "./textures/normalnormal.png", "./models/misc/torch/material.png");

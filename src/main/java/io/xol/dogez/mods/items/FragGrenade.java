@@ -13,14 +13,14 @@ import io.xol.chunkstories.api.item.Item;
 import io.xol.chunkstories.api.item.ItemDefinition;
 import io.xol.chunkstories.api.item.inventory.Inventory;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
-import io.xol.chunkstories.api.item.renderer.ItemRenderer;
+import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
+import io.xol.chunkstories.api.rendering.item.ItemRenderer;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.chunkstories.core.item.renderer.ObjViewModelRenderer;
 import io.xol.dogez.mods.entities.EntityThrownFragGrenade;
-import io.xol.chunkstories.api.math.Math2;
 
 //(c) 2015-2016 XolioWare Interactive
 //http://chunkstories.xyz
@@ -63,7 +63,7 @@ public class FragGrenade extends Item{
 			Vector3d throwForce = new Vector3d(((EntityPlayer)owner).getDirectionLookingAt()).mul(0.2 - Math2.clampd(((EntityPlayer)owner).getEntityRotationComponent().getVerticalRotation(), -45, 20) / 45f * 0.3f);
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownFragGrenade grenade = (EntityThrownFragGrenade) this.getType().store().parent().entities().getEntityTypeByName("frag_grenade").create(throwLocation);
+			EntityThrownFragGrenade grenade = (EntityThrownFragGrenade) this.getDefinition().store().parent().entities().getEntityTypeByName("frag_grenade").create(throwLocation);
 			grenade.positionComponent.setPosition(throwLocation);
 			
 					//new EntityThrownFragGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());

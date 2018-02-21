@@ -17,7 +17,6 @@ import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
 import io.xol.chunkstories.api.rendering.textures.Texture2D;
 import io.xol.chunkstories.api.sound.SoundSource.Mode;
-import io.xol.chunkstories.api.voxel.VoxelFormat;
 import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.api.world.cell.CellData;

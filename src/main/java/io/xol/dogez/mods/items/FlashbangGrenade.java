@@ -13,14 +13,14 @@ import io.xol.chunkstories.api.item.Item;
 import io.xol.chunkstories.api.item.ItemDefinition;
 import io.xol.chunkstories.api.item.inventory.Inventory;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
-import io.xol.chunkstories.api.item.renderer.ItemRenderer;
+import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
+import io.xol.chunkstories.api.rendering.item.ItemRenderer;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.entity.EntityPlayer;
 import io.xol.chunkstories.core.item.renderer.ObjViewModelRenderer;
 import io.xol.dogez.mods.entities.EntityThrownFlashbangGrenade;
-import io.xol.chunkstories.api.math.Math2;
 
 //(c) 2015-2016 XolioWare Interactive
 //http://chunkstories.xyz
@@ -64,7 +64,7 @@ public class FlashbangGrenade extends Item{
 			
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownFlashbangGrenade grenade = (EntityThrownFlashbangGrenade) this.getType().store().parent().entities().getEntityTypeByName("flash_grenade").create(throwLocation);
+			EntityThrownFlashbangGrenade grenade = (EntityThrownFlashbangGrenade) this.getDefinition().store().parent().entities().getEntityTypeByName("flash_grenade").create(throwLocation);
 			grenade.setLocation(throwLocation);
 			
 			//EntityThrownFlashbangGrenade grenade = new EntityThrownFlashbangGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
