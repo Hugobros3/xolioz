@@ -6,6 +6,9 @@ version = '1.3.4'
 description = 'XolioZ is a DayZ clone originally made as a Minecraft server'
 archivesBaseName = "XolioZ"
 
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
 // In this section you declare where to find the dependencies of your project
 repositories {
 	mavenLocal()
