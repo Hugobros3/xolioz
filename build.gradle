@@ -2,7 +2,7 @@
 apply plugin: 'java'
 apply plugin: 'java-library'
 
-version = '1.3.4'
+version = '1.3.5'
 description = 'XolioZ is a DayZ clone originally made as a Minecraft server'
 archivesBaseName = "XolioZ"
 
@@ -24,8 +24,8 @@ jar {
 }
 
 ext {
-	csApiBuiltAgainst = '116'
-	coreContentVersionBuiltAgainst = '125'
+	csApiBuiltAgainst = '117'
+	coreContentVersionBuiltAgainst = '126'
 }
 
 subprojects {

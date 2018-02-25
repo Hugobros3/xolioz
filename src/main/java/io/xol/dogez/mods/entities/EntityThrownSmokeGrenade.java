@@ -1,22 +1,20 @@
 package io.xol.dogez.mods.entities;
 
-import io.xol.chunkstories.api.rendering.RenderingInterface;
-import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
-import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
-import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
-import io.xol.chunkstories.api.rendering.textures.Texture2D;
-import io.xol.chunkstories.api.sound.SoundSource.Mode;
-import io.xol.chunkstories.api.voxel.VoxelFormat;
-import io.xol.chunkstories.api.world.WorldClient;
-import io.xol.chunkstories.api.world.WorldMaster;
-import io.xol.chunkstories.api.world.cell.CellData;
-
 import org.joml.Matrix4f;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.EntityDefinition;
+import io.xol.chunkstories.api.rendering.RenderingInterface;
+import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
+import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
+import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
+import io.xol.chunkstories.api.rendering.textures.Texture2D;
+import io.xol.chunkstories.api.sound.SoundSource.Mode;
+import io.xol.chunkstories.api.world.WorldClient;
+import io.xol.chunkstories.api.world.WorldMaster;
+import io.xol.chunkstories.api.world.cell.CellData;
 
 //(c) 2015-2017 XolioWare Interactive
 //http://chunkstories.xyz

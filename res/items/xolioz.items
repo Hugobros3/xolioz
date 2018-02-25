@@ -6,8 +6,8 @@ item baseballbat
 	customClass: io.xol.chunkstories.core.item.ItemMeleeWeapon
 	width: 1
 	height: 2
-	swingDuration: 450
-	hitTime: 400
+	swingDuration: 350
+	hitTime: 200
 	damage: 15
 	maxStackSize: 1
 end
