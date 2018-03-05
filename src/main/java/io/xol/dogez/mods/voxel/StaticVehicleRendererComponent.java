@@ -4,28 +4,21 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.joml.Matrix4f;
 import org.joml.Vector3d;
-import org.joml.Vector3f;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.client.LocalPlayer;
-import io.xol.chunkstories.api.rendering.RenderingInterface;
-import io.xol.chunkstories.api.rendering.lightning.Light;
 import io.xol.chunkstories.api.world.serialization.StreamSource;
 import io.xol.chunkstories.api.world.serialization.StreamTarget;
 import io.xol.chunkstories.api.sound.SoundSource;
 import io.xol.chunkstories.api.sound.SoundSource.Mode;
-import io.xol.chunkstories.api.util.IterableIterator;
 import io.xol.chunkstories.api.voxel.components.VoxelComponent;
-import io.xol.chunkstories.api.voxel.components.VoxelComponentDynamicRenderer;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.cell.CellComponents;
-import io.xol.chunkstories.api.world.chunk.Chunk.ChunkCell;
 
-public class StaticVehicleRendererComponent extends VoxelComponentDynamicRenderer {
+public class StaticVehicleRendererComponent extends VoxelComponent {
 
 	final StaticVehicleVoxel vehicleType; // The type of carcass we're representing
 	
@@ -36,7 +29,6 @@ public class StaticVehicleRendererComponent extends VoxelComponentDynamicRendere
 		super(holder);
 		
 		this.vehicleType = vehicleType;
-		
 		this.fuelRemaining = initialFuel;
 	}
 
@@ -98,55 +90,5 @@ public class StaticVehicleRendererComponent extends VoxelComponentDynamicRendere
 				world.getParticlesManager().spawnParticleAtPositionWithVelocity("black_smoke", loc, vel);
 			}
 		}
-	}
-
-	static class StaticVehicleRenderer implements VoxelDynamicRenderer {
-		
-		final StaticVehicleVoxel vehicleType;
-		
-		public StaticVehicleRenderer(StaticVehicleVoxel vehicleType) {
-			super();
-			this.vehicleType = vehicleType;
-		}
-
-
-		@Override
-		public void renderVoxels(RenderingInterface renderingInterface, IterableIterator<ChunkCell> voxelsOfThisType) {
-			renderingInterface.bindNormalTexture(renderingInterface.textures().getTexture("./textures/normalnormal.png"));
-			renderingInterface.bindMaterialTexture(renderingInterface.textures().getTexture("./textures/defaultmaterial.png"));
-			
-			for(ChunkCell context : voxelsOfThisType) {
-			
-					if(context.getMetaData() != 0)
-						continue;
-				
-					VoxelComponent component = context.components().get("renderer");
-					if(component != null)
-						((StaticVehicleRendererComponent)component).tick();
-					
-					Matrix4f matrix = new Matrix4f();
-					
-					Vector3d loc = context.getLocation().add(0.0, 0.0, 0.0);
-					matrix.translate((float)loc.x, (float)loc.y, (float)loc.z);
-					//matrix.scale(0.5f);
-					matrix.rotate((float)Math.PI / 2f * vehicleType.rotate / 90f, 0, 1, 0);
-					matrix.translate(vehicleType.translate);
-					
-					renderingInterface.setObjectMatrix(matrix);
-					
-					renderingInterface.textures().getTexture(vehicleType.diffuseTexture).setMipMapping(false);
-					renderingInterface.bindAlbedoTexture(renderingInterface.textures().getTexture(vehicleType.diffuseTexture));
-					renderingInterface.meshes().getRenderableMeshByName(vehicleType.model).render(renderingInterface);
-					
-					if(vehicleType.isBurning)
-						renderingInterface.getLightsRenderer().queueLight(new Light(new Vector3f(1.0f, 1.0f, 0.5f), new Vector3f((float)(loc.x + vehicleType.burnZoneStart.x + vehicleType.burnZoneSize.x /2f), (float)(loc.y + vehicleType.burnZoneStart.y + vehicleType.burnZoneSize.y /2f), (float)(loc.z + vehicleType.burnZoneStart.z + vehicleType.burnZoneSize.z /2f)), 15f));
-				}
-		}
-	
-	}
-
-	@Override
-	public VoxelDynamicRenderer getVoxelDynamicRenderer() {
-		return new StaticVehicleRenderer(vehicleType);
 	}
 }

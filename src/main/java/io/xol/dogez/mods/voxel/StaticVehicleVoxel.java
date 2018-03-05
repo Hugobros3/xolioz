@@ -3,15 +3,16 @@ package io.xol.dogez.mods.voxel;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
+import io.xol.chunkstories.api.client.ClientContent;
 import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.player.Player;
+import io.xol.chunkstories.api.rendering.voxel.VoxelRenderer;
 import io.xol.chunkstories.api.voxel.VoxelCustomIcon;
 import io.xol.chunkstories.api.voxel.VoxelDefinition;
 import io.xol.chunkstories.api.voxel.components.VoxelComponent;
-import io.xol.chunkstories.api.voxel.components.VoxelComponentDynamicRenderer;
 import io.xol.chunkstories.api.voxel.components.VoxelInventoryComponent;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.api.world.cell.CellData;
@@ -41,6 +42,8 @@ public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon {
 	public final int lootAmountMin;
 	public final int lootAmountMax;
 	
+	public final StaticVehicleRenderer renderer;
+	
 	public StaticVehicleVoxel(VoxelDefinition type) {
 		super(type);
 		
@@ -69,14 +72,28 @@ public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon {
 		lootCategoryName = type.resolveProperty("lootCategory", "<name>");
 		lootAmountMin = Integer.parseInt(type.resolveProperty("lootAmountMin", "1"));
 		lootAmountMax = Integer.parseInt(type.resolveProperty("lootAmountMax", "<lootAmountMin>"));
+		
+		if(type.store().parent() instanceof ClientContent)
+			renderer = new StaticVehicleRenderer(this, this.voxelRenderer);
+		else
+			renderer = null;
+	}
+	
+	@Override
+	public VoxelRenderer getVoxelRenderer(CellData info) {
+		if(renderer != null)
+			return renderer;
+		return super.getVoxelRenderer(info);
 	}
 
 	@Override
 	public void whenPlaced(FreshChunkCell cell) {
-		//TODO configure the size of the inventory depending on the entity config
-		if(cell.getMetaData() == 0)
+		//Only have components where it's actually relevant
+		if(cell.getMetaData() == 0) {
+			//TODO configure the size of the inventory depending on the entity config
 			cell.registerComponent("inventory", new VoxelInventoryComponent(cell.components(), 10, 4));
-		cell.registerComponent("renderer", new StaticVehicleRendererComponent(this, cell.components(), 60L));
+			cell.registerComponent("renderer_info", new StaticVehicleRendererComponent(this, cell.components(), 60L));
+		}
 		super.whenPlaced(cell);
 	}
 
@@ -125,9 +142,4 @@ public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon {
 		}
 		return false;
 	}
-
-	public VoxelComponentDynamicRenderer getDynamicRendererComponent(ChunkCell context) {
-		return (VoxelComponentDynamicRenderer) context.components().get("renderer");
-	}
-
 }
