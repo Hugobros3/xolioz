@@ -23,35 +23,38 @@ public class StaticVehicleRenderer implements VoxelDynamicRenderer {
 	}
 
 	@Override
-	public void renderVoxels(RenderingInterface renderingInterface, IterableIterator<ChunkCell> voxelsOfThisType) {
-		renderingInterface.bindNormalTexture(renderingInterface.textures().getTexture("./textures/normalnormal.png"));
-		renderingInterface.bindMaterialTexture(renderingInterface.textures().getTexture("./textures/defaultmaterial.png"));
+	public void renderVoxels(RenderingInterface renderer, IterableIterator<ChunkCell> voxelsOfThisType) {
+		renderer.useShader("entities");
+		renderer.bindNormalTexture(renderer.textures().getTexture("./textures/normalnormal.png"));
+		renderer.bindMaterialTexture(renderer.textures().getTexture("./textures/defaultmaterial.png"));
 
-		for (ChunkCell context : voxelsOfThisType) {
-			if (context.getMetaData() != 0)
+		for (ChunkCell cell : voxelsOfThisType) {
+			if (cell.getMetaData() != 0)
 				continue;
 
 			// TODO Incorrect: we should tick using the actual world ticks, not rendering
-			VoxelComponent component = context.components().get("renderer_info");
+			VoxelComponent component = cell.components().get("renderer_info");
 			if (component != null)
 				((StaticVehicleRendererComponent) component).tick();
 
 			Matrix4f matrix = new Matrix4f();
 
-			Vector3d loc = context.getLocation().add(0.0, 0.0, 0.0);
+			Vector3d loc = cell.getLocation().add(0.0, 0.0, 0.0);
 			matrix.translate((float) loc.x, (float) loc.y, (float) loc.z);
 			// matrix.scale(0.5f);
 			matrix.rotate((float) Math.PI / 2f * vehicleType.rotate / 90f, 0, 1, 0);
 			matrix.translate(vehicleType.translate);
 
-			renderingInterface.setObjectMatrix(matrix);
+			renderer.setObjectMatrix(matrix);
+			
+			renderer.currentShader().setUniform2f("worldLightIn", cell.getBlocklight(), cell.getSunlight());
 
-			renderingInterface.textures().getTexture(vehicleType.diffuseTexture).setMipMapping(false);
-			renderingInterface.bindAlbedoTexture(renderingInterface.textures().getTexture(vehicleType.diffuseTexture));
-			renderingInterface.meshes().getRenderableMeshByName(vehicleType.model).render(renderingInterface);
+			renderer.textures().getTexture(vehicleType.diffuseTexture).setMipMapping(false);
+			renderer.bindAlbedoTexture(renderer.textures().getTexture(vehicleType.diffuseTexture));
+			renderer.meshes().getRenderableMesh(vehicleType.model).render(renderer);
 
 			if (vehicleType.isBurning)
-				renderingInterface.getLightsRenderer()
+				renderer.getLightsRenderer()
 						.queueLight(new Light(new Vector3f(1.0f, 1.0f, 0.5f),
 								new Vector3f((float) (loc.x + vehicleType.burnZoneStart.x + vehicleType.burnZoneSize.x / 2f),
 										(float) (loc.y + vehicleType.burnZoneStart.y + vehicleType.burnZoneSize.y / 2f),

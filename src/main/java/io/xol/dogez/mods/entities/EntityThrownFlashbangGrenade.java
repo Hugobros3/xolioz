@@ -40,40 +40,41 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 		return new ThrownFlashbangGrenadeModelRenderer();
 	}
 
-	static class ThrownFlashbangGrenadeModelRenderer implements EntityRenderer<EntityThrownFlashbangGrenade> {
+	static class ThrownFlashbangGrenadeModelRenderer extends EntityRenderer<EntityThrownFlashbangGrenade> {
 
-		public void setupRender(RenderingInterface renderingContext) {
-			renderingContext.setObjectMatrix(null);
+		public void setupRender(RenderingInterface renderer) {
+			renderer.useShader("entities");
+			renderer.setObjectMatrix(null);
 
-			Texture2D diffuse = renderingContext.textures().getTexture("./models/weapon/flashbang_grenade/flashbang_grenade_albedo.png");
+			Texture2D diffuse = renderer.textures().getTexture("./models/weapon/flashbang_grenade/flashbang_grenade_albedo.png");
 			diffuse.setLinearFiltering(false);
-			renderingContext.bindAlbedoTexture(diffuse);
-			renderingContext.bindNormalTexture(renderingContext.textures().getTexture("./textures/normalnormal.png"));
-			renderingContext.bindMaterialTexture(renderingContext.textures().getTexture("./textures/defaultmaterial.png"));
+			renderer.bindAlbedoTexture(diffuse);
+			renderer.bindNormalTexture(renderer.textures().getTexture("./textures/normalnormal.png"));
+			renderer.bindMaterialTexture(renderer.textures().getTexture("./textures/defaultmaterial.png"));
 		}
 
 		@Override
-		public int renderEntities(RenderingInterface renderingContext,
+		public int renderEntities(RenderingInterface renderer,
 				RenderingIterator<EntityThrownFlashbangGrenade> renderableEntitiesIterator) {
-			setupRender(renderingContext);
+			setupRender(renderer);
 			int e = 0;
 
-			renderingContext.setObjectMatrix(null);
+			renderer.setObjectMatrix(null);
 
 			for (EntityThrownFlashbangGrenade grenade : renderableEntitiesIterator.getElementsInFrustrumOnly()) {
-				if (renderingContext.getCamera().getCameraPosition().distance(grenade.getLocation()) > 32)
+				if (renderer.getCamera().getCameraPosition().distance(grenade.getLocation()) > 32)
 					continue;
 
 				e++;
 
-				renderingContext.currentShader().setUniform3f("objectPosition", new Vector3f(0));
+				renderer.currentShader().setUniform3f("objectPosition", new Vector3f(0));
 
 				CellData cell = grenade.getWorld().peekSafely(grenade.getLocation());
 				//int modelBlockData = grenade.getWorld().peekSafely(grenade.getLocation()).getData();
 
 				//int lightSky = VoxelFormat.sunlight(modelBlockData);
 				//int lightBlock = VoxelFormat.blocklight(modelBlockData);
-				renderingContext.currentShader().setUniform3f("givenLightmapCoords", cell.getBlocklight() / 15f, cell.getSunlight() / 15f, 0f);
+				renderer.currentShader().setUniform2f("worldLightIn", cell.getBlocklight(), cell.getSunlight());
 
 				Matrix4f mutrix = new Matrix4f();
 
@@ -83,9 +84,9 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 				mutrix.rotate(grenade.direction, new Vector3f(0, 1, 0));
 				mutrix.rotate(grenade.rotation, new Vector3f(0, 0, 1));
 
-				renderingContext.setObjectMatrix(mutrix);
+				renderer.setObjectMatrix(mutrix);
 
-				renderingContext.meshes().getRenderableMeshByName("./models/weapon/flashbang_grenade/flashbang_grenade.obj").render(renderingContext);
+				renderer.meshes().getRenderableMesh("./models/weapon/flashbang_grenade/flashbang_grenade.obj").render(renderer);
 			}
 
 			return e;

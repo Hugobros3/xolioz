@@ -64,7 +64,7 @@ public class FlashbangGrenade extends Item{
 			
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownFlashbangGrenade grenade = (EntityThrownFlashbangGrenade) this.getDefinition().store().parent().entities().getEntityTypeByName("flash_grenade").create(throwLocation);
+			EntityThrownFlashbangGrenade grenade = (EntityThrownFlashbangGrenade) this.getDefinition().store().parent().entities().getEntityDefinition("flash_grenade").create(throwLocation);
 			grenade.setLocation(throwLocation);
 			
 			//EntityThrownFlashbangGrenade grenade = new EntityThrownFlashbangGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());

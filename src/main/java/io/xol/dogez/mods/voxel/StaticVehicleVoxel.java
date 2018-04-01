@@ -10,7 +10,6 @@ import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.rendering.voxel.VoxelRenderer;
-import io.xol.chunkstories.api.voxel.VoxelCustomIcon;
 import io.xol.chunkstories.api.voxel.VoxelDefinition;
 import io.xol.chunkstories.api.voxel.components.VoxelComponent;
 import io.xol.chunkstories.api.voxel.components.VoxelInventoryComponent;
@@ -24,7 +23,7 @@ import io.xol.chunkstories.core.voxel.BigVoxel;
 //http://chunkstories.xyz
 //http://xol.io
 
-public class StaticVehicleVoxel extends BigVoxel implements VoxelCustomIcon {
+public class StaticVehicleVoxel extends BigVoxel {
 	
 	public final float rotate;
 	public final Vector3f translate;

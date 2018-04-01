@@ -48,18 +48,17 @@ public class DZTorch extends Item{
 				{
 					if(pile.getInventory().getHolder() instanceof EntityRotateable)
 					{
-						Vector4f vec4 = new Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
+						Vector4f vec4 = new Vector4f(0.5f, 0.0f, 0.0f, 1.0f);
 						
 						handTransformation.transform(vec4);
-						//Matrix4f.transform(handTransformation, vec4, vec4);
 						
-						Vector3f vec3 = new Vector3f(vec4.x(), vec4.y(), vec4.z());
+						Vector3f vec3 = new Vector3f(vec4.x(), vec4.y() + 0.00f, vec4.z());
 						
 						Vector3dc dirD = ((EntityRotateable) pile.getInventory().getHolder()).getDirectionLookingAt();
 						Vector3f dir = new Vector3f((float)dirD.x(), (float)dirD.y(), (float)dirD.z());
 						
-						context.getLightsRenderer().queueLight(new SpotLight(new Vector3f(1f, 1f, 0.9f).mul(1.5f), vec3, 45f, 35f, dir));
-						context.getLightsRenderer().queueLight(new SpotLight(new Vector3f(1f, 1f, 0.9f).mul(0.5f), vec3, 95f, 35f, dir));
+						context.getLightsRenderer().queueLight(new SpotLight(new Vector3f(1f, 1f, 0.9f).mul(5.55f), vec3, 1f, 35f, dir));
+						//context.getLightsRenderer().queueLight(new SpotLight(new Vector3f(1f, 1f, 0.9f).mul(0.25f), vec3, 95f, 35f, dir));
 					}
 				}
 			}

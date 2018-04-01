@@ -64,7 +64,7 @@ public class SmokeGrenade extends Item{
 			
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownSmokeGrenade grenade = (EntityThrownSmokeGrenade) this.getDefinition().store().parent().entities().getEntityTypeByName("smoke_grenade").create(throwLocation);
+			EntityThrownSmokeGrenade grenade = (EntityThrownSmokeGrenade) this.getDefinition().store().parent().entities().getEntityDefinition("smoke_grenade").create(throwLocation);
 			grenade.positionComponent.setPosition(throwLocation);
 			
 			grenade.velocityComponent.setVelocity(throwForce);

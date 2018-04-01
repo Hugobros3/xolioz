@@ -106,7 +106,7 @@ public class ZombiesPopulation {
 	{
 		WorldMaster world = plugin.getGameWorld();
 		
-		EntityZombie zomb = new EntityZombie(plugin.getPluginExecutionContext().getContent().entities().getEntityTypeByName("zombie"), loc);
+		EntityZombie zomb = new EntityZombie(plugin.getPluginExecutionContext().getContent().entities().getEntityDefinition("zombie"), loc);
 		zomb.setHealth((float) (zomb.getHealth() * (0.5 + Math.random())));
 		
 		world.addEntity(zomb);

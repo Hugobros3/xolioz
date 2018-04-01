@@ -53,7 +53,7 @@ public class LootCategories {
 				} else {
 					if (!ligne.startsWith("//")) {
 						ItemDefinition ItemDefinition = plugin.getPluginExecutionContext().getContent().items()
-								.getItemTypeByName(ligne.split(":")[0]);
+								.getItemDefinition(ligne.split(":")[0]);
 
 						LootType addmeh = new LootType(ItemDefinition, ligne);
 						if (currentCategory != null && addmeh.lootItem != null)

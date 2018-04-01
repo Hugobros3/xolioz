@@ -24,8 +24,8 @@ jar {
 }
 
 ext {
-	csApiBuiltAgainst = '118'
-	coreContentVersionBuiltAgainst = '127'
+	csApiBuiltAgainst = '120'
+	coreContentVersionBuiltAgainst = '128'
 }
 
 subprojects {

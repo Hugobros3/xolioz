@@ -49,7 +49,7 @@ public class SignsShopsHandlers {
 					}
 				}*/
 				
-				ItemDefinition type = plugin.getPluginExecutionContext().getContent().items().getItemTypeByName(itemLine[0]);
+				ItemDefinition type = plugin.getPluginExecutionContext().getContent().items().getItemDefinition(itemLine[0]);
 				if(type != null)
 					item = new ItemPile(type);
 				

@@ -63,7 +63,7 @@ public class FragGrenade extends Item{
 			Vector3d throwForce = new Vector3d(((EntityPlayer)owner).getDirectionLookingAt()).mul(0.2 - Math2.clampd(((EntityPlayer)owner).getEntityRotationComponent().getVerticalRotation(), -45, 20) / 45f * 0.3f);
 			throwForce.add(((EntityPlayer)owner).getVelocityComponent().getVelocity());
 			
-			EntityThrownFragGrenade grenade = (EntityThrownFragGrenade) this.getDefinition().store().parent().entities().getEntityTypeByName("frag_grenade").create(throwLocation);
+			EntityThrownFragGrenade grenade = (EntityThrownFragGrenade) this.getDefinition().store().parent().entities().getEntityDefinition("frag_grenade").create(throwLocation);
 			grenade.positionComponent.setPosition(throwLocation);
 			
 					//new EntityThrownFragGrenade(pos.getWorld(), throwLocation.getX(), throwLocation.getY(), throwLocation.getZ());
