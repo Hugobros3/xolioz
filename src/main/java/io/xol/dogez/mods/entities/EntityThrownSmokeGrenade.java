@@ -64,10 +64,6 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements Ent
 				renderer.currentShader().setUniform3f("objectPosition", new Vector3f(0));
 
 				CellData cell = grenade.getWorld().peekSafely(grenade.getLocation());
-				//int modelBlockData = grenade.getWorld().peekSafely(grenade.getLocation()).getData();
-
-				//int lightSky = VoxelFormat.sunlight(modelBlockData);
-				//int lightBlock = VoxelFormat.blocklight(modelBlockData);
 				renderer.currentShader().setUniform2f("worldLightIn", cell.getBlocklight(), cell.getSunlight());
 
 				Matrix4f mutrix = new Matrix4f();
