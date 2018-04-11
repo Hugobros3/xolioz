@@ -137,10 +137,6 @@ public class PlayerListener implements Listener {
 
 				plugin.getLootPlaces().update(coords, player.getWorld());
 			} 
-			//Sign-shop stuff
-			else if (voxel instanceof VoxelSign)
-				//Pass the event to the SignShopsHandler that will decide what to do with it
-				event.setCancelled(plugin.getSignShopsHandler().handle(player, voxel, (int) (double) selectedLocation.x(), (int) (double) selectedLocation.y(), (int) (double) selectedLocation.z()));
 		}
 
 	}

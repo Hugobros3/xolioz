@@ -41,7 +41,7 @@ public class PlayerProfile {
 	public int playersKilled_thisLife = 0;
 
 	// money
-	public double xcBalance = 0;
+	// public double xcBalance = 0;
 
 	// map-building shit
 	public boolean adding = true;
@@ -102,7 +102,7 @@ public class PlayerProfile {
 			}
 			
 			dateOfJoin = Integer.parseInt(data[3]);
-			xcBalance = Double.parseDouble(data[5]);
+			//xcBalance = Double.parseDouble(data[5]);
 
 			if (timeConnected == 0) {
 				timeConnected = Long.parseLong(data[6]);
@@ -152,7 +152,6 @@ public class PlayerProfile {
 			out.write(this.name+"\n"); //2
 			out.write(this.dateOfJoin+"\n"); //3
 			out.write(System.currentTimeMillis()+"\n"); //4
-			out.write(this.xcBalance+"\n"); //5
 			out.write(this.timeConnected+"\n"); //6
 			out.write(this.timeSurvivedTotal+"\n"); //7
 			out.write(this.timeSurvivedLife+"\n"); //8
@@ -171,42 +170,6 @@ public class PlayerProfile {
 			e.printStackTrace();
 		}
 	}
-
-	public void addBalance(float amount) {
-		xcBalance += amount;
-	}
-
-	/*
-	 * @Override public void handleHttpRequest(String info, String result) { if
-	 * (info.equals("reloadProfile")) { if (!result.startsWith("p")) return;
-	 * 
-	 * // 1:uuid 2:name 3:joindate 4:lastlogdate 5:balance 6:timeConnected //
-	 * 7:timeSurvivedTotal 8:timeSurvivedLife // 9:zombiesKilledTotal
-	 * 10:zombiesKilledLife 11:playersKilledTotal // 12:playersKilledLife
-	 * 13:deaths 14:isIngame
-	 * 
-	 * String[] data = result.split(":");
-	 * 
-	 * dateOfJoin = Integer.parseInt(data[3]); xcBalance =
-	 * Double.parseDouble(data[5]);
-	 * 
-	 * if (timeConnected == 0) { timeConnected = Long.parseLong(data[6]);
-	 * timeSurvivedTotal = Long.parseLong(data[7]); timeSurvivedLife =
-	 * Long.parseLong(data[8]); }
-	 * 
-	 * zombiesKilled = Integer.parseInt(data[9]); playersKilled =
-	 * Integer.parseInt(data[11]); deaths = Integer.parseInt(data[13]);
-	 * 
-	 * zombiesKilled_thisLife = Integer.parseInt(data[10]);
-	 * playersKilled_thisLife = Integer.parseInt(data[12]);
-	 * 
-	 * inGame = data[14].equals("1");
-	 * 
-	 * death_level = Integer.parseInt(data[15]); deathRequest = data[16]; if
-	 * (deathRequest.equals("nobody")) deathRequest = ""; timeCalc();
-	 * 
-	 * loadedSuccessfully = true; } }
-	 */
 
 	public double getTimeAlive() {
 		return timeSurvivedLife;

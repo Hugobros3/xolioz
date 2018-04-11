@@ -15,7 +15,6 @@ import io.xol.chunkstories.api.plugin.ServerPlugin;
 import io.xol.chunkstories.api.server.ServerInterface;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
-import io.xol.dogez.plugin.economy.SignsShopsHandlers;
 import io.xol.dogez.plugin.game.XolioZCommandsHandler;
 import io.xol.dogez.plugin.game.EntityListener;
 import io.xol.dogez.plugin.game.PlayerListener;
@@ -33,33 +32,31 @@ public class XolioZGamemodePlugin extends ServerPlugin {
 
 	private PlayerProfiles playerProfiles = new PlayerProfiles(this);
 	private ScheduledEvents scheduledEvents;
-	private SignsShopsHandlers signShop = new SignsShopsHandlers(this);
 
 	private EntityListener entityListener = new EntityListener(this);
 	private PlayerListener playerListener = new PlayerListener(this);
-	
+
 	private LootCategories lootTypes = new LootCategories(this);
 	private LootPlaces lootPlaces = new LootPlaces(this);
-	
+
 	private final CrashesHandler crashesHandler = new CrashesHandler(this);
-	
+
 	private TalkieWalkiesHandler talkieWalkiesHandler = new TalkieWalkiesHandler(this);
-	
+
 	private final boolean mod_present;
-	
+
 	public static final String pluginFolder = "./plugins/XolioZ/";
-	
+
 	public XolioZGamemodePlugin(PluginInformation pluginInformation, ServerInterface clientInterface) {
 		super(pluginInformation, clientInterface);
-		
-		//Non-presence of the accompanying mod in the server configuration is fatal
+
+		// Non-presence of the accompanying mod in the server configuration is fatal
 		boolean mod_present = false;
-		for(Mod mod : this.getPluginExecutionContext().getContent().modsManager().getCurrentlyLoadedMods())
-		{
-			if(mod.getModInfo().getInternalName().equals("xolioz"))
+		for (Mod mod : this.getPluginExecutionContext().getContent().modsManager().getCurrentlyLoadedMods()) {
+			if (mod.getModInfo().getInternalName().equals("xolioz"))
 				mod_present = true;
 		}
-		
+
 		this.mod_present = mod_present;
 	}
 
@@ -73,15 +70,15 @@ public class XolioZGamemodePlugin extends ServerPlugin {
 	@Override
 	public void onEnable() {
 		version = "" + this.getPluginInformation().getPluginVersion();
-		
+
 		this.getLogger().info("[XolioZ] Initializing plugin version " + version + " ...");
-		
-		if(!mod_present) {
+
+		if (!mod_present) {
 			this.getLogger().info("[XolioZ] 'xolioz' mod not found in loaded mods, not enabling the plugin. "
 					+ "Please put 'xolioz_content.zip' in your mods/ folder and enable it through the --mods launch argument.");
 			return;
 		}
-		
+
 		checkFolder();
 		loadConfigs();
 
@@ -102,7 +99,7 @@ public class XolioZGamemodePlugin extends ServerPlugin {
 			getPlayerProfiles().addPlayerProfile(p.getUUID(), p.getName());
 
 		scheduledEvents = new ScheduledEvents(this);
-		
+
 		// done
 		isGameActive = true;
 		this.getLogger().info("[XolioZ] Plugin initialized.");
@@ -124,13 +121,13 @@ public class XolioZGamemodePlugin extends ServerPlugin {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//lootItems.loadItems();
+
+		// lootItems.loadItems();
 		lootTypes.loadTypes();
-		
+
 		World world = getServer().getWorld();
 		lootPlaces.loadLootFile(world);
-		
+
 		PlacesNames.loadData();
 		SpawnPoints.load();
 	}
@@ -142,33 +139,32 @@ public class XolioZGamemodePlugin extends ServerPlugin {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		World world = getServer().getWorld();
 		lootPlaces.saveLootFile(world);
 	}
 
-	public WorldMaster getGameWorld()
-	{
+	public WorldMaster getGameWorld() {
 		return getServer().getWorld();
 	}
-	
+
 	@Override
 	public void onDisable() {
-		if(!mod_present)
+		if (!mod_present)
 			return;
-		
+
 		scheduledEvents.unschedule();
-		
+
 		saveConfigs();
 		this.getLogger().info("[XolioZ] Plugin disabling... waiting 2s for requests to complete...");
 		getPlayerProfiles().saveAll();
-		
+
 		try {
 			Thread.sleep(2000L);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.getLogger().info("[XolioZ] Done, terminated");
 	}
 
@@ -183,24 +179,16 @@ public class XolioZGamemodePlugin extends ServerPlugin {
 	public PlayerProfiles getPlayerProfiles() {
 		return playerProfiles;
 	}
-	
-	public SignsShopsHandlers getSignShopsHandler()
-	{
-		return signShop;
-	}
-	
-	public TalkieWalkiesHandler getTalkieWalkiesHandler()
-	{
+
+	public TalkieWalkiesHandler getTalkieWalkiesHandler() {
 		return talkieWalkiesHandler;
 	}
-	
-	public LootCategories getLootTypes()
-	{
+
+	public LootCategories getLootTypes() {
 		return lootTypes;
 	}
-	
-	public LootPlaces getLootPlaces()
-	{
+
+	public LootPlaces getLootPlaces() {
 		return lootPlaces;
 	}
 

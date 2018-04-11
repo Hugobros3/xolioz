@@ -129,10 +129,6 @@ public class XolioZCommandsHandler implements CommandHandler {
 					+ ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.play}");
 			sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "stats" + ChatColor.DARK_GRAY + " - "
 					+ ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.stats}");
-			sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "money" + ChatColor.DARK_GRAY + " - "
-					+ ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.money}");
-			sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "#{dogez.paysyntax}"
-					+ ChatColor.DARK_GRAY + " - " + ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.pay}");
 			sender.sendMessage(ChatColor.BLUE + "/dz " + ChatColor.DARK_AQUA + "suicide"
 					+ ChatColor.DARK_GRAY + " - " + ChatColor.GRAY + ChatColor.ITALIC + "#{dogez.kys}");
 			
@@ -226,83 +222,6 @@ public class XolioZCommandsHandler implements CommandHandler {
 				sender.sendMessage(ChatColor.DARK_AQUA + "#{dogez.deaths1}" + profile.deaths + "#{dogez.deaths2}");
 
 				return true;
-			}
-			if (args[0].equals("money") && args.length == 1) {
-				double xc = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID()).xcBalance;
-				xc *= 100;
-				xc = Math.floor(xc);
-				xc /= 100;
-				sender.sendMessage(
-						ChatColor.DARK_AQUA + "#{dogez.money1}" + xc + " XolioCoins.");
-				return true;
-			}
-			if (args[0].equals("money") && args.length == 2 && sender.hasPermission("dogez.seeothersmoney")) {
-				
-				Player target = plugin.getServer().getPlayerByName(args[1]);
-				if (player != null) {
-					double xc = plugin.getPlayerProfiles().getPlayerProfile(args[1].hashCode()).xcBalance;
-					xc *= 100;
-					xc = Math.floor(xc);
-					xc /= 100;
-					sender.sendMessage(ChatColor.DARK_AQUA + "#{dogez.money2}" + target.getName()
-							+ "#{dogez.money3}" + xc + " XolioCoins.");
-				}
-				return true;
-			}
-			if (args[0].equals("pay")) {
-				if (args.length == 3) {
-					double amount = Double.parseDouble(args[2]);
-					
-					if (amount < 0.00) {
-						player.sendMessage(ChatColor.RED + "#{dogez.nominus}");
-						return true;
-					}
-					if (amount == 0.0) {
-						player.sendMessage(ChatColor.RED + "#{dogez.nozero}");
-						return true;
-					}
-					if (amount < 0.01) {
-						player.sendMessage(ChatColor.RED + "#{dogez.nolessthan1ct}");
-						return true;
-					}
-
-					PlayerProfile senderProfile = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
-					
-					PlayerProfile receiverProfile = plugin.getPlayerProfiles().getPlayerProfile(args[1].hashCode());
-					if(player.getName().equals(receiverProfile.name)) {
-						player.sendMessage(ChatColor.RED + "#{dogez.noself}");
-						return true;
-					}
-					
-					if(senderProfile.xcBalance < amount) {
-						player.sendMessage(ChatColor.RED + "#{dogez.nofunds}");
-						return true;
-					}
-					
-					senderProfile.xcBalance -= amount;
-					receiverProfile.xcBalance += amount;
-					
-					receiverProfile.saveProfile();
-					senderProfile.saveProfile();
-					
-					player.sendMessage(ChatColor.DARK_AQUA + "#{dogez.sentok}" + ChatColor.AQUA
-							+ ChatColor.BOLD + amount + ChatColor.DARK_AQUA + "#{dogez.sentok2}" + ChatColor.AQUA
-							+ ChatColor.BOLD + receiverProfile);
-					
-					//If the receiver is online
-					Player receiver = plugin.getServer().getPlayerByName(args[1]);
-					if(receiver != null)
-					{
-						receiver.sendMessage(ChatColor.DARK_AQUA + "#{dogez.received}" + ChatColor.AQUA + ChatColor.BOLD
-								+ amount + ChatColor.DARK_AQUA + "#{dogez.receivedfrom}" + ChatColor.AQUA
-								+ ChatColor.BOLD + player.getName());
-					}
-					
-					return true;
-				} else {
-					player.sendMessage(ChatColor.RED + "#{dogez.paysyntax}");
-					return true;
-				}
 			}
 			
 			// admin

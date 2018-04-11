@@ -46,10 +46,6 @@ public class EntityListener implements Listener {
 					PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
 					pp.zombiesKilled++;
 					pp.zombiesKilled_thisLife++;
-					int xcwon = 2 + (Math.random() > 0.5 ? 1 : 0);
-					
-					if (pp.inGame)
-						pp.addBalance(xcwon);
 				}
 			}
 		}
@@ -77,22 +73,8 @@ public class EntityListener implements Listener {
 
 					killerProfile.playersKilled++;
 					killerProfile.playersKilled_thisLife++;
-					float lostMoney = (float) (victimProfile.xcBalance * 0.05f);
-					lostMoney *= 100;
-					lostMoney = (float) Math.floor(lostMoney);
-					lostMoney /= 100f;
-					if (lostMoney > 500)
-						lostMoney = 500;
-					victimProfile.xcBalance -= lostMoney;
-					killerProfile.xcBalance += lostMoney;
 
 					victimProfile.timeSurvivedLife = 0l;
-					player.sendMessage(ChatColor.AQUA + "#{dogez.killed}" + victim.getName()
-							+ "#{dogez.gotmoney}" + lostMoney + "xc.");
-					
-					/*victim.sendMessage(ChatColor.RED
-							+ "Vous êtes mort. Vos statistiques ont été réinitialisées et votre tueur à recu 5% de votre argent, soit "
-							+ lostMoney + "xc.");*/
 				}
 			}
 
