@@ -17,7 +17,6 @@ import io.xol.chunkstories.api.util.compatibility.ChatColor;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.cell.CellData;
 import io.xol.chunkstories.core.voxel.VoxelChest;
-import io.xol.chunkstories.core.voxel.VoxelSign;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;
 import io.xol.dogez.plugin.loot.LootPlace;
 import io.xol.dogez.plugin.misc.ChatFormatter;
