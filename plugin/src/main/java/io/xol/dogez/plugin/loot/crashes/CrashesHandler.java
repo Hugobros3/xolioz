@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.Set;
 
 import io.xol.chunkstories.api.Location;
-import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
+import io.xol.chunkstories.api.entity.Entity;
+import io.xol.chunkstories.api.entity.traits.TraitVoxelSelection;
 import io.xol.chunkstories.api.events.EventHandler;
 import io.xol.chunkstories.api.events.Listener;
 import io.xol.chunkstories.api.events.player.PlayerInputPressedEvent;
@@ -81,8 +82,8 @@ public class CrashesHandler implements Listener {
 
 		Player player = event.getPlayer();
 
-		EntityControllable playerEntity = player.getControlledEntity();
-		Location selectedLocation = playerEntity.getBlockLookingAt(true);
+		Entity playerEntity = player.getControlledEntity();
+		Location selectedLocation = playerEntity.traits.tryWith(TraitVoxelSelection.class, tvs -> tvs.getBlockLookingAt(true, false));
 
 		if (selectedLocation != null) {
 			CellData context = player.getWorld().peekSafely(selectedLocation);

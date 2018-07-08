@@ -172,6 +172,7 @@ public class XolioZGamemodePlugin extends ServerPlugin {
 		return Logger.getGlobal();
 	}
 
+	//TODO remove it's useless
 	public boolean isActive() {
 		return isGameActive;
 	}

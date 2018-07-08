@@ -1,9 +1,10 @@
 package io.xol.dogez.plugin.game;
 
+import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.DamageCause;
 import io.xol.chunkstories.api.entity.Entity;
-import io.xol.chunkstories.api.entity.EntityLiving;
-import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
+import io.xol.chunkstories.api.entity.components.EntityController;
+import io.xol.chunkstories.api.entity.components.EntityHealth;
 import io.xol.chunkstories.api.events.EventHandler;
 import io.xol.chunkstories.api.events.Listener;
 import io.xol.chunkstories.api.events.entity.EntityDamageEvent;
@@ -11,6 +12,7 @@ import io.xol.chunkstories.api.events.entity.EntityDeathEvent;
 import io.xol.chunkstories.api.events.player.PlayerDeathEvent;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.util.compatibility.ChatColor;
+import io.xol.chunkstories.core.entity.EntityLiving;
 import io.xol.chunkstories.core.entity.EntityZombie;
 import io.xol.chunkstories.core.item.FirearmShotEvent;
 import io.xol.dogez.plugin.XolioZGamemodePlugin;
@@ -27,67 +29,72 @@ public class EntityListener implements Listener {
 	// zombies don't loot and count kills
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent event) {
-		
 		if (!plugin.isActive())
 			return;
 
 		Entity entity = event.getEntity();
-		if (!(entity instanceof EntityLiving))
-			return;
+		DamageCause cause = entity.components.get(EntityHealth.class).getLastDamageCause();
 
-		EntityLiving entityLiving = (EntityLiving) entity;
-
+		// If the killed entity was a zombie, lookup the killer and see if it's a player
 		if (entity instanceof EntityZombie) {
-			DamageCause cause = entityLiving.getLastDamageCause();
-			if (cause != null && cause instanceof EntityLiving) {
-				if (cause instanceof EntityControllable
-						&& ((EntityControllable) cause).getControllerComponent().getController() != null) {
-					Player player = (Player) ((EntityControllable) cause).getControllerComponent().getController();
-					PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
-					pp.zombiesKilled++;
-					pp.zombiesKilled_thisLife++;
-				}
+			if (cause != null && cause instanceof Entity) {
+
+				Entity killerEntity = (Entity) cause;
+				killerEntity.components.with(EntityController.class, kec -> {
+					Controller killerController = kec.getController();
+					if (killerController != null && killerController instanceof Player) {
+						Player killer = (Player) killerController;
+
+						// Improve the killer stats
+						PlayerProfile killerProfile = plugin.getPlayerProfiles().getPlayerProfile(killer.getUUID());
+						killerProfile.zombiesKilled++;
+						killerProfile.zombiesKilled_thisLife++;
+					}
+				});
 			}
 		}
 
-		if (entity instanceof EntityControllable
-				&& ((EntityControllable) entity).getControllerComponent().getController() != null) {
+		entity.components.with(EntityController.class, vec -> {
+			Controller controller = vec.getController();
 
-			Player victim = (Player) ((EntityControllable) entity).getControllerComponent().getController();
-			PlayerProfile victimProfile = plugin.getPlayerProfiles().getPlayerProfile(victim.getUUID());
+			// If the victim was a player...
+			if (controller != null && controller instanceof Player) {
+				Player victim = (Player) controller;
 
-			if (!victimProfile.inGame)
-				return;
+				PlayerProfile victimProfile = plugin.getPlayerProfiles().getPlayerProfile(victim.getUUID());
 
-			victimProfile.playersKilled_thisLife = 0;
-			victimProfile.zombiesKilled_thisLife = 0;
-			victimProfile.deaths++;
+				if (!victimProfile.inGame)
+					return;
 
-			DamageCause cause = entityLiving.getLastDamageCause();
-			if (cause != null && cause instanceof EntityLiving) {
-				if (cause instanceof EntityControllable
-						&& ((EntityControllable) cause).getControllerComponent().getController() != null)
-				{
-					Player player = (Player) ((EntityControllable) cause).getControllerComponent().getController();
-					PlayerProfile killerProfile = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
+				if (cause != null && cause instanceof Entity) {
 
-					killerProfile.playersKilled++;
-					killerProfile.playersKilled_thisLife++;
+					Entity killerEntity = (Entity) cause;
+					killerEntity.components.with(EntityController.class, kec -> {
+						Controller killerController = kec.getController();
+						if (killerController != null && killerController instanceof Player) {
+							Player killer = (Player) killerController;
 
-					victimProfile.timeSurvivedLife = 0l;
+							// Improve the killer stats
+							PlayerProfile killerProfile = plugin.getPlayerProfiles().getPlayerProfile(killer.getUUID());
+
+							killerProfile.playersKilled++;
+							killerProfile.playersKilled_thisLife++;
+						}
+					});
 				}
+
+				victim.sendMessage(ChatColor.RED + "#{dogez.youdied}");
+
+				victimProfile.playersKilled_thisLife = 0;
+				victimProfile.zombiesKilled_thisLife = 0;
+				victimProfile.deaths++;
+
+				victimProfile.timeSurvivedLife = 0l;
+				victimProfile.inGame = false;
+
+				victimProfile.saveProfile();
 			}
-
-			victimProfile.saveProfile();
-			victim.sendMessage(ChatColor.RED + "#{dogez.youdied}");
-
-			double minimalRandom = 0.9d - Math.max(0.85, Math.min(0.0, 30 - victimProfile.getTimeAlive() / 30.0));
-
-			if (victimProfile.inGame && Math.random() > minimalRandom) {
-				
-			}
-			victimProfile.inGame = false;
-		}
+		});
 	}
 
 	@EventHandler
@@ -97,37 +104,47 @@ public class EntityListener implements Listener {
 
 	@EventHandler
 	public void onDamage(EntityDamageEvent event) {
-		if (event.getEntity() instanceof EntityLiving) {
-			EntityLiving entityHurt = (EntityLiving) event.getEntity();
-			if (entityHurt.getLastDamageCause() != null) {
-				if (entityHurt.getLastDamageCause() instanceof Entity) {
-					if (entityHurt.getLastDamageCause() instanceof Player) {
-						
-						Player player = (Player) ((EntityControllable) entityHurt).getController();
-						// anti combat log
-						PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
-						if (pp != null) {
-							if (System.currentTimeMillis() - pp.lastHitTime > 120 * 1000L)
-								player.sendMessage(ChatColor.RED
-										+ "#{dogez.gothit}");
-							pp.lastHitTime = System.currentTimeMillis();
+		if (!plugin.isActive())
+			return;
 
-						}
+		Entity entity = event.getEntity();
+		DamageCause cause = entity.components.get(EntityHealth.class).getLastDamageCause();
+
+		entity.components.with(EntityController.class, vec -> {
+			Controller controller = vec.getController();
+
+			// If the victim was a player...
+			if (controller != null && controller instanceof Player) {
+				Player victim = (Player) controller;
+
+				PlayerProfile victimProfile = plugin.getPlayerProfiles().getPlayerProfile(victim.getUUID());
+
+				// If he was hurt by another player
+				if (cause != null && cause instanceof Player) {
+					if (victimProfile != null) {
+
+						// Warn him and set his logoff cooldown
+						if (System.currentTimeMillis() - victimProfile.lastHitTime > 120 * 1000L)
+							victim.sendMessage(ChatColor.RED + "#{dogez.gothit}");
+						victimProfile.lastHitTime = System.currentTimeMillis();
 					}
 				}
 			}
-		}
+		});
 	}
-	
+
 	@EventHandler
 	public void onFirearmShit(FirearmShotEvent event) {
-		for(Entity e : event.getShooter().getWorld().getAllLoadedEntities()) {
-			if(e instanceof EntityZombie) {
-				EntityZombie z = (EntityZombie)e;
-				
+		for (Entity e : event.getShooter().getWorld().getAllLoadedEntities()) {
+			if (e instanceof EntityZombie) {
+				EntityZombie z = (EntityZombie) e;
+
 				double d = z.getLocation().distance(event.getShooter().getLocation());
-				if(d < event.getItemFirearm().soundRange * (0.5 + Math.random() * 0.25))
-					z.attack(event.getShooter(), (float) (event.getItemFirearm().soundRange * 0.5 + Math.random() * 15));
+				if (d < event.getItemFirearm().soundRange * (0.5 + Math.random() * 0.25)) {
+					Entity shooter = event.getShooter();
+					if (shooter != null && shooter instanceof EntityLiving)
+						z.attack((EntityLiving) shooter, (float) (event.getItemFirearm().soundRange * 0.5 + Math.random() * 15));
+				}
 			}
 		}
 	}

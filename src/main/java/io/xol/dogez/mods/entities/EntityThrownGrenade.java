@@ -1,29 +1,28 @@
 package io.xol.dogez.mods.entities;
 
-import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
-import io.xol.chunkstories.api.sound.SoundSource.Mode;
-import io.xol.chunkstories.api.voxel.Voxel;
-import io.xol.chunkstories.api.world.WorldClient;
-import io.xol.chunkstories.api.world.WorldMaster;
-import io.xol.chunkstories.api.math.Math2;
-import io.xol.chunkstories.api.physics.CollisionBox;
-
 import org.joml.Vector2d;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
 import io.xol.chunkstories.api.Location;
-import io.xol.chunkstories.api.entity.EntityBase;
+import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityDefinition;
-import io.xol.chunkstories.api.entity.components.EntityComponentVelocity;
+import io.xol.chunkstories.api.entity.components.EntityVelocity;
+import io.xol.chunkstories.api.math.Math2;
+import io.xol.chunkstories.api.physics.CollisionBox;
+import io.xol.chunkstories.api.sound.SoundSource.Mode;
+import io.xol.chunkstories.api.voxel.Voxel;
+import io.xol.chunkstories.api.world.WorldClient;
+import io.xol.chunkstories.api.world.WorldMaster;
 
-public abstract class EntityThrownGrenade extends EntityBase implements EntityRenderable  {
+public abstract class EntityThrownGrenade extends Entity  {
 
 	protected float tilt = 0f;
 	protected float direction = 0f;
 	protected float rotation = 0f;
 	
-	public final EntityComponentVelocity velocityComponent = new EntityComponentVelocity(this);
+	public final EntityVelocity entityVelocity = new EntityVelocity(this);
+	//public final EntityComponentVelocity velocityComponent = new EntityComponentVelocity(this);
 	
 	public EntityThrownGrenade(EntityDefinition type, Location loc) {
 		super(type, loc);
@@ -32,10 +31,10 @@ public abstract class EntityThrownGrenade extends EntityBase implements EntityRe
 	@Override
 	public void tick() {
 
-		Vector3d velocity = velocityComponent.getVelocity();
+		Vector3d velocity = entityVelocity.getVelocity();
 
 		if (world instanceof WorldMaster) {
-			Voxel voxelIn = world.peekSafely(positionComponent.getLocation()).getVoxel();
+			Voxel voxelIn = world.peekSafely(entityLocation.get()).getVoxel();
 			boolean inWater = voxelIn.getDefinition().isLiquid();
 
 			double terminalVelocity = inWater ? -0.05 : -1.5;

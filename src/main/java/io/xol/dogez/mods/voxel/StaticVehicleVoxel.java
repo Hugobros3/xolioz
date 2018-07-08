@@ -6,7 +6,7 @@ import org.joml.Vector3f;
 import io.xol.chunkstories.api.client.ClientContent;
 import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.Entity;
-import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
+import io.xol.chunkstories.api.entity.components.EntityController;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.rendering.voxel.VoxelRenderer;
@@ -104,10 +104,8 @@ public class StaticVehicleVoxel extends BigVoxel {
 			int y = context.getY();
 			int z = context.getZ();
 			
-			//Only actual players can open that kind of stuff
-			if(entity instanceof EntityControllable) {
-				EntityControllable e = (EntityControllable)entity;
-				Controller c = e.getController();
+			entity.components.with(EntityController.class, ec -> {
+				Controller c = ec.getController();
 				
 				if(c instanceof Player) {
 					Player p = (Player)c;
@@ -131,13 +129,11 @@ public class StaticVehicleVoxel extends BigVoxel {
 						if(component != null) {
 							VoxelInventoryComponent invComponent = (VoxelInventoryComponent)component;
 							p.openInventory(invComponent.getInventory());
-							return true;
 						}
 					}
 					
 				}
-				
-			}
+			});
 		}
 		return false;
 	}

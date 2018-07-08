@@ -7,7 +7,6 @@ import org.joml.Vector3f;
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.EntityDefinition;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
-import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
 import io.xol.chunkstories.api.rendering.textures.Texture2D;
@@ -20,7 +19,7 @@ import io.xol.chunkstories.api.world.cell.CellData;
 //http://chunkstories.xyz
 //http://xol.io
 
-public class EntityThrownSmokeGrenade extends EntityThrownGrenade implements EntityRenderable {
+public class EntityThrownSmokeGrenade extends EntityThrownGrenade {
 
 	int ignitionTimer = 60 * 4; // 4 seconds to ignite
 	int deathTimer = 60 * 50; // Lives 50 seconds

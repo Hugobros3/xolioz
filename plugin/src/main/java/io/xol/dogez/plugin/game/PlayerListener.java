@@ -2,9 +2,10 @@ package io.xol.dogez.plugin.game;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.DamageCause;
-import io.xol.chunkstories.api.entity.EntityLiving;
-import io.xol.chunkstories.api.entity.interfaces.EntityControllable;
-import io.xol.chunkstories.api.entity.interfaces.EntityWithSelectedItem;
+import io.xol.chunkstories.api.entity.Entity;
+import io.xol.chunkstories.api.entity.components.EntityHealth;
+import io.xol.chunkstories.api.entity.components.EntitySelectedItem;
+import io.xol.chunkstories.api.entity.traits.TraitVoxelSelection;
 import io.xol.chunkstories.api.events.EventHandler;
 import io.xol.chunkstories.api.events.Listener;
 import io.xol.chunkstories.api.events.player.PlayerInputPressedEvent;
@@ -35,9 +36,8 @@ public class PlayerListener implements Listener {
 		Player player = ev.getPlayer();
 		String prefix = "";
 		if (plugin.config.getProperty("showConnectionMessages", "true").equals("true"))
-			ev.setConnectionMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + "] "
-					+ ChatFormatter.convertString(prefix) + ev.getPlayer().getName() + ChatColor.GRAY
-					+ "#{dogez.loggedin}");
+			ev.setConnectionMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + "] " + ChatFormatter.convertString(prefix)
+					+ ev.getPlayer().getName() + ChatColor.GRAY + "#{dogez.loggedin}");
 		else
 			ev.setConnectionMessage(null);
 		plugin.getPlayerProfiles().addPlayerProfile(player.getUUID(), player.getName());
@@ -49,31 +49,34 @@ public class PlayerListener implements Listener {
 		String prefix = "";
 		if (plugin.config.getProperty("showConnectionMessages", "true").equals("true")) {
 			if (!ev.getLogoutMessage().startsWith(ChatColor.DARK_GRAY + "["))
-				ev.setLogoutMessage(ChatColor.DARK_GRAY + "[" + ChatColor.RED + "-" + ChatColor.DARK_GRAY + "] "
-						+ ChatFormatter.convertString(prefix) + ev.getPlayer().getName() + ChatColor.GRAY
-						+ "#{dogez.loggedout}");
+				ev.setLogoutMessage(ChatColor.DARK_GRAY + "[" + ChatColor.RED + "-" + ChatColor.DARK_GRAY + "] " + ChatFormatter.convertString(prefix)
+						+ ev.getPlayer().getName() + ChatColor.GRAY + "#{dogez.loggedout}");
 		} else
 			ev.setLogoutMessage(null);
-		
+
 		PlayerProfile pp = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
-		// Delete his torch
-		// pp.updateTorch(false);
-		// Anti log
+
 		if (System.currentTimeMillis() - pp.lastHitTime < 7 * 1000L) {
-			plugin.getLogger().info(player.getName() + " was killed for combat log ( "
-					+ (System.currentTimeMillis() - pp.lastHitTime) + " ms wait before logoff )");
-			((EntityLiving) player.getControlledEntity()).damage(new DamageCause() {
+			plugin.getLogger()
+					.info(player.getName() + " was killed for combat leave ( " + (System.currentTimeMillis() - pp.lastHitTime) + " ms wait before logoff )");
 
-				@Override
-				public String getName() {
-					return "Anti-combatlog";
-				}
+			Entity playerEntity = player.getControlledEntity();
+			if (playerEntity != null) {
+				playerEntity.components.with(EntityHealth.class, eh -> {
+					eh.damage(new DamageCause() {
 
-				@Override
-				public long getCooldownInMs() {
-					return 0;
-				}
-			}, 150000);
+						@Override
+						public String getName() {
+							return "Cowards no Rewards";
+						}
+
+						@Override
+						public long getCooldownInMs() {
+							return 0;
+						}
+					}, 150000);
+				});
+			}
 		}
 		plugin.getPlayerProfiles().removePlayerProfile(player.getUUID());
 	}
@@ -88,54 +91,51 @@ public class PlayerListener implements Listener {
 
 		Player player = event.getPlayer();
 
-		EntityControllable playerEntity = player.getControlledEntity();
-		Location selectedLocation = playerEntity.getBlockLookingAt(true);
+		Entity playerEntity = player.getControlledEntity();
+		Location selectedLocation = playerEntity.traits.tryWith(TraitVoxelSelection.class, tvs -> tvs.getBlockLookingAt(true, false));
 
 		if (selectedLocation != null) {
 			CellData context = player.getWorld().peekSafely(selectedLocation);
-			
+
 			if (!plugin.isActive())
 				return;
 
-			ItemPile itemInHand = null;
-			if (playerEntity instanceof EntityWithSelectedItem)
-				itemInHand = ((EntityWithSelectedItem) playerEntity).getSelectedItem();
+			ItemPile itemInHand = playerEntity.components.tryWith(EntitySelectedItem.class, esi -> esi.getSelectedItem());
 
 			// loot placement and removal
 			if (player.hasPermission("dogez.admin")) {
 				if (itemInHand != null && itemInHand.getItem().getName().equals("dz_loot_tool")) {
-					
+
 					if (context.getVoxel() instanceof VoxelChest) {
 						PlayerProfile profile = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
-						
+
+						//TODO use Vector3i here
 						String loot_coordinates = selectedLocation.x() + ":" + selectedLocation.y() + ":" + selectedLocation.z();
-						
+
 						if (profile.adding && profile.activeCategory != null) {
-							/*LootPlace lootPlace = new LootPlace(plugin.getLootPlaces(),
-									loot_coordinates + ":" + profile.activeCategory + ":" + profile.currentMin + ":" + profile.currentMax,
-									player.getWorld());*/
+							
 							LootPlace lootPlace = new LootPlace(plugin, selectedLocation, profile.activeCategory, profile.currentMin, profile.currentMax);
 							if (plugin.getLootPlaces().add(loot_coordinates, lootPlace, player.getWorld()))
-								player.sendMessage(ChatColor.AQUA + "Point de loot ajout� " + lootPlace.toString());
+								player.sendMessage(ChatColor.AQUA + "Loot point added " + lootPlace.toString());
 							else
-								player.sendMessage(ChatColor.RED + "Ce point existe d�j� !");
+								player.sendMessage(ChatColor.RED + "This loot point already exists !");
 						} else if (!profile.adding) {
 							if (!plugin.getLootPlaces().removePlace(loot_coordinates, player.getWorld())) {
-								player.sendMessage(ChatColor.RED + "Il n'y a pas de point de loot ici !");
+								player.sendMessage(ChatColor.RED + "There is no loot here !");
 							}
 						}
 						event.setCancelled(true);
 					}
 				}
 			}
-		
+
 			// loot regeneration
 			Voxel voxel = player.getWorld().peekSafely(selectedLocation).getVoxel();
 			if (voxel instanceof VoxelChest) {
 				String coords = (int) (double) selectedLocation.x() + ":" + (int) (double) selectedLocation.y() + ":" + (int) (double) selectedLocation.z();
 
 				plugin.getLootPlaces().update(coords, player.getWorld());
-			} 
+			}
 		}
 
 	}

@@ -7,7 +7,6 @@ import org.joml.Vector3f;
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.Entity;
-import io.xol.chunkstories.api.entity.interfaces.EntityCreative;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.item.Item;
 import io.xol.chunkstories.api.item.ItemDefinition;
@@ -19,12 +18,8 @@ import io.xol.chunkstories.api.rendering.item.ItemRenderer;
 import io.xol.chunkstories.api.world.World;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.core.entity.EntityPlayer;
-import io.xol.chunkstories.core.item.renderer.ObjViewModelRenderer;
+import io.xol.chunkstories.core.item.renderer.ItemModelRenderer;
 import io.xol.dogez.mods.entities.EntityThrownSmokeGrenade;
-
-//(c) 2015-2016 XolioWare Interactive
-//http://chunkstories.xyz
-//http://xol.io
 
 public class SmokeGrenade extends Item{
 
@@ -38,7 +33,7 @@ public class SmokeGrenade extends Item{
 		return new SmokeGrenadeItemRenderer(fallbackRenderer);
 	}
 	
-	class SmokeGrenadeItemRenderer extends ObjViewModelRenderer{
+	class SmokeGrenadeItemRenderer extends ItemModelRenderer{
 
 		public SmokeGrenadeItemRenderer(ItemRenderer fallbackRenderer) {
 			super(SmokeGrenade.this, fallbackRenderer, "./models/weapon/smoke_grenade/smoke_grenade.obj", "./models/weapon/smoke_grenade/smoke_grenade_albedo.png", "./textures/normalnormal.png", "./textures/defaultmaterial.png");
