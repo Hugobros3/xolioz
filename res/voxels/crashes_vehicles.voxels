@@ -1,5 +1,5 @@
 voxel uaz_tire_blown
-	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
+	customClass: io.xol.z.mod.voxels.StaticVehicleVoxel
 	opaque: false
 	selfOpaque: true
 	texture: invisible
@@ -19,7 +19,7 @@ voxel uaz_tire_blown
 end
 
 voxel uaz_tire_blown_on_fire
-	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
+	customClass: io.xol.z.mod.voxels.StaticVehicleVoxel
 	opaque: false
 	selfOpaque: true
 	texture: invisible
@@ -41,7 +41,7 @@ voxel uaz_tire_blown_on_fire
 end
 
 voxel uh_1h_wreck
-	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
+	customClass: io.xol.z.mod.voxels.StaticVehicleVoxel
 	opaque: false
 	selfOpaque: true
 	texture: invisible
@@ -63,7 +63,7 @@ voxel uh_1h_wreck
 end
 
 voxel covet_wreck
-	customClass: io.xol.dogez.mods.voxel.StaticVehicleVoxel
+	customClass: io.xol.z.mod.voxels.StaticVehicleVoxel
 	opaque: false
 	selfOpaque: true
 	texture: invisible

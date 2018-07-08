@@ -420,11 +420,11 @@ item firethrower
 end
 
 item grefrag
-	customClass: io.xol.dogez.mods.items.FragGrenade
+	customClass: io.xol.z.mod.items.FragGrenade
 end
 
 item greflash
-	customClass: io.xol.dogez.mods.items.FlashbangGrenade
+	customClass: io.xol.z.mod.items.FlashbangGrenade
 end
 
 item rpg7
@@ -480,7 +480,7 @@ item battery
 end
 
 item torch
-	customClass: io.xol.dogez.mods.items.DZTorch
+	customClass: io.xol.z.mod.items.ItemFlashlight
 end
 
 #Nowel
@@ -499,11 +499,11 @@ item heal2
 end
 
 item gresmoke
-	customClass: io.xol.dogez.mods.items.SmokeGrenade
+	customClass: io.xol.z.mod.items.SmokeGrenade
 end
 
 item binoculars
-	customClass: io.xol.dogez.mods.items.ItemBinoculars
+	customClass: io.xol.z.mod.items.ItemBinoculars
 end
 
 item dz_loot_tool

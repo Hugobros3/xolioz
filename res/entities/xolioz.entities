@@ -1,13 +1,13 @@
 # Here you assign entities their name and class, along with any custom parameters the entity class might have an use for
 
 entity smoke_grenade
-	class: io.xol.dogez.mods.entities.EntityThrownSmokeGrenade
+	class: io.xol.z.mod.entities.EntityThrownSmokeGrenade
 end
 
 entity flash_grenade
-	class: io.xol.dogez.mods.entities.EntityThrownFlashbangGrenade
+	class: io.xol.z.mod.entities.EntityThrownFlashbangGrenade
 end
 
 entity frag_grenade
-	class: io.xol.dogez.mods.entities.EntityThrownFragGrenade
+	class: io.xol.z.mod.entities.EntityThrownFragGrenade
 end

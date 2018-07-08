@@ -2,7 +2,7 @@
 apply plugin: 'java'
 apply plugin: 'java-library'
 
-version = '1.3.5'
+version = '1.3.6'
 description = 'XolioZ is a DayZ clone originally made as a Minecraft server'
 archivesBaseName = "XolioZ"
 
@@ -19,10 +19,6 @@ repositories {
 	}
 }
 
-jar {
-	//from 'plugin.info'
-}
-
 ext {
 	csApiBuiltAgainst = '122'
 	coreContentVersionBuiltAgainst = '130'
@@ -37,13 +33,11 @@ subprojects {
 	
 dependencies {
 	compile group: 'io.xol.chunkstories', name: 'api', version: csApiBuiltAgainst
-	
-	//Removed depency from actual game code; pending splitting of 'core' with the game implementation
 	compile group: 'io.xol.chunkstories', name: 'core', version: coreContentVersionBuiltAgainst
 }
 
 task mod(type: Zip) {
-	//dependsOn(jar) //It figures it out on it's own apparently, this build system is cleverer than me :(
+	//dependsOn(jar) //It figures it out on it's own apparently, this build system is smarter than me :(
     from 'res/'
     from configurations.runtime.allArtifacts.files
 	
