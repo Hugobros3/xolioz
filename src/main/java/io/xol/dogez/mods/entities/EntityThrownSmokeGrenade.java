@@ -6,6 +6,7 @@ import org.joml.Vector3f;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.EntityDefinition;
+import io.xol.chunkstories.api.entity.traits.TraitRenderable;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
@@ -15,10 +16,6 @@ import io.xol.chunkstories.api.world.WorldClient;
 import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.api.world.cell.CellData;
 
-//(c) 2015-2017 XolioWare Interactive
-//http://chunkstories.xyz
-//http://xol.io
-
 public class EntityThrownSmokeGrenade extends EntityThrownGrenade {
 
 	int ignitionTimer = 60 * 4; // 4 seconds to ignite
@@ -26,13 +23,10 @@ public class EntityThrownSmokeGrenade extends EntityThrownGrenade {
 
 	public EntityThrownSmokeGrenade(EntityDefinition type, Location location) {
 		super(type, location);
+		
+		new TraitRenderable(this, ThrownSmokeGrenadeModelRenderer::new);
 	}
-
-	@Override
-	public EntityRenderer<? extends EntityRenderable> getEntityRenderer() {
-		return new ThrownSmokeGrenadeModelRenderer();
-	}
-
+	
 	static class ThrownSmokeGrenadeModelRenderer extends EntityRenderer<EntityThrownSmokeGrenade> {
 
 		public void setupRender(RenderingInterface renderer) {

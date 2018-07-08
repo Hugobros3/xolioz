@@ -9,10 +9,11 @@ import org.joml.Vector4f;
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.Entity;
 import io.xol.chunkstories.api.entity.EntityDefinition;
-import io.xol.chunkstories.api.entity.interfaces.EntityOverlay;
+import io.xol.chunkstories.api.entity.components.EntityRotation;
+import io.xol.chunkstories.api.entity.traits.TraitHasOverlay;
+import io.xol.chunkstories.api.entity.traits.TraitRenderable;
 import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.rendering.RenderingInterface;
-import io.xol.chunkstories.api.rendering.entity.EntityRenderable;
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer;
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator;
 import io.xol.chunkstories.api.rendering.textures.Texture2D;
@@ -22,22 +23,16 @@ import io.xol.chunkstories.api.world.WorldMaster;
 import io.xol.chunkstories.api.world.cell.CellData;
 import io.xol.chunkstories.core.entity.EntityPlayer;
 
-//(c) 2015-2017 XolioWare Interactive
-//http://chunkstories.xyz
-//http://xol.io
-
-public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements EntityRenderable, EntityOverlay {
+public class EntityThrownFlashbangGrenade extends EntityThrownGrenade {
 
 	int ignitionTimer = 60 * 4; // 4 seconds to ignite
 	int deathTimer = 60 * 5; // Lives 50 seconds
 
 	public EntityThrownFlashbangGrenade(EntityDefinition type, Location loc) {
 		super(type, loc);
-	}
-
-	@Override
-	public EntityRenderer<? extends EntityRenderable> getEntityRenderer() {
-		return new ThrownFlashbangGrenadeModelRenderer();
+		new TraitRenderable(this, ThrownFlashbangGrenadeModelRenderer::new);
+		
+		new FlashbangOverlay(this);
 	}
 
 	static class ThrownFlashbangGrenadeModelRenderer extends EntityRenderer<EntityThrownFlashbangGrenade> {
@@ -123,7 +118,7 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 					
 					dir.normalize();
 					
-					Vector3dc edir = ((EntityPlayer)e).getDirectionLookingAt();
+					Vector3dc edir = e.components.tryWith(EntityRotation.class, rot -> rot.getDirectionLookingAt());
 					
 					Vector3d raytrace = world.collisionsManager().raytraceSolidOuter(e.getLocation().add(0.0, 1.80, 0.0), dir, 256.0);
 					
@@ -155,11 +150,18 @@ public class EntityThrownFlashbangGrenade extends EntityThrownGrenade implements
 	
 	long fadeUntil = 0L;
 	
-	@Override
-	public void drawEntityOverlay(RenderingInterface renderingInterface)
-	{
-		float fade = ((int)Math.max(0L, fadeUntil - System.currentTimeMillis())) / 5000.0f;
-		fade = Math2.clamp(fade, 0, 1);
-		renderingInterface.getGuiRenderer().drawBox(-1, -1, 1, 1, 0, 0, 0, 0, null, true, false, new Vector4f(1,1,1,fade));
+	class FlashbangOverlay extends TraitHasOverlay {
+
+		public FlashbangOverlay(Entity entity) {
+			super(entity);
+		}
+		
+		@Override
+		public void drawEntityOverlay(RenderingInterface renderingInterface)
+		{
+			float fade = ((int)Math.max(0L, fadeUntil - System.currentTimeMillis())) / 5000.0f;
+			fade = Math2.clamp(fade, 0, 1);
+			renderingInterface.getGuiRenderer().drawBox(-1, -1, 1, 1, 0, 0, 0, 0, null, true, false, new Vector4f(1,1,1,fade));
+		}
 	}
 }

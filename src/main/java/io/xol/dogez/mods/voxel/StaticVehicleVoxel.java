@@ -19,10 +19,6 @@ import io.xol.chunkstories.api.world.chunk.Chunk.ChunkCell;
 import io.xol.chunkstories.api.world.chunk.Chunk.FreshChunkCell;
 import io.xol.chunkstories.core.voxel.BigVoxel;
 
-//(c) 2015-2017 XolioWare Interactive
-//http://chunkstories.xyz
-//http://xol.io
-
 public class StaticVehicleVoxel extends BigVoxel {
 	
 	public final float rotate;
