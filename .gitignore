@@ -10,3 +10,5 @@ build/
 *.blend1
 *.iml
 .idea/
+out/
+*/out/
