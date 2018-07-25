@@ -8,3 +8,5 @@ build/
 *.class
 /bin/
 *.blend1
+*.iml
+.idea/
