@@ -1,0 +1,8 @@
+name: XolioZ-Plugin
+authors: Gobrosse
+version: 1.3.6
+main: io.xol.z.plugin.XolioZPlugin
+
+command: dz dogez xolioz xz
+command: m mp msg tell
+command: r reply

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.xol.chunkstories:api:122">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/xol/chunkstories/api/122/api-122.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/xol/chunkstories/api/122/api-122-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

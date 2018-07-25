@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="xolioz-plugin_main" target="1.8" />
+      <module name="xolioz-plugin_test" target="1.8" />
+      <module name="xolioz_main" target="1.8" />
+      <module name="xolioz_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

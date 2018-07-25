@@ -1,6 +1,18 @@
+buildscript {
+  ext.kotlin_version = '1.1.4-3'
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+}
+
+//f
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'java-library'
+apply plugin: "kotlin"
 
 version = '1.3.6'
 description = 'XolioZ is a DayZ clone originally made as a Minecraft server'
@@ -34,6 +46,8 @@ subprojects {
 dependencies {
 	compile group: 'io.xol.chunkstories', name: 'api', version: csApiBuiltAgainst
 	compile group: 'io.xol.chunkstories', name: 'core', version: coreContentVersionBuiltAgainst
+	
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 }
 
 task mod(type: Zip) {

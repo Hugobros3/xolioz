@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/xolioz.iml" filepath="$PROJECT_DIR$/xolioz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/plugin/xolioz-plugin.iml" filepath="$PROJECT_DIR$/.idea/modules/plugin/xolioz-plugin.iml" group="xolioz-plugin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/plugin/xolioz-plugin_main.iml" filepath="$PROJECT_DIR$/.idea/modules/plugin/xolioz-plugin_main.iml" group="xolioz-plugin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/plugin/xolioz-plugin_test.iml" filepath="$PROJECT_DIR$/.idea/modules/plugin/xolioz-plugin_test.iml" group="xolioz-plugin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xolioz_main.iml" filepath="$PROJECT_DIR$/.idea/modules/xolioz_main.iml" group="xolioz" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xolioz_test.iml" filepath="$PROJECT_DIR$/.idea/modules/xolioz_test.iml" group="xolioz" />
+    </modules>
+  </component>
+</project>
