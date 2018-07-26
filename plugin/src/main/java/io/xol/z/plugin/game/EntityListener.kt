@@ -7,8 +7,6 @@
 
 package io.xol.z.plugin.game
 
-import io.xol.chunkstories.api.entity.Controller
-import io.xol.chunkstories.api.entity.DamageCause
 import io.xol.chunkstories.api.entity.Entity
 import io.xol.chunkstories.api.entity.traits.serializable.TraitController
 import io.xol.chunkstories.api.entity.traits.serializable.TraitHealth
@@ -41,12 +39,11 @@ class EntityListener(private val plugin: XolioZPlugin) : Listener {
                 killerEntity!!.traits.with(TraitController::class.java) { kec ->
                     val killerController = kec.controller
                     if (killerController != null && killerController is Player) {
-                        val killer = killerController as Player?
 
                         // Improve the killer stats
-                        val killerProfile = plugin.playerProfiles.getPlayerProfile(killer!!.uuid)
+                        val killerProfile = killerController.profile
                         killerProfile.zombiesKilled++
-                        killerProfile.zombiesKilled_thisLife++
+                        killerProfile.zombiesKilledThisLife++
                     }
                 }
             }
@@ -57,9 +54,8 @@ class EntityListener(private val plugin: XolioZPlugin) : Listener {
 
             // If the victim was a player...
             if (controller != null && controller is Player) {
-                val victim = controller as Player?
 
-                val victimProfile = plugin.playerProfiles.getPlayerProfile(victim!!.uuid)
+                val victimProfile = controller.profile
 
                 if (!victimProfile.inGame)
                     return@with
@@ -70,27 +66,28 @@ class EntityListener(private val plugin: XolioZPlugin) : Listener {
                     killerEntity!!.traits.with(TraitController::class.java) { kec ->
                         val killerController = kec.controller
                         if (killerController != null && killerController is Player) {
-                            val killer = killerController as Player?
 
                             // Improve the killer stats
-                            val killerProfile = plugin.playerProfiles.getPlayerProfile(killer!!.uuid)
+                            val killerProfile = killerController.profile
 
                             killerProfile.playersKilled++
-                            killerProfile.playersKilled_thisLife++
+                            killerProfile.playersKilledThisLife++
                         }
                     }
                 }
 
-                victim.sendMessage(ChatColor.RED.toString() + "#{dogez.youdied}")
+                controller.sendMessage(ChatColor.RED.toString() + "#{dogez.youdied}")
 
-                victimProfile.playersKilled_thisLife = 0
-                victimProfile.zombiesKilled_thisLife = 0
+                victimProfile.playersKilledThisLife = 0
+                victimProfile.zombiesKilledThisLife = 0
                 victimProfile.deaths++
 
                 victimProfile.timeSurvivedLife = 0L
                 victimProfile.inGame = false
 
-                victimProfile.saveProfile()
+                with(plugin.playerProfiles) {
+                    victimProfile.saveProfile()
+                }
             }
         }
     }
@@ -106,13 +103,12 @@ class EntityListener(private val plugin: XolioZPlugin) : Listener {
         val cause = entity.traits.get(TraitHealth::class.java)!!.lastDamageCause
 
         entity.traits.with(TraitController::class.java) { vec ->
-            val controller = vec.controller
+            val victim = vec.controller
 
             // If the victim was a player...
-            if (controller != null && controller is Player) {
-                val victim = controller as Player?
+            if (victim != null && victim is Player) {
 
-                val victimProfile = plugin.playerProfiles.getPlayerProfile(victim!!.uuid)
+                val victimProfile = victim.profile
 
                 // If he was hurt by another player
                 if (cause != null && cause is Player) {
@@ -142,4 +138,9 @@ class EntityListener(private val plugin: XolioZPlugin) : Listener {
             }
         }
     }
+
+    private val Player.profile: PlayerProfile
+        get() = with(plugin.playerProfiles) {
+            this@profile.profile
+        }
 }

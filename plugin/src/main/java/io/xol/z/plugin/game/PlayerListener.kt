@@ -21,7 +21,7 @@ import io.xol.chunkstories.api.util.compatibility.ChatColor
 import io.xol.chunkstories.core.voxel.VoxelChest
 import io.xol.z.plugin.XolioZPlugin
 import io.xol.z.plugin.loot.LootPlace
-import io.xol.z.plugin.misc.ChatFormatter
+import io.xol.z.plugin.misc.bukkitCodes2Hex
 
 class PlayerListener(private val plugin: XolioZPlugin) : Listener {
 
@@ -30,11 +30,14 @@ class PlayerListener(private val plugin: XolioZPlugin) : Listener {
         val player = ev.player
         val prefix = ""
         if (plugin.config.showConnectionMessages)
-            ev.connectionMessage = (ChatColor.DARK_GRAY.toString() + "[" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + "] " + ChatFormatter.convertString(prefix)
+            ev.connectionMessage = (ChatColor.DARK_GRAY.toString() + "[" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + "] " + prefix.bukkitCodes2Hex()
                     + ev.player.name + ChatColor.GRAY + "#{dogez.loggedin}")
         else
             ev.connectionMessage = null
-        plugin.playerProfiles.addPlayerProfile(player.uuid, player.name)
+
+        with(plugin.playerProfiles) {
+            player.profile //touch it so it gets initialized
+        }
     }
 
     @EventHandler
@@ -43,16 +46,16 @@ class PlayerListener(private val plugin: XolioZPlugin) : Listener {
         val prefix = ""
         if (plugin.config.showConnectionMessages) {
             if (!ev.logoutMessage.startsWith(ChatColor.DARK_GRAY.toString() + "["))
-                ev.logoutMessage = (ChatColor.DARK_GRAY.toString() + "[" + ChatColor.RED + "-" + ChatColor.DARK_GRAY + "] " + ChatFormatter.convertString(prefix)
+                ev.logoutMessage = (ChatColor.DARK_GRAY.toString() + "[" + ChatColor.RED + "-" + ChatColor.DARK_GRAY + "] " + prefix.bukkitCodes2Hex()
                         + ev.player.name + ChatColor.GRAY + "#{dogez.loggedout}")
         } else
             ev.logoutMessage = null
 
-        val pp = plugin.playerProfiles.getPlayerProfile(player.uuid)
+        val playerProfile = with(plugin.playerProfiles) { player.profile }
 
-        if (System.currentTimeMillis() - pp.lastHitTime < 7 * 1000L) {
+        if (System.currentTimeMillis() - playerProfile.lastHitTime < 7 * 1000L) {
             plugin.logger
-                    .info(player.name + " was killed for combat leave ( " + (System.currentTimeMillis() - pp.lastHitTime) + " ms wait before logoff )")
+                    .info(player.name + " was killed for combat leave ( " + (System.currentTimeMillis() - playerProfile.lastHitTime) + " ms wait before logoff )")
 
             val playerEntity = player.controlledEntity
             playerEntity?.traits?.with(TraitHealth::class.java) { eh ->
@@ -68,7 +71,12 @@ class PlayerListener(private val plugin: XolioZPlugin) : Listener {
                 }, 150000f)
             }
         }
-        plugin.playerProfiles.removePlayerProfile(player.uuid)
+
+        with(plugin.playerProfiles) {
+            //Save the profile & forget it
+            playerProfile.saveProfile()
+            player.forgetProfile()
+        }
     }
 
     @EventHandler
@@ -94,7 +102,7 @@ class PlayerListener(private val plugin: XolioZPlugin) : Listener {
                 if (itemInHand != null && itemInHand.item.name == "dz_loot_tool") {
 
                     if (context.voxel is VoxelChest) {
-                        val profile = plugin.playerProfiles.getPlayerProfile(player.uuid)
+                        val profile =  with(plugin.playerProfiles) {player.profile }
 
                         // TODO use Vector3i here
                         val loot_coordinates = selectedLocation.x().toString() + ":" + selectedLocation.y() + ":" + selectedLocation.z()

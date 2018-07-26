@@ -7,67 +7,49 @@
 
 package io.xol.z.plugin.player
 
+import com.google.gson.GsonBuilder
+import io.xol.chunkstories.api.player.Player
 import io.xol.z.plugin.XolioZPlugin
-import java.util.*
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
 
 class PlayerProfiles(private val plugin: XolioZPlugin) {
 
-	internal var playerProfiles: MutableList<PlayerProfile> = ArrayList()
+	val playerProfiles = HashMap<Player, PlayerProfile>()
+	val gson = GsonBuilder().setPrettyPrinting().create()
 
-	fun getPlayerProfile(uuid: Long): PlayerProfile {
+	val Player.profile: PlayerProfile
+		get() = playerProfiles[this] ?: loadProfile(this)
 
-		var result: PlayerProfile? = null
-		for (pp in playerProfiles) {
-			if (pp.uuid == uuid) {
-				result = pp
-				break
+	private fun loadProfile(player: Player): PlayerProfile {
+		val file = File(XolioZPlugin.pluginFolder + "users/" + player.uuid + ".json")
+
+		val profile = if(file.exists()) {
+			val reader = FileReader(file)
+			reader.use {
+				gson.fromJson(it, PlayerProfile::class.java)
 			}
+		} else {
+			PlayerProfile(player.uuid, player.name)
 		}
 
-		if (result == null) {
-
-			//Look if the player is already logged in
-			val player = plugin.server.getPlayerByUUID(uuid)
-
-			//If it is load it
-			if (player != null) {
-				val pp = PlayerProfile(uuid, player.name)
-				playerProfiles.add(pp)
-				return pp
-			} else {
-				val pp = PlayerProfile(uuid)
-				playerProfiles.add(pp)
-				return pp
-			}//If it isn't, load it but don't assume the name
-		}
-
-		return result
+		playerProfiles[player] = profile
+		return profile
 	}
 
-	fun removePlayerProfile(uuid: Long) {
+	fun PlayerProfile.saveProfile() {
+		this.updateTime()
 
-		val profilesToDelete = ArrayList<PlayerProfile>()
-		for (pp in playerProfiles) {
+		val file = File(XolioZPlugin.pluginFolder + "users/" + this.uuid + ".json")
 
-			if (pp.uuid == uuid) {
-				pp.saveProfile()
-				profilesToDelete.add(pp)
-			}
-		}
-
-		for (delete in profilesToDelete) {
-			playerProfiles.remove(delete)
-		}
+		val writer = FileWriter(file);
+		writer.use { gson.toJson(this, it) }
 	}
 
-	fun addPlayerProfile(uuid: Long, name: String) {
-		val add = PlayerProfile(uuid, name)
-		playerProfiles.add(add)
-	}
+	fun Player.forgetProfile() = playerProfiles.remove(this)
 
 	fun saveAll() {
-		for (pp in playerProfiles) {
-			pp.saveProfile()
-		}
+		playerProfiles.values.forEach {it.saveProfile()}
 	}
 }

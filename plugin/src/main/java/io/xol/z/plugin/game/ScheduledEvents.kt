@@ -19,14 +19,11 @@ import io.xol.z.plugin.XolioZPlugin
 import io.xol.z.plugin.map.PlacesNames
 import io.xol.z.plugin.player.PlayerProfile
 
-class ScheduledEvents(plugin: XolioZPlugin) {
-    var ticksCounter: Long = 0
-
-    private val scheduler: Scheduler
+class ScheduledEvents(val plugin: XolioZPlugin) {
+    private var ticksCounter: Long = 0
+    private val scheduler: Scheduler = plugin.gameWorld.gameLogic.scheduler
 
     init {
-
-        scheduler = plugin.gameWorld.gameLogic.scheduler
 
         scheduler.scheduleSyncRepeatingTask(plugin, {
             for (p in plugin.gameWorld.players) {
@@ -34,7 +31,7 @@ class ScheduledEvents(plugin: XolioZPlugin) {
                 if (!p.hasSpawned())
                     continue
 
-                val pp = plugin.playerProfiles.getPlayerProfile(p.uuid)
+                val pp = p.profile
                 if (pp != null) {
                     val currentPlace = PlacesNames.getPlayerPlaceName(p)
                     if (pp.lastPlace != currentPlace) {
@@ -89,4 +86,9 @@ class ScheduledEvents(plugin: XolioZPlugin) {
     fun unschedule() {
         // TODO: API: give a reference to scheduled shit so we can unschedule it proper
     }
+
+    private val Player.profile: PlayerProfile
+        get() = with(plugin.playerProfiles) {
+            this@profile.profile
+        }
 }

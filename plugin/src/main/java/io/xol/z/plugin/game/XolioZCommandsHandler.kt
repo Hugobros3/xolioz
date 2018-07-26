@@ -57,7 +57,7 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 		if (args.isEmpty()) throw Exception("#{dogez.goodsyntaxr}")
 		val message = args.joinToString(separator = " ")
 
-		val recipient = sender.profile.talkingTo ?: throw Exception("#{dogez.pmnotinaconversation}")
+		val recipient = sender.profile.talkingToLast ?: throw Exception("#{dogez.pmnotinaconversation}")
 		if (!recipient.isConnected) throw Exception("{dogez.pmnotavailable}")
 
 		if (!sender.canUseTalkieWalkie() && !recipient.hasPermission("dogez.talkie.receiveAnyway")) throw Exception("#{dogez.pmrequiretw}")
@@ -80,9 +80,9 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 		recipient.sendMessage(ChatColor.GRAY.toString() + "[#{dogez.pmfrom}" + ChatColor.AQUA + sender.name + ChatColor.GRAY + "]:" + message)
 		sender.sendMessage(ChatColor.GRAY.toString() + "[#{dogez.pmto}" + ChatColor.AQUA + recipient + ChatColor.GRAY + "]:" + message)
 
-		//Set the talkingTo variable so we remember who they were talking with
-		sender.profile.talkingTo = recipient
-		recipient.profile.talkingTo = sender
+		//Set the talkingToLast variable so we remember who they were talking with
+		sender.profile.talkingToLast = recipient
+		recipient.profile.talkingToLast = sender
 	}
 
 	private fun handleGeneralCommand(sender: CommandEmitter, subcommand: String?, args: Array<String>) {
@@ -102,7 +102,7 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 				if (player.profile.inGame) throw Exception("#{dogez.alreadyig}")
 
 				val entity = player.controlledEntity ?: throw Exception("This player has no entity")
-				val spawnPoint = SpawnPoints.getRandomSpawn()
+				val spawnPoint = plugin.spawnPoints.randomSpawn()
 
 				entity.traits.with<TraitCreativeMode>(TraitCreativeMode::class.java) { ecm -> ecm.set(false) }
 
@@ -116,7 +116,7 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 
 				entity.traits.with<TraitHealth>(TraitHealth::class.java) { eh -> eh.health = eh.maxHealth }
 
-				player.location = Location(plugin.gameWorld, spawnPoint[0].toDouble(), (spawnPoint[1] + 2).toDouble(), spawnPoint[2].toDouble())
+				player.location = Location(plugin.gameWorld, spawnPoint.x.toDouble(), spawnPoint.y.toDouble(), spawnPoint.z.toDouble())
 
 				player.sendMessage(ChatColor.DARK_AQUA.toString() + "#{dogez.goodluck}")
 				player.profile.inGame = true
@@ -257,8 +257,10 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 		}
 	}
 
-	public val Player.profile: PlayerProfile
-		get() = plugin.playerProfiles.getPlayerProfile(this.uuid)
+	private val Player.profile: PlayerProfile
+		get() = with(plugin.playerProfiles) {
+			this@profile.profile
+		}
 
 	fun CommandEmitter.assertHasPermission(permissionNode: String) {
 		if (!this.hasPermission(permissionNode)) throw Exception("$this lacks permission $permissionNode")
@@ -292,15 +294,15 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 	}
 
 	private fun CommandEmitter.sendStats(playerProfile: PlayerProfile) {
-		playerProfile.timeCalc()
+		playerProfile.updateTime()
 		this.sendMessage(ChatColor.DARK_GRAY.toString() + "=========[" + ChatColor.BLUE + "#{dogez.accountstats}" + ChatColor.RED + playerProfile.name + " "
 				+ ChatColor.DARK_GRAY + "]=========")
 		this.sendMessage(ChatColor.AQUA.toString() + if (playerProfile.inGame) "#{dogez.ig}" else "#{dogez.og}")
 		this.sendMessage(ChatColor.DARK_AQUA.toString() + "#{dogez.spenttime1} " + TimeFormatter.formatTimelapse(playerProfile.timeConnected) + "#{dogez.spenttime2}")
 		this.sendMessage(ChatColor.DARK_AQUA.toString() + "#{dogez.alivesince}" + TimeFormatter.formatTimelapse(playerProfile.timeSurvivedLife) + " !")
-		this.sendMessage(ChatColor.DARK_AQUA.toString() + "#{dogez.killed}" + playerProfile.zombiesKilled + "#{dogez.kzombies}" + playerProfile.zombiesKilled_thisLife
+		this.sendMessage(ChatColor.DARK_AQUA.toString() + "#{dogez.killed}" + playerProfile.zombiesKilled + "#{dogez.kzombies}" + playerProfile.zombiesKilledThisLife
 				+ "#{dogez.thisgame}")
-		this.sendMessage(ChatColor.DARK_AQUA.toString() + "#{dogez.killed}" + playerProfile.playersKilled + " #{dogez.kplayers}" + playerProfile.playersKilled_thisLife
+		this.sendMessage(ChatColor.DARK_AQUA.toString() + "#{dogez.killed}" + playerProfile.playersKilled + " #{dogez.kplayers}" + playerProfile.playersKilledThisLife
 				+ "#{dogez.thisgame}")
 		this.sendMessage(ChatColor.DARK_AQUA.toString() + "#{dogez.deaths1}" + playerProfile.deaths + "#{dogez.deaths2}")
 	}

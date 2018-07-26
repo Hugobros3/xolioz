@@ -7,25 +7,26 @@
 
 package io.xol.z.plugin
 
-import java.io.*
-import java.util.logging.Logger
-
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import io.xol.chunkstories.api.content.mods.Mod
 import io.xol.chunkstories.api.player.Player
 import io.xol.chunkstories.api.plugin.PluginInformation
 import io.xol.chunkstories.api.plugin.ServerPlugin
 import io.xol.chunkstories.api.server.ServerInterface
-import io.xol.chunkstories.api.world.World
 import io.xol.chunkstories.api.world.WorldMaster
 import io.xol.z.plugin.game.*
 import io.xol.z.plugin.loot.LootCategories
 import io.xol.z.plugin.loot.LootPlaces
 import io.xol.z.plugin.loot.crashes.CrashesHandler
 import io.xol.z.plugin.map.PlacesNames
+import io.xol.z.plugin.player.PlayerProfile
 import io.xol.z.plugin.player.PlayerProfiles
 import io.xol.z.plugin.zombies.ZombiesPopulation
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.IOException
+import java.util.logging.Logger
 
 class XolioZPlugin(pluginInformation: PluginInformation, clientInterface: ServerInterface) : ServerPlugin(pluginInformation, clientInterface) {
 
@@ -39,6 +40,7 @@ class XolioZPlugin(pluginInformation: PluginInformation, clientInterface: Server
 
     val lootTypes = LootCategories(this)
     val lootPlaces = LootPlaces(this)
+    val spawnPoints = SpawnPoints()
 
     val crashesHandler = CrashesHandler(this)
 
@@ -96,8 +98,8 @@ class XolioZPlugin(pluginInformation: PluginInformation, clientInterface: Server
         this.pluginManager.registerCommandHandler("m", cliHandler)
 
         // fix reloading issues
-        for (p in gameWorld.players)
-            playerProfiles.addPlayerProfile(p.uuid, p.name)
+        for (player in gameWorld.players)
+            player.profile
 
         scheduledEvents = ScheduledEvents(this)
 
@@ -132,7 +134,7 @@ class XolioZPlugin(pluginInformation: PluginInformation, clientInterface: Server
         lootPlaces.loadLootFile(world)
 
         PlacesNames.loadData()
-        SpawnPoints.load()
+        spawnPoints.load()
     }
 
     private fun saveConfigs() {
@@ -172,4 +174,9 @@ class XolioZPlugin(pluginInformation: PluginInformation, clientInterface: Server
 
         val pluginFolder = "./plugins/XolioZ/"
     }
+
+    private val Player.profile: PlayerProfile
+        get() = with(playerProfiles) {
+            this@profile.profile
+        }
 }
