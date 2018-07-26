@@ -32,7 +32,7 @@ public class LootCategories {
 	public Map<String, LootCategory> categories = new HashMap<String, LootCategory>();
 
 	public void loadTypes() {
-		File file = new File(XolioZPlugin.pluginFolder + "lootCategories.dz");
+		File file = new File(XolioZPlugin.Companion.getPluginFolder() + "lootCategories.dz");
 		if (!file.exists())
 			try {
 				file.createNewFile();

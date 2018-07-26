@@ -16,6 +16,7 @@ import io.xol.z.plugin.XolioZPlugin
 /** Helper class to deal with talkie-walkie logic  */
 class TalkieWalkiesHandler(private val plugin: XolioZPlugin) {
 
+	//TODO re-implement ?
 	fun leakPrivateConversations(from: String, to: String, msg: String) {
 		for (p in plugin.server.connectedPlayers) {
 			if (from != p.name && p.hasPermission("dogez.socialspy")) {

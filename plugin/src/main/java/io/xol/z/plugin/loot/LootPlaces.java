@@ -139,7 +139,7 @@ public class LootPlaces {
 	}
 
 	private File getFile(World w) {
-		File file = new File(XolioZPlugin.pluginFolder + "lootPlaces.dz");
+		File file = new File(XolioZPlugin.Companion.getPluginFolder() + "lootPlaces.dz");
 		if (!file.exists())
 			try {
 				file.createNewFile();
@@ -164,10 +164,10 @@ public class LootPlaces {
 		}
 
 		// These files have an infuriating tendency to self-corrupt, so yeah...
-		File folder = new File(XolioZPlugin.pluginFolder + "backups");
+		File folder = new File(XolioZPlugin.Companion.getPluginFolder() + "backups");
 		if (!folder.exists())
 			folder.mkdir();
-		file = new File(XolioZPlugin.pluginFolder + "backups/lootPlaces-" + System.currentTimeMillis() + ".dz");
+		file = new File(XolioZPlugin.Companion.getPluginFolder() + "backups/lootPlaces-" + System.currentTimeMillis() + ".dz");
 		try {
 			file.createNewFile();
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));

@@ -35,8 +35,8 @@ public class PlacesNames {
 		placesNames = new HashMap<Integer, String>();
 		try {
 			System.out.println("[XolioZ-Plugin] Loading places names...");
-			placesImage = ImageIO.read(new File(XolioZPlugin.pluginFolder + "places.png"));
-			InputStream ips = new FileInputStream(new File(XolioZPlugin.pluginFolder + "places.dz"));
+			placesImage = ImageIO.read(new File(XolioZPlugin.Companion.getPluginFolder() + "places.png"));
+			InputStream ips = new FileInputStream(new File(XolioZPlugin.Companion.getPluginFolder() + "places.dz"));
 			InputStreamReader ipsr = new InputStreamReader(ips, "UTF-8");
 			BufferedReader br = new BufferedReader(ipsr);
 			String ligne;

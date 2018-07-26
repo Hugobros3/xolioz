@@ -81,7 +81,7 @@ public class PlayerProfile {
 
 	public void reloadProfile() {
 
-		File userProfile = new File(XolioZPlugin.pluginFolder + "users/" + uuid + ".dz");
+		File userProfile = new File(XolioZPlugin.Companion.getPluginFolder() + "users/" + uuid + ".dz");
 		userProfile.getParentFile().mkdirs();
 
 		if (userProfile.exists()) {
@@ -150,7 +150,7 @@ public class PlayerProfile {
 	public void saveProfile() {
 		timeCalc();
 
-		File userProfile = new File(XolioZPlugin.pluginFolder + "users/" + uuid + ".dz");
+		File userProfile = new File(XolioZPlugin.Companion.getPluginFolder() + "users/" + uuid + ".dz");
 		try {
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(userProfile), "UTF-8"));
 
