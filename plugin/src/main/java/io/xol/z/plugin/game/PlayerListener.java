@@ -42,7 +42,7 @@ public class PlayerListener implements Listener {
 	public void onPlayerJoin(PlayerLoginEvent ev) {
 		Player player = ev.getPlayer();
 		String prefix = "";
-		if (plugin.config.getProperty("showConnectionMessages", "true").equals("true"))
+		if (plugin.config.getShowConnectionMessages())
 			ev.setConnectionMessage(ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + "] " + ChatFormatter.convertString(prefix)
 					+ ev.getPlayer().getName() + ChatColor.GRAY + "#{dogez.loggedin}");
 		else
@@ -54,7 +54,7 @@ public class PlayerListener implements Listener {
 	public void onPlayerQuit(PlayerLogoutEvent ev) {
 		Player player = ev.getPlayer();
 		String prefix = "";
-		if (plugin.config.getProperty("showConnectionMessages", "true").equals("true")) {
+		if (plugin.config.getShowConnectionMessages()) {
 			if (!ev.getLogoutMessage().startsWith(ChatColor.DARK_GRAY + "["))
 				ev.setLogoutMessage(ChatColor.DARK_GRAY + "[" + ChatColor.RED + "-" + ChatColor.DARK_GRAY + "] " + ChatFormatter.convertString(prefix)
 						+ ev.getPlayer().getName() + ChatColor.GRAY + "#{dogez.loggedout}");

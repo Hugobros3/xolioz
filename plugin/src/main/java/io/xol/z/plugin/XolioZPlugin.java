@@ -7,14 +7,13 @@
 
 package io.xol.z.plugin;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.logging.Logger;
 
 import javax.annotation.Nonnull;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.xol.chunkstories.api.content.mods.Mod;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.plugin.PluginInformation;
@@ -31,6 +30,8 @@ import io.xol.z.plugin.player.PlayerProfiles;
 import io.xol.z.plugin.zombies.ZombiesPopulation;
 
 public class XolioZPlugin extends ServerPlugin {
+
+	public static final String pluginFolder = "./plugins/XolioZ/";
 
 	private PlayerProfiles playerProfiles = new PlayerProfiles(this);
 	public ZombiesPopulation spawner = new ZombiesPopulation(this);
@@ -49,10 +50,17 @@ public class XolioZPlugin extends ServerPlugin {
 
 	private final boolean mod_present;
 
-	public static final String pluginFolder = "./plugins/XolioZ/";
+	public String version = "undefined";
+	public boolean isGameActive = false;
+
+	public Config config = new Config();
+
+	private final Gson gson;
 
 	public XolioZPlugin(PluginInformation pluginInformation, ServerInterface clientInterface) {
 		super(pluginInformation, clientInterface);
+
+		gson = new GsonBuilder().setPrettyPrinting().create();
 
 		// Non-presence of the accompanying mod in the server configuration is fatal
 		boolean mod_present = false;
@@ -63,11 +71,6 @@ public class XolioZPlugin extends ServerPlugin {
 
 		this.mod_present = mod_present;
 	}
-
-	public String version = "undefined";
-	public boolean isGameActive = false;
-
-	public Config config = new Config();
 
 	@Override
 	public void onEnable() {
@@ -116,7 +119,9 @@ public class XolioZPlugin extends ServerPlugin {
 	public void loadConfigs() {
 		// Load configs
 		try {
-			config.load(new FileInputStream(new File(pluginFolder + "config.dz")));
+			File configFile = new File(pluginFolder + "config.json");
+			if(configFile.exists() && configFile.isFile())
+				config = gson.fromJson(new FileReader(configFile), Config.class);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -134,7 +139,9 @@ public class XolioZPlugin extends ServerPlugin {
 	private void saveConfigs() {
 		// Save configs
 		try {
-			config.store(new FileOutputStream(new File(pluginFolder + "config.dz")), null);
+			FileWriter writer = new FileWriter(new File(pluginFolder + "config.json"));
+			gson.toJson(config, writer);
+			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -41,7 +41,7 @@ public class LootPlace {
 	}
 
 	public boolean shouldRespawnLoot() {
-		return ((System.currentTimeMillis() - lastUpdate) / 1000 > plugin.config.getInt("lootRespawnDelay", 600));
+		return ((System.currentTimeMillis() - lastUpdate) / 1000 > plugin.config.getLootRespawnDelay());
 	}
 
 	protected Inventory getContainerInv() {

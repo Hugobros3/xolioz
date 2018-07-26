@@ -47,12 +47,12 @@ public class ScheduledEvents {
 				}
 				plugin.spawner.countZombies();
 				plugin.spawner.spawnZombies();
-				if (plugin.config.getBoolean("irlTimeCycleSync", true)) {
+				if (plugin.config.getIrlTimeSync()) {
 
 					// Synchs time
 					Date time = new Date();
 					@SuppressWarnings("deprecation")
-					double cstime = (time.getHours() - 0) * 60 + time.getMinutes() + plugin.config.getInt("timeSyncOffsetInMinutes", 0);
+					double cstime = time.getHours() * 60 + time.getMinutes() + plugin.config.getTimeSyncOffsetInMinutes();
 					cstime = cstime / 1440;
 					cstime = cstime * 10000;
 					cstime %= 10000;

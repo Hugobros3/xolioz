@@ -4,4 +4,3 @@ lootPlaces.dz
 places.dz
 places.png
 spawnPoints.dz
-config.dz

@@ -61,4 +61,5 @@ dependencies {
 	compile rootProject
 	
 	implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+	compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
 }

@@ -36,8 +36,8 @@ public class ZombiesPopulation {
 	}
 
 	public void spawnZombies() {
-		int minimalDistance = plugin.config.getInt("zombiesSpawnMinDistance", 30);
-		int maximalDistance = plugin.config.getInt("zombiesSpawnMaxDistance", 60);
+		int minimalDistance = plugin.config.getZombiesSpawnMinDistance();
+		int maximalDistance = plugin.config.getZombiesSpawnMaxDistance();
 
 		for (Player player : plugin.getGameWorld().getPlayers()) {
 			Entity playerEntity = player.getControlledEntity();
@@ -82,7 +82,7 @@ public class ZombiesPopulation {
 						if (v.getDefinition().isSolid())
 							break;
 					}
-					if (foundGround && zombiesCount <= plugin.config.getInt("maxZombiesOnMap", 420)) {
+					if (foundGround && zombiesCount <= plugin.config.getMaxZombiesOnMap()) {
 						zombiesCount++;
 						spawnZombie(new Location(plugin.getGameWorld(), posx + 0.5, posy + 1, posz + 0.5));
 					}

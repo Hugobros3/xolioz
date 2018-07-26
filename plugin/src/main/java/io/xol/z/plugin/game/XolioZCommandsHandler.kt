@@ -168,8 +168,8 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 
 			"togglesynch" -> {
 				sender.assertHasPermission("dogez.admin")
-				plugin.config.setProperty("irlTimeCycleSync", "" + !plugin.config.getBoolean("irlTimeCycleSync", true))
-				sender.sendMessage("Toggling IRL time synchronisation :" + plugin.config.getBoolean("irlTimeCycleSync"))
+				plugin.config.irlTimeSync = plugin.config.irlTimeSync
+				sender.sendMessage("Toggling IRL time synchronisation :" + plugin.config.irlTimeSync)
 			}
 
 			"loot" -> {
