@@ -29,9 +29,6 @@ public class EntityListener implements Listener {
 	// zombies don't loot and count kills
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent event) {
-		if (!plugin.isActive())
-			return;
-
 		Entity entity = event.getEntity();
 		DamageCause cause = entity.traits.get(TraitHealth.class).getLastDamageCause();
 
@@ -104,9 +101,6 @@ public class EntityListener implements Listener {
 
 	@EventHandler
 	public void onDamage(EntityDamageEvent event) {
-		if (!plugin.isActive())
-			return;
-
 		Entity entity = event.getEntity();
 		DamageCause cause = entity.traits.get(TraitHealth.class).getLastDamageCause();
 

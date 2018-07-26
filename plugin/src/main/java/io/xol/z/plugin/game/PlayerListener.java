@@ -97,9 +97,6 @@ public class PlayerListener implements Listener {
 		if (selectedLocation != null) {
 			CellData context = player.getWorld().peekSafely(selectedLocation);
 
-			if (!plugin.isActive())
-				return;
-
 			ItemPile itemInHand = playerEntity.traits.tryWith(TraitSelectedItem.class, esi -> esi.getSelectedItem());
 
 			// loot placement and removal

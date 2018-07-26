@@ -29,10 +29,6 @@ public class ZombiesPopulation {
 		}
 	}
 
-	public void unspawnOldZombies() {
-
-	}
-
 	public void spawnZombies() {
 		int minimalDistance = plugin.config.getInt("zombiesSpawnMinDistance", 30);
 		int maximalDistance = plugin.config.getInt("zombiesSpawnMaxDistance", 60);
@@ -99,13 +95,5 @@ public class ZombiesPopulation {
 		});
 
 		world.addEntity(zombie);
-	}
-
-	public void cleanChunk(Chunk c) {
-		for (Entity entity : c.getEntitiesWithinChunk()) {
-			if (entity instanceof EntityZombie) {
-				entity.getWorld().removeEntity(entity);
-			}
-		}
 	}
 }
