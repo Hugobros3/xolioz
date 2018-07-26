@@ -56,7 +56,7 @@ class LootPlaces(val plugin: XolioZPlugin) {
                     val location = Location(world, x.toDouble(), y.toDouble(), z.toDouble())
 
                     val type = split[3]
-                    val category = this.plugin.lootTypes.getCategory(type) ?: continue
+                    val category = this.plugin.lootCategories.getCategory(type) ?: continue
 
                     val minAmountToSpawn = Integer.parseInt(split[4])
                     val maxAmountToSpawn: Int
@@ -161,7 +161,7 @@ class LootPlaces(val plugin: XolioZPlugin) {
             var z = (loc.z() - radius).toInt()
             while (z < loc.z() + radius) {
                 for (y in 0..254) {
-                    val v = player.world.peekSafely(x, y, z).voxel// plugin.getServer().getContent().voxels().getVoxelById(player.getControlledEntity().getWorld().getVoxelData(x,
+                    val v = player.world.peekSafely(x, y, z).voxel// XolioZPlugin.getServer().getContent().voxels().getVoxelById(player.getControlledEntity().getWorld().getVoxelData(x,
                     // y, z));
 
                     if (v != null && v is VoxelChest && pp.activeCategory != null) {

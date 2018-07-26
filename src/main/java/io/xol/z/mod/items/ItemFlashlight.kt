@@ -30,7 +30,7 @@ class ItemFlashlight(type: ItemDefinition) : Item(type) {
 		return TorchItemRenderer(fallbackRenderer)
 	}
 
-	internal inner class TorchItemRenderer(fallbackRenderer: ItemRenderer) : ItemModelRenderer(this@ItemFlashlight, fallbackRenderer, "./models/misc/torch/torch.obj", "./models/misc/torch/torchOn.png", "./textures/normalnormal.png", "./models/misc/torch/material.png") {
+	internal inner class TorchItemRenderer(fallbackRenderer: ItemRenderer) : ItemModelRenderer(this@ItemFlashlight, fallbackRenderer, "./models/util/torch/torch.obj", "./models/util/torch/torchOn.png", "./textures/normalnormal.png", "./models/util/torch/material.png") {
 
 		override fun renderItemInWorld(context: RenderingInterface, pile: ItemPile?, world: World?, location: Location?, handTransformation: Matrix4f) {
 			super.renderItemInWorld(context, pile, world, location, handTransformation)

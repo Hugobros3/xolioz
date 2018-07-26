@@ -5,7 +5,7 @@
 // Github: https://github.com/Hugobros3/xolioz
 //
 
-package io.xol.z.plugin
+package io.xol.z.plugin.util
 
 import java.io.File
 import java.io.FileOutputStream

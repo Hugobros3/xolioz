@@ -18,12 +18,11 @@ import io.xol.chunkstories.api.plugin.commands.CommandHandler
 import io.xol.chunkstories.api.util.compatibility.ChatColor
 import io.xol.chunkstories.core.entity.EntityZombie
 import io.xol.z.plugin.XolioZPlugin
-import io.xol.z.plugin.misc.TimeFormatter
+import io.xol.z.plugin.util.TimeFormatter
 import io.xol.z.plugin.player.PlayerProfile
 
 /**
-* Monolithic class that handles all the command-line stuff.
-* Written in 2014, wouldn't hurt to see a bigger cleanup
+* All the command line handling stuff lives here
 */
 class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 
@@ -106,11 +105,11 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 
 				entity.traits.with<TraitCreativeMode>(TraitCreativeMode::class.java) { ecm -> ecm.set(false) }
 
-				val spawnGear = plugin.lootTypes.getCategory("spawn")
-				entity.traits.with<TraitInventory>(TraitInventory::class.java) { ei ->
-					ei.clear()
-					for (i in spawnGear.allItems) {
-						ei.addItemPile(i)
+				val spawnGear = plugin.lootCategories.getCategory("spawn")
+				entity.traits.with<TraitInventory>(TraitInventory::class.java) { inventory ->
+					inventory.clear()
+					for (item in spawnGear.allItems()) {
+						inventory.addItemPile(item)
 					}
 				}
 
@@ -193,7 +192,7 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 				val playerProfile = sender.asPlayerSafe().profile
 
 				val categoryName = args[0]
-				val category = plugin.lootTypes.getCategory(categoryName)
+				val category = plugin.lootCategories.getCategory(categoryName)
 
 				// Check the supplied one exist
 				if (category != null) {
@@ -225,7 +224,7 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 
 			"list" -> {
 				sender.sendMessage(ChatColor.AQUA.toString() + "Available loot categories :" +
-						plugin.lootTypes.categories.keys.joinToString())
+						plugin.lootCategories.categories.keys.joinToString())
 			}
 
 			"reload" -> {

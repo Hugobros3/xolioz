@@ -56,7 +56,7 @@ public class CrashesHandler implements Listener {
 			if (registeredVoxels.contains(placed)) {
 				if (event.getContext().getMetaData() == 0) {
 					StaticVehicleVoxel vehicleType = (StaticVehicleVoxel) placed;
-					LootCategory category = xolioZGamemodePlugin.getLootTypes().getCategory(vehicleType.lootCategoryName);
+					LootCategory category = xolioZGamemodePlugin.getLootCategories().getCategory(vehicleType.lootCategoryName);
 
 					if (category == null)
 						return;

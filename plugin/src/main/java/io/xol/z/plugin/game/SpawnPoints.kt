@@ -7,54 +7,51 @@
 
 package io.xol.z.plugin.game
 
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import io.xol.z.plugin.XolioZPlugin
-import org.joml.Vector3i
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
 import java.util.*
+import java.util.ArrayList
 
-class SpawnPoints {
+class SpawnPoints(val plugin: XolioZPlugin) {
 
-    private var points: MutableList<Vector3i> = ArrayList()
+    private var points: MutableList<SpawnPoint> = ArrayList()
 
-    private val file: File
-        get() {
-            val file = File(XolioZPlugin.pluginFolder + "spawnPoints.dz")
-            if (!file.exists())
-                try {
-                    file.createNewFile()
-                } catch (e1: IOException) {
-                }
+    val file: File = File(plugin.folder().absolutePath + "/spawnPoints.json")
 
-            return file
-        }
+    init {
+        file.parentFile.mkdirs()
+        load()
+    }
 
-    fun randomSpawn(): Vector3i {
+    fun randomSpawn(): SpawnPoint {
         val random = Random()
         return points[random.nextInt(points.size)]
     }
 
-    //TODO that's not the kotlin way
     fun load() {
-        points.clear()
-        val file = file
         try {
-            val ips = FileInputStream(file)
-            val ipsr = InputStreamReader(ips, "UTF-8")
-            val br = BufferedReader(ipsr)
-            var ligne: String? = null
-            ligne = br.readLine()
-            while (ligne != null) {
-                val data = ligne.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                if (data.size >= 3) {
-                    points.add(Vector3i(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2])))
-                }
-                ligne = br.readLine()
-            }
-            br.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
+            if(!file.exists()) throw FileNotFoundException(file.absolutePath)
+
+            val data = file.readText()
+            points = gson.fromJson(data, object : TypeToken<ArrayList<SpawnPoint>>() { }.type)
+
+        } catch (e: Exception) {
+            plugin.logger.warning("Spawn points file not found or corrupted (${e.message}), using failsafe (0,100,0)")
+            points = ArrayList()
+            points.add(SpawnPoint(0, 100, 0))
         }
 
-        println("[DogeZ]" + points.size + " spawn points loaded.")
+        plugin.logger.info("${points.size} spawn points loaded.")
+    }
+
+    fun save() {
+
+    }
+
+    companion object {
+        val gson = GsonBuilder().setPrettyPrinting().create()
     }
 }

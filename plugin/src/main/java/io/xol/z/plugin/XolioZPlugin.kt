@@ -19,6 +19,7 @@ import io.xol.z.plugin.loot.LootCategories
 import io.xol.z.plugin.loot.LootPlaces
 import io.xol.z.plugin.loot.crashes.CrashesHandler
 import io.xol.z.plugin.map.PlacesNames
+import io.xol.z.plugin.util.UnpackDefaults
 import io.xol.z.plugin.player.PlayerProfile
 import io.xol.z.plugin.player.PlayerProfiles
 import io.xol.z.plugin.zombies.ZombiesPopulation
@@ -29,6 +30,7 @@ import java.io.IOException
 import java.util.logging.Logger
 
 class XolioZPlugin(pluginInformation: PluginInformation, clientInterface: ServerInterface) : ServerPlugin(pluginInformation, clientInterface) {
+    var config = Config()
 
     val playerProfiles = PlayerProfiles(this)
     var spawner = ZombiesPopulation(this)
@@ -38,12 +40,12 @@ class XolioZPlugin(pluginInformation: PluginInformation, clientInterface: Server
     private val entityListener = EntityListener(this)
     private val playerListener = PlayerListener(this)
 
-    val lootTypes = LootCategories(this)
+    val lootCategories = LootCategories(this)
     val lootPlaces = LootPlaces(this)
-    val spawnPoints = SpawnPoints()
+    val spawnPoints = SpawnPoints(this)
+    val placesNames = PlacesNames(this)
 
     val crashesHandler = CrashesHandler(this)
-
     val talkieWalkiesHandler = TalkieWalkiesHandler(this)
 
     private val mod_present: Boolean
@@ -51,20 +53,14 @@ class XolioZPlugin(pluginInformation: PluginInformation, clientInterface: Server
     var version = "undefined"
     var isGameActive = false
 
-    var config = Config()
-
-    private val gson: Gson
+    private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 
     val gameWorld: WorldMaster
         get() = server.world
 
-    val logger: Logger
-        get() = Logger.getLogger("XolioZ")
+    val logger: Logger = Logger.getLogger("XolioZ")
 
     init {
-
-        gson = GsonBuilder().setPrettyPrinting().create()
-
         // Non-presence of the accompanying mod in the server configuration is fatal
         var mod_present = false
         for (mod in this.getPluginExecutionContext().content.modsManager().currentlyLoadedMods) {
@@ -78,10 +74,10 @@ class XolioZPlugin(pluginInformation: PluginInformation, clientInterface: Server
     override fun onEnable() {
         version = "" + this.pluginInformation.pluginVersion
 
-        this.logger.info("Initializing plugin version $version ...")
+        this.logger.info("Initializing XolioZPlugin version $version ...")
 
         if (!mod_present) {
-            this.logger.info("'xolioz' mod not found in loaded mods, not enabling the plugin. " + "Please put 'xolioz_content.zip' in your mods/ folder and enable it through the --mods launch argument.")
+            this.logger.info("'xolioz' mod not found in loaded mods, not enabling the XolioZPlugin. " + "Please put 'xolioz_content.zip' in your mods/ folder and enable it through the --mods launch argument.")
             return
         }
 
@@ -127,13 +123,12 @@ class XolioZPlugin(pluginInformation: PluginInformation, clientInterface: Server
             e.printStackTrace()
         }
 
-        // lootItems.loadItems();
-        lootTypes.loadTypes()
+        lootCategories.loadLootCategories()
 
         val world = server.world
         lootPlaces.loadLootFile(world)
 
-        PlacesNames.loadData()
+        placesNames.loadData()
         spawnPoints.load()
     }
 
@@ -170,8 +165,9 @@ class XolioZPlugin(pluginInformation: PluginInformation, clientInterface: Server
         this.logger.info("Done, terminated")
     }
 
-    companion object {
+    fun folder() : File = File(pluginFolder)
 
+    companion object {
         val pluginFolder = "./plugins/XolioZ/"
     }
 

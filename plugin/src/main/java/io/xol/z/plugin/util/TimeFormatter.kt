@@ -5,9 +5,8 @@
 // Github: https://github.com/Hugobros3/xolioz
 //
 
-package io.xol.z.plugin.misc
+package io.xol.z.plugin.util
 
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 

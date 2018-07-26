@@ -44,7 +44,7 @@ class PlayerProfiles(private val plugin: XolioZPlugin) {
 		val file = File(XolioZPlugin.pluginFolder + "users/" + this.uuid + ".json")
 
 		val writer = FileWriter(file);
-		writer.use { gson.toJson(this, it) }
+		writer.use { gson.toJson(this@saveProfile, it) }
 	}
 
 	fun Player.forgetProfile() = playerProfiles.remove(this)

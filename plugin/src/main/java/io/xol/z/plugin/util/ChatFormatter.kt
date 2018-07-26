@@ -5,7 +5,7 @@
 // Github: https://github.com/Hugobros3/xolioz
 //
 
-package io.xol.z.plugin.misc
+package io.xol.z.plugin.util
 
 import io.xol.chunkstories.api.util.compatibility.ChatColor
 

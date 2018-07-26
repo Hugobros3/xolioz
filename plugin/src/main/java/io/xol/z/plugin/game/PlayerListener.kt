@@ -21,7 +21,7 @@ import io.xol.chunkstories.api.util.compatibility.ChatColor
 import io.xol.chunkstories.core.voxel.VoxelChest
 import io.xol.z.plugin.XolioZPlugin
 import io.xol.z.plugin.loot.LootPlace
-import io.xol.z.plugin.misc.bukkitCodes2Hex
+import io.xol.z.plugin.util.bukkitCodes2Hex
 
 class PlayerListener(private val plugin: XolioZPlugin) : Listener {
 
