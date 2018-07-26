@@ -8,7 +8,10 @@ buildscript {
   }
 }
 
-//f
+plugins {
+  id "com.diffplug.gradle.spotless" version "3.14.0"
+}
+
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'java-library'
@@ -20,6 +23,24 @@ archivesBaseName = "XolioZ"
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
+
+spotless {
+	java {
+		licenseHeaderFile 'codequality/header-include-notice.txt'
+		//importOrder 'java', 'javax', 'org', 'com', 'com.diffplug', ''	
+		removeUnusedImports()
+		eclipse().configFile 'codequality/style.xml'
+	}
+
+	kotlin {
+		indentWithTabs()
+		licenseHeaderFile 'codequality/header-include-notice.txt'
+	}
+}
+
+jar {
+	//from 'plugin.info'
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -42,7 +63,7 @@ subprojects {
 		coreContentVersionBuiltAgainst = rootProject.coreContentVersionBuiltAgainst
 	}
 }
-	
+
 dependencies {
 	compile group: 'io.xol.chunkstories', name: 'api', version: csApiBuiltAgainst
 	compile group: 'io.xol.chunkstories', name: 'core', version: coreContentVersionBuiltAgainst
@@ -90,25 +111,3 @@ task install(type: Copy) {
 	from 'build/distributions/'
 	into csDir.getPath() + '/mods/';
 }
-
-task artifacts {
-		group = "Help"
-			description = "Displays the artifacts associated with each configuration of " + project
-			doFirst {
-				configurations.findAll().each { config ->
-				println "${config}:"
-				
-				config.artifacts.getFiles().each { 
-					file -> println "" + file
-				}
-				
-				println ' '
-				
-				config.allDependencies.each { 
-					file -> println "" + file
-				}
-				
-				println ' zizi'
-			}
-		}
-	}

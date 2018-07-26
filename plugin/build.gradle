@@ -1,5 +1,3 @@
-
-
 buildscript {
   ext.kotlin_version = '1.2.51'
   repositories {
@@ -9,8 +7,9 @@ buildscript {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
 }
+
 plugins {
-  id "com.diffplug.gradle.spotless" version "3.14.0"
+  id "com.diffplug.gradle.spotless"
 }
 
 // Apply the java plugin to add support for Java
@@ -29,7 +28,6 @@ repositories {
 		url "http://maven.xol.io/repository/public/"
 	}
 }
-
 
 spotless {
 	java {

@@ -1,3 +1,10 @@
+//
+// This file is a part of the XolioZ Mod for Chunk Stories
+// Check out README.md for more information
+// Website: https://chunkstories.xyz
+// Github: https://github.com/Hugobros3/xolioz
+//
+
 package io.xol.z.mod.voxels;
 
 import org.joml.Matrix4f;
@@ -46,7 +53,7 @@ public class StaticVehicleRenderer implements VoxelDynamicRenderer {
 			matrix.translate(vehicleType.translate);
 
 			renderer.setObjectMatrix(matrix);
-			
+
 			renderer.currentShader().setUniform2f("worldLightIn", cell.getBlocklight(), cell.getSunlight());
 
 			renderer.textures().getTexture(vehicleType.diffuseTexture).setMipMapping(false);
