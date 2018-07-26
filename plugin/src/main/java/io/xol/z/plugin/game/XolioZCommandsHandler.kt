@@ -22,213 +22,19 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
 
     override fun handleCommand(sender: CommandEmitter, command: Command, args: Array<String>): Boolean {
         try {
-            fun mustBePlayer() = sender as? Player ?: throw Exception("#{dogez.mustbeplayer}")
-
             when (command.name) {
-                "m" -> {
-                    val sender = mustBePlayer()
-                    if (args.size < 2) throw Exception("#{dogez.goodsyntaxm}")
-                    val message = args.slice(1..args.size).joinToString(separator = " ")
+                "m" -> privateMessageCommand(sender, args)
 
-                    val recipient = plugin.server.getPlayerByName(args[0]) ?: throw Exception("{dogez.pmnotavailable}")
-
-                    if (!sender.canUseTalkieWalkie() && !recipient.hasPermission("dogez.talkie.receiveAnyway")) throw Exception("#{dogez.pmrequiretw}")
-                    if (!recipient.canUseTalkieWalkie()) sender.sendMessage(ChatColor.RED.toString() + "#{dogez.pmnoreplywarn}")
-
-                    recipient.sendMessage(ChatColor.GRAY.toString() + "[#{dogez.pmfrom}" + ChatColor.AQUA + sender.name + ChatColor.GRAY + "]:" + message)
-                    sender.sendMessage(ChatColor.GRAY.toString() + "[#{dogez.pmto}" + ChatColor.AQUA + recipient + ChatColor.GRAY + "]:" + message)
-
-                    //Set the talkingTo variable so we remember who they were talking with
-                    sender.profile.talkingTo = recipient
-                    recipient.profile.talkingTo = sender
-                }
-
-                "r" -> {
-                    val sender = mustBePlayer()
-                    if (args.isEmpty()) throw Exception("#{dogez.goodsyntaxr}")
-                    val message = args.joinToString(separator = " ")
-
-                    val recipient = sender.profile.talkingTo ?: throw Exception("#{dogez.pmnotinaconversation}")
-                    if (!recipient.isConnected) throw Exception("{dogez.pmnotavailable}")
-
-                    if (!sender.canUseTalkieWalkie() && !recipient.hasPermission("dogez.talkie.receiveAnyway")) throw Exception("#{dogez.pmrequiretw}")
-                    if (!recipient.canUseTalkieWalkie()) sender.sendMessage(ChatColor.RED.toString() + "#{dogez.pmnoreplywarn}")
-
-                    recipient.sendMessage(ChatColor.GRAY.toString() + "[#{dogez.pmfrom}" + ChatColor.AQUA + sender.name + ChatColor.GRAY + "]:" + message)
-                    sender.sendMessage(ChatColor.GRAY.toString() + "[#{dogez.pmto}" + ChatColor.AQUA + recipient + ChatColor.GRAY + "]:" + message)
-                }
+                "r" -> privateMessageReplyCommand(sender, args)
 
                 "dz" -> {
-
                     val subcommand = args.getOrNull(0)
                     val args = args.sliceArray(1 until args.size)
 
-                    when (subcommand) {
-                        null, "help" -> sender.sendHelpMessage()
-
-                        "spawn", "play" -> {
-                            val player =
-                                    if (args.isEmpty())
-                                        mustBePlayer()
-                                    else {
-                                        sender.assertHasPermission("dogez.spawn.as")
-                                        plugin.server.getPlayerByName(args[0])
-                                                ?: throw Exception("This player isn't logged in")
-                                    }
-
-                            if (player.profile.inGame) throw Exception("#{dogez.alreadyig}")
-
-                            val entity = player.controlledEntity ?: throw Exception("This player has no entity")
-                            val spawnPoint = SpawnPoints.getRandomSpawn()
-
-                            entity.traits.with<TraitCreativeMode>(TraitCreativeMode::class.java) { ecm -> ecm.set(false) }
-
-                            val spawnGear = plugin.lootTypes.getCategory("spawn")
-                            entity.traits.with<TraitInventory>(TraitInventory::class.java) { ei ->
-                                ei.clear()
-                                for (i in spawnGear.allItems) {
-                                    ei.addItemPile(i)
-                                }
-                            }
-
-                            entity.traits.with<TraitHealth>(TraitHealth::class.java) { eh -> eh.health = eh.maxHealth }
-
-                            player.location = Location(plugin.gameWorld, spawnPoint[0].toDouble(), (spawnPoint[1] + 2).toDouble(), spawnPoint[2].toDouble())
-
-                            player.sendMessage(ChatColor.DARK_AQUA.toString() + "#{dogez.goodluck}")
-                            player.profile.inGame = true
-                        }
-
-                        "suicide", "kill" -> {
-                            val player = mustBePlayer()
-                            player.controlledEntity?.let {
-                                it.traits.get(TraitHealth::class.java)?.health = -1f
-                            }
-                        }
-
-                        "stats" -> {
-                            val player =
-                                    if (args.isEmpty())
-                                        mustBePlayer()
-                                    else {
-                                        sender.assertHasPermission("dogez.viewotherstats")
-                                        plugin.server.getPlayerByName(args[0])
-                                                ?: throw Exception("This player isn't logged in")
-                                    }
-                            sender.sendStats(player.profile)
-                        }
-
-                        "reload" -> {
-                            sender.assertHasPermission("dogez.admin.reload")
-                            plugin.loadConfigs()
-                            sender.sendMessage(ChatColor.AQUA.toString() + "Configuration reloaded")
-                        }
-
-                        "butcher" -> {
-                            sender.assertHasPermission("dogez.admin.butcher")
-                            var count = 0
-                            plugin.gameWorld.allLoadedEntities.forEach {
-                                if (it is EntityZombie) {
-                                    plugin.gameWorld.removeEntity(it)
-                                    count++
-                                }
-                            }
-
-                            sender.sendMessage("$count zombies removed from the map")
-                        }
-
-                        "spawnZombie" -> {
-                            sender.assertHasPermission("dogez.admin.debug")
-                            plugin.spawner.spawnZombie(mustBePlayer().location)
-                            sender.sendMessage("Zombie spawned at your position")
-                        }
-
-                        "togglesynch" -> {
-                            sender.assertHasPermission("dogez.admin")
-                            plugin.config.setProperty("irlTimeCycleSync", "" + !plugin.config.getBoolean("irlTimeCycleSync", true))
-                            sender.sendMessage("Toggling IRL time synchronisation :" + plugin.config.getBoolean("irlTimeCycleSync"))
-                        }
-
-                        "loot" -> {
-                            sender.assertHasPermission("dogez.admin.loot")
-
-                            val subcommand = args.getOrNull(0)
-                            val args = args.sliceArray(1 until args.size)
-
-                            when (subcommand) {
-                                null, "help" -> sender.sendLootHelp()
-
-                                "add" -> {
-                                    if (args.isEmpty()) throw Exception("Missing category")
-
-                                    val playerProfile = mustBePlayer().profile
-
-                                    val categoryName = args[0]
-                                    val category = plugin.lootTypes.getCategory(categoryName)
-
-                                    // Check the supplied one exist
-                                    if (category != null) {
-
-                                        playerProfile.activeCategory = category
-                                        playerProfile.adding = true
-
-                                        if (args.size >= 2)
-                                            playerProfile.currentMin = Integer.parseInt(args[1])
-                                        if (args.size >= 3)
-                                            playerProfile.currentMax = Integer.parseInt(args[2])
-
-                                        sender.sendMessage(ChatColor.AQUA.toString() + "You are now placed loot points of parameters [" + categoryName + ":" + playerProfile.currentMin + "-"
-                                                + playerProfile.currentMax + "]")
-                                    } else {
-                                        sender.sendMessage(ChatColor.RED.toString() + "The loot type \"" + categoryName + "\" doesn't exist.")
-                                    }
-                                }
-
-                                "remove" -> {
-                                    val playerProfile = mustBePlayer().profile
-                                    playerProfile.adding = false
-                                    sender.sendMessage(ChatColor.AQUA.toString() + "You are now removing loot points.")
-                                }
-
-                                "stats" -> {
-                                    sender.sendMessage(ChatColor.AQUA.toString() + "There are " + plugin.lootPlaces.count(plugin.gameWorld) + " in the current loot file.")
-                                }
-
-                                "list" -> {
-                                    sender.sendMessage(ChatColor.AQUA.toString() + "Available loot categories :" +
-                                            plugin.lootTypes.categories.keys.joinToString())
-                                }
-
-                                "reload" -> {
-                                    plugin.lootPlaces.loadLootFile(plugin.gameWorld)
-                                    sender.sendMessage(ChatColor.AQUA.toString() + "Loot points file (re)loaded.")
-                                }
-
-                                "save" -> {
-                                    plugin.lootPlaces.saveLootFile(plugin.gameWorld)
-                                    sender.sendMessage(ChatColor.AQUA.toString() + "Loot points file saved.")
-                                }
-
-                                "reloot", "respawnLoot" -> {
-                                    sender.sendMessage(ChatColor.AQUA.toString() + "" + plugin.lootPlaces.respawnLoot(plugin.gameWorld) + " loot points have been refreshed.")
-                                }
-
-                                "arround" -> {
-                                    var radius: Int = args.getOrNull(0)?.toInt() ?: throw Exception("Missing radius")
-                                    val force = args.contains("force")
-
-                                    if (radius > 50) {
-                                        radius = 50
-                                        sender.sendMessage(ChatColor.AQUA.toString() + "Radius too wide, capping to 50")
-                                    }
-
-                                    val addedCount = plugin.lootPlaces.generateLootPointsArroundPlayer(mustBePlayer(), radius, force)
-                                    sender.sendMessage(ChatColor.AQUA.toString() + "$addedCount new loot points added")
-                                }
-                            }
-                        }
-                    }
+                    handleGeneralCommand(sender, subcommand, args)
                 }
+
+                else -> return false
             }
 
 
@@ -239,12 +45,219 @@ class XolioZCommandsHandler(private val plugin: XolioZPlugin) : CommandHandler {
         return true
     }
 
+    private fun privateMessageReplyCommand(sender: CommandEmitter, args: Array<String>) {
+        val sender = sender.asPlayerSafe()
+        if (args.isEmpty()) throw Exception("#{dogez.goodsyntaxr}")
+        val message = args.joinToString(separator = " ")
+
+        val recipient = sender.profile.talkingTo ?: throw Exception("#{dogez.pmnotinaconversation}")
+        if (!recipient.isConnected) throw Exception("{dogez.pmnotavailable}")
+
+        if (!sender.canUseTalkieWalkie() && !recipient.hasPermission("dogez.talkie.receiveAnyway")) throw Exception("#{dogez.pmrequiretw}")
+        if (!recipient.canUseTalkieWalkie()) sender.sendMessage(ChatColor.RED.toString() + "#{dogez.pmnoreplywarn}")
+
+        recipient.sendMessage(ChatColor.GRAY.toString() + "[#{dogez.pmfrom}" + ChatColor.AQUA + sender.name + ChatColor.GRAY + "]:" + message)
+        sender.sendMessage(ChatColor.GRAY.toString() + "[#{dogez.pmto}" + ChatColor.AQUA + recipient + ChatColor.GRAY + "]:" + message)
+    }
+
+    private fun privateMessageCommand(sender: CommandEmitter, args: Array<String>) {
+        val sender = sender.asPlayerSafe()
+        if (args.size < 2) throw Exception("#{dogez.goodsyntaxm}")
+        val message = args.slice(1..args.size).joinToString(separator = " ")
+
+        val recipient = plugin.server.getPlayerByName(args[0]) ?: throw Exception("{dogez.pmnotavailable}")
+
+        if (!sender.canUseTalkieWalkie() && !recipient.hasPermission("dogez.talkie.receiveAnyway")) throw Exception("#{dogez.pmrequiretw}")
+        if (!recipient.canUseTalkieWalkie()) sender.sendMessage(ChatColor.RED.toString() + "#{dogez.pmnoreplywarn}")
+
+        recipient.sendMessage(ChatColor.GRAY.toString() + "[#{dogez.pmfrom}" + ChatColor.AQUA + sender.name + ChatColor.GRAY + "]:" + message)
+        sender.sendMessage(ChatColor.GRAY.toString() + "[#{dogez.pmto}" + ChatColor.AQUA + recipient + ChatColor.GRAY + "]:" + message)
+
+        //Set the talkingTo variable so we remember who they were talking with
+        sender.profile.talkingTo = recipient
+        recipient.profile.talkingTo = sender
+    }
+
+    private fun handleGeneralCommand(sender: CommandEmitter, subcommand: String?, args: Array<String>) {
+        when (subcommand) {
+            null, "help" -> sender.sendHelpMessage()
+
+            "spawn", "play" -> {
+                val player =
+                        if (args.isEmpty())
+                            sender.asPlayerSafe()
+                        else {
+                            sender.assertHasPermission("dogez.spawn.as")
+                            plugin.server.getPlayerByName(args[0])
+                                    ?: throw Exception("This player isn't logged in")
+                        }
+
+                if (player.profile.inGame) throw Exception("#{dogez.alreadyig}")
+
+                val entity = player.controlledEntity ?: throw Exception("This player has no entity")
+                val spawnPoint = SpawnPoints.getRandomSpawn()
+
+                entity.traits.with<TraitCreativeMode>(TraitCreativeMode::class.java) { ecm -> ecm.set(false) }
+
+                val spawnGear = plugin.lootTypes.getCategory("spawn")
+                entity.traits.with<TraitInventory>(TraitInventory::class.java) { ei ->
+                    ei.clear()
+                    for (i in spawnGear.allItems) {
+                        ei.addItemPile(i)
+                    }
+                }
+
+                entity.traits.with<TraitHealth>(TraitHealth::class.java) { eh -> eh.health = eh.maxHealth }
+
+                player.location = Location(plugin.gameWorld, spawnPoint[0].toDouble(), (spawnPoint[1] + 2).toDouble(), spawnPoint[2].toDouble())
+
+                player.sendMessage(ChatColor.DARK_AQUA.toString() + "#{dogez.goodluck}")
+                player.profile.inGame = true
+            }
+
+            "suicide", "kill" -> {
+                val player = sender.asPlayerSafe()
+                player.controlledEntity?.let {
+                    it.traits.get(TraitHealth::class.java)?.health = -1f
+                }
+            }
+
+            "stats" -> {
+                val player =
+                        if (args.isEmpty())
+                            sender.asPlayerSafe()
+                        else {
+                            sender.assertHasPermission("dogez.viewotherstats")
+                            plugin.server.getPlayerByName(args[0])
+                                    ?: throw Exception("This player isn't logged in")
+                        }
+                sender.sendStats(player.profile)
+            }
+
+            "reload" -> {
+                sender.assertHasPermission("dogez.admin.reload")
+                plugin.loadConfigs()
+                sender.sendMessage(ChatColor.AQUA.toString() + "Configuration reloaded")
+            }
+
+            "butcher" -> {
+                sender.assertHasPermission("dogez.admin.butcher")
+                var count = 0
+                plugin.gameWorld.allLoadedEntities.forEach {
+                    if (it is EntityZombie) {
+                        plugin.gameWorld.removeEntity(it)
+                        count++
+                    }
+                }
+
+                sender.sendMessage("$count zombies removed from the map")
+            }
+
+            "spawnZombie" -> {
+                sender.assertHasPermission("dogez.admin.debug")
+                plugin.spawner.spawnZombie(sender.asPlayerSafe().location)
+                sender.sendMessage("Zombie spawned at your position")
+            }
+
+            "togglesynch" -> {
+                sender.assertHasPermission("dogez.admin")
+                plugin.config.setProperty("irlTimeCycleSync", "" + !plugin.config.getBoolean("irlTimeCycleSync", true))
+                sender.sendMessage("Toggling IRL time synchronisation :" + plugin.config.getBoolean("irlTimeCycleSync"))
+            }
+
+            "loot" -> {
+                sender.assertHasPermission("dogez.admin.loot")
+
+                val subcommand = args.getOrNull(0)
+                val args = args.sliceArray(1 until args.size)
+
+                handleLootCommand(sender, subcommand, args)
+            }
+        }
+    }
+
+    private fun handleLootCommand(sender: CommandEmitter, subcommand: String?, args: Array<String>) {
+        when (subcommand) {
+            null, "help" -> sender.sendLootHelp()
+
+            "add" -> {
+                if (args.isEmpty()) throw Exception("Missing category")
+
+                val playerProfile = sender.asPlayerSafe().profile
+
+                val categoryName = args[0]
+                val category = plugin.lootTypes.getCategory(categoryName)
+
+                // Check the supplied one exist
+                if (category != null) {
+
+                    playerProfile.activeCategory = category
+                    playerProfile.adding = true
+
+                    if (args.size >= 2)
+                        playerProfile.currentMin = Integer.parseInt(args[1])
+                    if (args.size >= 3)
+                        playerProfile.currentMax = Integer.parseInt(args[2])
+
+                    sender.sendMessage(ChatColor.AQUA.toString() + "You are now placed loot points of parameters [" + categoryName + ":" + playerProfile.currentMin + "-"
+                            + playerProfile.currentMax + "]")
+                } else {
+                    sender.sendMessage(ChatColor.RED.toString() + "The loot type \"" + categoryName + "\" doesn't exist.")
+                }
+            }
+
+            "remove" -> {
+                val playerProfile = sender.asPlayerSafe().profile
+                playerProfile.adding = false
+                sender.sendMessage(ChatColor.AQUA.toString() + "You are now removing loot points.")
+            }
+
+            "stats" -> {
+                sender.sendMessage(ChatColor.AQUA.toString() + "There are " + plugin.lootPlaces.count(plugin.gameWorld) + " in the current loot file.")
+            }
+
+            "list" -> {
+                sender.sendMessage(ChatColor.AQUA.toString() + "Available loot categories :" +
+                        plugin.lootTypes.categories.keys.joinToString())
+            }
+
+            "reload" -> {
+                plugin.lootPlaces.loadLootFile(plugin.gameWorld)
+                sender.sendMessage(ChatColor.AQUA.toString() + "Loot points file (re)loaded.")
+            }
+
+            "save" -> {
+                plugin.lootPlaces.saveLootFile(plugin.gameWorld)
+                sender.sendMessage(ChatColor.AQUA.toString() + "Loot points file saved.")
+            }
+
+            "reloot", "respawnLoot" -> {
+                sender.sendMessage(ChatColor.AQUA.toString() + "" + plugin.lootPlaces.respawnLoot(plugin.gameWorld) + " loot points have been refreshed.")
+            }
+
+            "arround" -> {
+                var radius: Int = args.getOrNull(0)?.toInt() ?: throw Exception("Missing radius")
+                val force = args.contains("force")
+
+                if (radius > 50) {
+                    radius = 50
+                    sender.sendMessage(ChatColor.AQUA.toString() + "Radius too wide, capping to 50")
+                }
+
+                val addedCount = plugin.lootPlaces.generateLootPointsArroundPlayer(sender.asPlayerSafe(), radius, force)
+                sender.sendMessage(ChatColor.AQUA.toString() + "$addedCount new loot points added")
+            }
+        }
+    }
+
     public val Player.profile: PlayerProfile
         get() = plugin.playerProfiles.getPlayerProfile(this.uuid)
 
     fun CommandEmitter.assertHasPermission(permissionNode: String) {
         if (!this.hasPermission(permissionNode)) throw Exception("$this lacks permission $permissionNode")
     }
+
+    fun CommandEmitter.asPlayerSafe() = this as? Player ?: throw Exception("#{dogez.mustbeplayer}")
 
     /** Sends a long-ass message showing the different top-level commands */
     private fun CommandEmitter.sendHelpMessage() {
