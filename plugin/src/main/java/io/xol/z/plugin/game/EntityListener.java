@@ -3,8 +3,8 @@ package io.xol.z.plugin.game;
 import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.DamageCause;
 import io.xol.chunkstories.api.entity.Entity;
-import io.xol.chunkstories.api.entity.components.EntityController;
-import io.xol.chunkstories.api.entity.components.EntityHealth;
+import io.xol.chunkstories.api.entity.traits.serializable.TraitController;
+import io.xol.chunkstories.api.entity.traits.serializable.TraitHealth;
 import io.xol.chunkstories.api.events.EventHandler;
 import io.xol.chunkstories.api.events.Listener;
 import io.xol.chunkstories.api.events.entity.EntityDamageEvent;
@@ -33,14 +33,14 @@ public class EntityListener implements Listener {
 			return;
 
 		Entity entity = event.getEntity();
-		DamageCause cause = entity.components.get(EntityHealth.class).getLastDamageCause();
+		DamageCause cause = entity.traits.get(TraitHealth.class).getLastDamageCause();
 
 		// If the killed entity was a zombie, lookup the killer and see if it's a player
 		if (entity instanceof EntityZombie) {
 			if (cause != null && cause instanceof Entity) {
 
 				Entity killerEntity = (Entity) cause;
-				killerEntity.components.with(EntityController.class, kec -> {
+				killerEntity.traits.with(TraitController.class, kec -> {
 					Controller killerController = kec.getController();
 					if (killerController != null && killerController instanceof Player) {
 						Player killer = (Player) killerController;
@@ -54,7 +54,7 @@ public class EntityListener implements Listener {
 			}
 		}
 
-		entity.components.with(EntityController.class, vec -> {
+		entity.traits.with(TraitController.class, vec -> {
 			Controller controller = vec.getController();
 
 			// If the victim was a player...
@@ -69,7 +69,7 @@ public class EntityListener implements Listener {
 				if (cause != null && cause instanceof Entity) {
 
 					Entity killerEntity = (Entity) cause;
-					killerEntity.components.with(EntityController.class, kec -> {
+					killerEntity.traits.with(TraitController.class, kec -> {
 						Controller killerController = kec.getController();
 						if (killerController != null && killerController instanceof Player) {
 							Player killer = (Player) killerController;
@@ -108,9 +108,9 @@ public class EntityListener implements Listener {
 			return;
 
 		Entity entity = event.getEntity();
-		DamageCause cause = entity.components.get(EntityHealth.class).getLastDamageCause();
+		DamageCause cause = entity.traits.get(TraitHealth.class).getLastDamageCause();
 
-		entity.components.with(EntityController.class, vec -> {
+		entity.traits.with(TraitController.class, vec -> {
 			Controller controller = vec.getController();
 
 			// If the victim was a player...

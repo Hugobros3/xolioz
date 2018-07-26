@@ -2,15 +2,14 @@ package io.xol.z.mod.items
 
 import org.joml.Vector4f
 
-import io.xol.chunkstories.api.entity.Controller
 import io.xol.chunkstories.api.entity.Entity
-import io.xol.chunkstories.api.entity.components.EntityController
 import io.xol.chunkstories.api.item.Item
 import io.xol.chunkstories.api.item.ItemDefinition
 import io.xol.chunkstories.api.item.interfaces.ItemOverlay
 import io.xol.chunkstories.api.item.interfaces.ItemZoom
 import io.xol.chunkstories.api.item.inventory.ItemPile
 import io.xol.chunkstories.api.client.LocalPlayer
+import io.xol.chunkstories.api.entity.traits.serializable.TraitController
 import io.xol.chunkstories.api.rendering.RenderingInterface
 
 class ItemBinoculars(type: ItemDefinition) : Item(type), ItemZoom, ItemOverlay {
@@ -18,7 +17,7 @@ class ItemBinoculars(type: ItemDefinition) : Item(type), ItemZoom, ItemOverlay {
 
     override fun tickInHand(owner: Entity?, itemPile: ItemPile?) {
 
-        owner!!.components.with(EntityController::class.java) { ec ->
+        owner!!.traits.with(TraitController::class.java) { ec ->
             val controller = ec.controller
 
             if (controller is LocalPlayer) {

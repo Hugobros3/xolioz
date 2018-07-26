@@ -7,10 +7,9 @@ import org.joml.Vector4f
 
 import io.xol.chunkstories.api.Location
 import io.xol.chunkstories.api.entity.Entity
-import io.xol.chunkstories.api.entity.components.EntityRotation
+import io.xol.chunkstories.api.entity.traits.serializable.TraitRotation
 import io.xol.chunkstories.api.item.Item
 import io.xol.chunkstories.api.item.ItemDefinition
-import io.xol.chunkstories.api.item.inventory.InventoryHolder
 import io.xol.chunkstories.api.item.inventory.ItemPile
 import io.xol.chunkstories.api.rendering.RenderingInterface
 import io.xol.chunkstories.api.rendering.item.ItemRenderer
@@ -33,7 +32,7 @@ class ItemFlashlight(type: ItemDefinition) : Item(type) {
                 val holder = pile.inventory!!.holder
                 if (holder != null && holder is Entity) {
                     val entity = holder as Entity?
-                    entity!!.components.with(EntityRotation::class.java) { er ->
+                    entity!!.traits.with(TraitRotation::class.java) { er ->
                         val vec4 = Vector4f(0.5f, 0.0f, 0.0f, 1.0f)
 
                         handTransformation.transform(vec4)

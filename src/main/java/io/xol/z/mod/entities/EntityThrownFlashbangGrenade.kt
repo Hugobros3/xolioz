@@ -9,18 +9,16 @@ import org.joml.Vector4f
 import io.xol.chunkstories.api.Location
 import io.xol.chunkstories.api.entity.Entity
 import io.xol.chunkstories.api.entity.EntityDefinition
-import io.xol.chunkstories.api.entity.components.EntityRotation
 import io.xol.chunkstories.api.entity.traits.TraitHasOverlay
 import io.xol.chunkstories.api.entity.traits.TraitRenderable
+import io.xol.chunkstories.api.entity.traits.serializable.TraitRotation
 import io.xol.chunkstories.api.math.Math2
 import io.xol.chunkstories.api.rendering.RenderingInterface
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator
-import io.xol.chunkstories.api.rendering.textures.Texture2D
 import io.xol.chunkstories.api.sound.SoundSource.Mode
 import io.xol.chunkstories.api.world.WorldClient
 import io.xol.chunkstories.api.world.WorldMaster
-import io.xol.chunkstories.api.world.cell.CellData
 import io.xol.chunkstories.core.entity.EntityPlayer
 
 class EntityThrownFlashbangGrenade(type: EntityDefinition, loc: Location) : EntityThrownGrenade(type, loc) {
@@ -113,7 +111,7 @@ class EntityThrownFlashbangGrenade(type: EntityDefinition, loc: Location) : Enti
 
                     dir.normalize()
 
-                    val edir = e.components.tryWith(EntityRotation::class.java) { rot -> rot.directionLookingAt }
+                    val edir = e.traits.tryWith(TraitRotation::class.java) { rot -> rot.directionLookingAt }
 
                     val raytrace = world.collisionsManager().raytraceSolidOuter(e.location.add(0.0, 1.80, 0.0), dir, 256.0)
 

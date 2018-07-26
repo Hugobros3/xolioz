@@ -3,9 +3,9 @@ package io.xol.z.plugin.game;
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.DamageCause;
 import io.xol.chunkstories.api.entity.Entity;
-import io.xol.chunkstories.api.entity.components.EntityHealth;
-import io.xol.chunkstories.api.entity.components.EntitySelectedItem;
 import io.xol.chunkstories.api.entity.traits.TraitVoxelSelection;
+import io.xol.chunkstories.api.entity.traits.serializable.TraitHealth;
+import io.xol.chunkstories.api.entity.traits.serializable.TraitSelectedItem;
 import io.xol.chunkstories.api.events.EventHandler;
 import io.xol.chunkstories.api.events.Listener;
 import io.xol.chunkstories.api.events.player.PlayerInputPressedEvent;
@@ -62,7 +62,7 @@ public class PlayerListener implements Listener {
 
 			Entity playerEntity = player.getControlledEntity();
 			if (playerEntity != null) {
-				playerEntity.components.with(EntityHealth.class, eh -> {
+				playerEntity.traits.with(TraitHealth.class, eh -> {
 					eh.damage(new DamageCause() {
 
 						@Override
@@ -100,7 +100,7 @@ public class PlayerListener implements Listener {
 			if (!plugin.isActive())
 				return;
 
-			ItemPile itemInHand = playerEntity.components.tryWith(EntitySelectedItem.class, esi -> esi.getSelectedItem());
+			ItemPile itemInHand = playerEntity.traits.tryWith(TraitSelectedItem.class, esi -> esi.getSelectedItem());
 
 			// loot placement and removal
 			if (player.hasPermission("dogez.admin")) {

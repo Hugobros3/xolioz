@@ -7,8 +7,8 @@ import org.joml.Vector3f
 import io.xol.chunkstories.api.Location
 import io.xol.chunkstories.api.entity.DamageCause
 import io.xol.chunkstories.api.entity.EntityDefinition
-import io.xol.chunkstories.api.entity.components.EntityHealth
 import io.xol.chunkstories.api.entity.traits.TraitRenderable
+import io.xol.chunkstories.api.entity.traits.serializable.TraitHealth
 import io.xol.chunkstories.api.rendering.RenderingInterface
 import io.xol.chunkstories.api.rendering.entity.EntityRenderer
 import io.xol.chunkstories.api.rendering.entity.RenderingIterator
@@ -94,11 +94,11 @@ class EntityThrownFragGrenade(type: EntityDefinition, loc: Location) : EntityThr
                 for (entityInBlastRadius in world.getEntitiesInBox(location, Vector3d(dmg_radius))) {
 
                     //TODO
-                    with(entityInBlastRadius.components.get(EntityHealth::class.java)) {
+                    with(entityInBlastRadius.traits.get(TraitHealth::class.java)) {
 
                     }
 
-                    entityInBlastRadius.components.with<EntityHealth>(EntityHealth::class.java, damageLambda@ { eh ->
+                    entityInBlastRadius.traits.with<TraitHealth>(TraitHealth::class.java, damageLambda@ { eh ->
                         val distance = entityInBlastRadius.location.distance(location)
                         if (distance > dmg_radius)
                             return@damageLambda

@@ -2,8 +2,8 @@ package io.xol.z.plugin.zombies;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.Entity;
-import io.xol.chunkstories.api.entity.components.EntityCreativeMode;
-import io.xol.chunkstories.api.entity.components.EntityHealth;
+import io.xol.chunkstories.api.entity.traits.serializable.TraitCreativeMode;
+import io.xol.chunkstories.api.entity.traits.serializable.TraitHealth;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.WorldMaster;
@@ -45,7 +45,7 @@ public class ZombiesPopulation {
 				continue;
 
 			// Don't spawn zombies on players in creative mode
-			if (!playerEntity.components.tryWithBoolean(EntityCreativeMode.class, ecm -> ecm.get())) {
+			if (!playerEntity.traits.tryWithBoolean(TraitCreativeMode.class, ecm -> ecm.get())) {
 				int pZombCount = 0;
 				for (Entity e : plugin.getGameWorld().getAllLoadedEntities()) {
 					if (e instanceof EntityZombie && e.getLocation().distance(player.getLocation()) < 120f) {
@@ -94,7 +94,7 @@ public class ZombiesPopulation {
 
 		//EntityZombie zombie = new EntityZombie(plugin.getPluginExecutionContext().getContent().entities().getEntityDefinition("zombie"), location);
 		EntityZombie zombie = (EntityZombie) plugin.getPluginExecutionContext().getContent().entities().getEntityDefinition("zombie").create(location);
-		zombie.components.with(EntityHealth.class, eh -> {
+		zombie.traits.with(TraitHealth.class, eh -> {
 			eh.setHealth((float) (eh.getHealth() * (0.5 + Math.random())));
 		});
 

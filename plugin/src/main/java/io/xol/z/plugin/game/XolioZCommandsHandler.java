@@ -2,9 +2,9 @@ package io.xol.z.plugin.game;
 
 import io.xol.chunkstories.api.Location;
 import io.xol.chunkstories.api.entity.Entity;
-import io.xol.chunkstories.api.entity.components.EntityCreativeMode;
-import io.xol.chunkstories.api.entity.components.EntityHealth;
-import io.xol.chunkstories.api.entity.components.EntityInventory;
+import io.xol.chunkstories.api.entity.traits.serializable.TraitCreativeMode;
+import io.xol.chunkstories.api.entity.traits.serializable.TraitHealth;
+import io.xol.chunkstories.api.entity.traits.serializable.TraitInventory;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.plugin.commands.Command;
@@ -160,10 +160,10 @@ public class XolioZCommandsHandler implements CommandHandler {
 				} else {
 					int[] spawnPoint = SpawnPoints.getRandomSpawn();
 
-					playerEntity.components.with(EntityCreativeMode.class, ecm -> ecm.set(false));
+					playerEntity.traits.with(TraitCreativeMode.class, ecm -> ecm.set(false));
 					
 					LootCategory spawnGear = plugin.getLootTypes().getCategory("spawn");
-					playerEntity.components.with(EntityInventory.class, ei -> {
+					playerEntity.traits.with(TraitInventory.class, ei -> {
 						ei.clear();
 						for(ItemPile i : spawnGear.getAllItems()) {
 							ei.addItemPile(i);
@@ -171,7 +171,7 @@ public class XolioZCommandsHandler implements CommandHandler {
 					});
 
 					profile.inGame = true;
-					playerEntity.components.with(EntityHealth.class, eh -> eh.setHealth(eh.getMaxHealth()));
+					playerEntity.traits.with(TraitHealth.class, eh -> eh.setHealth(eh.getMaxHealth()));
 					
 					player.sendMessage(ChatColor.DARK_AQUA + "#{dogez.goodluck}");
 					player.setLocation(new Location(plugin.getGameWorld(), spawnPoint[0], spawnPoint[1] + 2, spawnPoint[2]));
@@ -179,7 +179,7 @@ public class XolioZCommandsHandler implements CommandHandler {
 				return true;
 			}
 			if (args[0].equals("suicide") && playerEntity != null) {
-				playerEntity.components.with(EntityHealth.class, eh -> eh.setHealth(-10));
+				playerEntity.traits.with(TraitHealth.class, eh -> eh.setHealth(-10));
 				return true;
 			}
 			if (args[0].equals("stats")) {

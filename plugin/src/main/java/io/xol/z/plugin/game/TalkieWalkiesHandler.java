@@ -1,8 +1,8 @@
 package io.xol.z.plugin.game;
 
 import io.xol.chunkstories.api.entity.Entity;
-import io.xol.chunkstories.api.entity.components.EntityCreativeMode;
-import io.xol.chunkstories.api.entity.components.EntityInventory;
+import io.xol.chunkstories.api.entity.traits.serializable.TraitCreativeMode;
+import io.xol.chunkstories.api.entity.traits.serializable.TraitInventory;
 import io.xol.chunkstories.api.item.inventory.ItemPile;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.util.compatibility.ChatColor;
@@ -23,7 +23,7 @@ public class TalkieWalkiesHandler {
 		if(entity == null)
 			return false;
 
-		return entity.components.tryWithBoolean(EntityInventory.class, inv -> {
+		return entity.traits.tryWithBoolean(TraitInventory.class, inv -> {
 			for (ItemPile i : inv.iterator()) {
 				if (i != null && i.getItem().getInternalName().equals("dz_talkie_walkie"))
 					return true;
@@ -35,7 +35,7 @@ public class TalkieWalkiesHandler {
 	public boolean canPlayerUseTW(Player player) {
 		Entity controlledEntity = player.getControlledEntity();
 
-		if (controlledEntity.components.tryWithBoolean(EntityCreativeMode.class, ecm -> ecm.get()))
+		if (controlledEntity.traits.tryWithBoolean(TraitCreativeMode.class, ecm -> ecm.get()))
 			return true;
 
 		return doesPlayerOwnTW(player);

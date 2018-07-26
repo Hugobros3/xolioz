@@ -7,12 +7,11 @@ import org.joml.Vector3dc
 import io.xol.chunkstories.api.Location
 import io.xol.chunkstories.api.entity.Entity
 import io.xol.chunkstories.api.entity.EntityDefinition
-import io.xol.chunkstories.api.entity.components.EntityVelocity
 import io.xol.chunkstories.api.entity.traits.TraitCollidable
+import io.xol.chunkstories.api.entity.traits.serializable.TraitVelocity
 import io.xol.chunkstories.api.math.Math2
 import io.xol.chunkstories.api.physics.CollisionBox
 import io.xol.chunkstories.api.sound.SoundSource.Mode
-import io.xol.chunkstories.api.voxel.Voxel
 import io.xol.chunkstories.api.world.WorldClient
 import io.xol.chunkstories.api.world.WorldMaster
 
@@ -22,7 +21,7 @@ abstract class EntityThrownGrenade(type: EntityDefinition, loc: Location) : Enti
     protected var direction = 0f
     protected var rotation = 0f
 
-    val entityVelocity = EntityVelocity(this)
+    val entityVelocity = TraitVelocity(this)
     val collisions: TraitCollidable
 
     init {

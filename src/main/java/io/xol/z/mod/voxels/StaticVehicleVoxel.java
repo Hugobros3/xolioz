@@ -1,12 +1,12 @@
 package io.xol.z.mod.voxels;
 
+import io.xol.chunkstories.api.entity.traits.serializable.TraitController;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 import io.xol.chunkstories.api.client.ClientContent;
 import io.xol.chunkstories.api.entity.Controller;
 import io.xol.chunkstories.api.entity.Entity;
-import io.xol.chunkstories.api.entity.components.EntityController;
 import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.rendering.voxel.VoxelRenderer;
@@ -100,7 +100,7 @@ public class StaticVehicleVoxel extends BigVoxel {
 			int y = context.getY();
 			int z = context.getZ();
 			
-			entity.components.with(EntityController.class, ec -> {
+			entity.traits.with(TraitController.class, ec -> {
 				Controller c = ec.getController();
 				
 				if(c instanceof Player) {
