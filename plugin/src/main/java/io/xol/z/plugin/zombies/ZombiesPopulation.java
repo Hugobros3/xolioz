@@ -14,7 +14,6 @@ import io.xol.chunkstories.api.entity.traits.serializable.TraitHealth;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.WorldMaster;
-import io.xol.chunkstories.api.world.chunk.Chunk;
 import io.xol.chunkstories.core.entity.EntityZombie;
 import io.xol.z.plugin.XolioZPlugin;
 
