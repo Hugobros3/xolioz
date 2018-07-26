@@ -4,9 +4,9 @@ dogez.goodsyntaxr Correct syntax : /r <message>
 dogez.pmfrom PM from 
 dogez.pmto PM sent to
 dogez.pmnoreplywarn Warning, the player you're talking you can't respond 
-dogez.pmnotdispo The player you're addressing isn't online.
+dogez.pmnotavailable The player you're addressing isn't online.
 dogez.pmrequiretw You need a WalkieTalkie to use that.
-dogez.pmnoreply You've got no one to reply to :( :foreveralone:
+dogez.pmnotinaconversation You've got no one to reply to :( :foreveralone:
 
 dogez.pluginname XolioZ Plugin
 dogez.avaiablecmds Available commands

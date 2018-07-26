@@ -28,6 +28,8 @@ import io.xol.z.plugin.map.PlacesNames;
 import io.xol.z.plugin.player.PlayerProfiles;
 import io.xol.z.plugin.zombies.ZombiesPopulation;
 
+import javax.annotation.Nonnull;
+
 public class XolioZPlugin extends ServerPlugin {
 
 	private PlayerProfiles playerProfiles = new PlayerProfiles(this);
@@ -144,6 +146,7 @@ public class XolioZPlugin extends ServerPlugin {
 		lootPlaces.saveLootFile(world);
 	}
 
+	@Nonnull
 	public WorldMaster getGameWorld() {
 		return getServer().getWorld();
 	}

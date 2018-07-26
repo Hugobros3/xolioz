@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import io.xol.chunkstories.api.player.Player;
 import io.xol.z.plugin.XolioZPlugin;
 import io.xol.z.plugin.loot.LootCategory;
 
@@ -52,7 +53,7 @@ public class PlayerProfile {
 	// gameplay crap
 	public String lastPlace = "";
 
-	public String talkingTo = "";
+	public Player talkingTo = null;
 
 	// Anti combatlog
 	public long lastHitTime = 0;

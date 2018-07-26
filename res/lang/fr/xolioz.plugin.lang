@@ -4,9 +4,9 @@ dogez.goodsyntaxr Syntaxe correcte : /r <message>
 dogez.pmfrom MP de la part de
 dogez.pmto MP envoyé à
 dogez.pmnoreplywarn Attention, le joueur auquel vous parlez ne peut pas vous répondre, 
-dogez.pmnotdispo Le joueur auquel vous vous addressez n'est pas disponible.
+dogez.pmnotavailable Le joueur auquel vous vous addressez n'est pas disponible.
 dogez.pmrequiretw Il vous faut un talkie-walkie pour faire ça ! 
-dogez.pmnoreply Vous n'avez personne à qui répondre :foreveralone:
+dogez.pmnotinaconversation Vous n'avez personne à qui répondre :foreveralone:
 
 dogez.pluginname Plugin XolioZ
 dogez.avaiablecmds Commandes disponibles
