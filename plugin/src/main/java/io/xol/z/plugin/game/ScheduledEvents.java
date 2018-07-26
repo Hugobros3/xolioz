@@ -13,6 +13,7 @@ import java.util.Random;
 import io.xol.chunkstories.api.math.Math2;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.plugin.Scheduler;
+import io.xol.chunkstories.api.sound.SoundSource;
 import io.xol.chunkstories.api.util.compatibility.ChatColor;
 import io.xol.z.plugin.XolioZPlugin;
 import io.xol.z.plugin.map.PlacesNames;
@@ -89,8 +90,9 @@ public class ScheduledEvents {
 					zik = 1 + rnd.nextInt(10);
 				}
 
-				plugin.getGameWorld().getSoundManager().playMusic("sounds/dogez/music/zik" + zik + ".ogg", 0, 0, 0, (float) (0.5f + Math.random() * 0.5f), 1,
-						true);
+				plugin.getGameWorld().getSoundManager().playSoundEffect(
+						"sounds/dogez/music/zik" + zik + ".ogg",
+						SoundSource.Mode.STREAMED, null, 1, 1, 1, 1);
 			}
 		}, 0, 60 * 60L); // every minute
 	}
