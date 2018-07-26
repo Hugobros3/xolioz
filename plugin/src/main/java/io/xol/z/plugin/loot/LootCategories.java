@@ -1,6 +1,13 @@
+//
+// This file is a part of the XolioZ Mod for Chunk Stories
+// Check out README.md for more information
+// Website: https://chunkstories.xyz
+// Github: https://github.com/Hugobros3/xolioz
+//
+
 package io.xol.z.plugin.loot;
 
-//Copyright 2014 XolioWare Interactive
+// Copyright 2014 XolioWare Interactive
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,7 +32,7 @@ public class LootCategories {
 	public Map<String, LootCategory> categories = new HashMap<String, LootCategory>();
 
 	public void loadTypes() {
-		File file = new File(XolioZPlugin.pluginFolder+"lootCategories.dz");
+		File file = new File(XolioZPlugin.pluginFolder + "lootCategories.dz");
 		if (!file.exists())
 			try {
 				file.createNewFile();
@@ -52,8 +59,7 @@ public class LootCategories {
 					categories.put(name, currentCategory);
 				} else {
 					if (!ligne.startsWith("//")) {
-						ItemDefinition ItemDefinition = plugin.getPluginExecutionContext().getContent().items()
-								.getItemDefinition(ligne.split(":")[0]);
+						ItemDefinition ItemDefinition = plugin.getPluginExecutionContext().getContent().items().getItemDefinition(ligne.split(":")[0]);
 
 						LootType addmeh = new LootType(ItemDefinition, ligne);
 						if (currentCategory != null && addmeh.lootItem != null)

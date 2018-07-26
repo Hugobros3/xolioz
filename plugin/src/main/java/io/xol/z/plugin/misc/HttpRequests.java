@@ -1,3 +1,10 @@
+//
+// This file is a part of the XolioZ Mod for Chunk Stories
+// Check out README.md for more information
+// Website: https://chunkstories.xyz
+// Github: https://github.com/Hugobros3/xolioz
+//
+
 package io.xol.z.plugin.misc;
 
 import java.io.BufferedReader;
@@ -8,23 +15,19 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-//(c) 2014 XolioWare Interactive
+// (c) 2014 XolioWare Interactive
 
 public class HttpRequests {
 
-	/*
-	 * Small tools for getting http(s) pages
-	 */
-	
-	public static String sendPost(String address, String params)
-	{
+	/* Small tools for getting http(s) pages */
+
+	public static String sendPost(String address, String params) {
 
 		boolean https = false;
-		try{
+		try {
 			URL url = new URL(address);
 			https = address.startsWith("https://");
-			if(!https)
-			{
+			if (!https) {
 				HttpURLConnection htc = (HttpURLConnection) url.openConnection();
 				htc.setRequestMethod("POST");
 				htc.setRequestProperty("Accept-Charset", "UTF-8");
@@ -36,19 +39,16 @@ public class HttpRequests {
 				out.writeBytes(params);
 				out.flush();
 				out.close();
-				//get response
+				// get response
 				BufferedReader in = new BufferedReader(new InputStreamReader(htc.getInputStream()));
 				StringBuffer rslt = new StringBuffer();
 				String line;
-				while((line = in.readLine()) != null)
-				{
+				while ((line = in.readLine()) != null) {
 					rslt.append(line);
 				}
 				in.close();
 				return rslt.toString();
-			}
-			else
-			{
+			} else {
 				HttpsURLConnection htc = (HttpsURLConnection) url.openConnection();
 				htc.setRequestMethod("POST");
 				htc.setRequestProperty("Accept-Charset", "UTF-8");
@@ -60,22 +60,19 @@ public class HttpRequests {
 				out.writeBytes(params);
 				out.flush();
 				out.close();
-				//get response
+				// get response
 				BufferedReader in = new BufferedReader(new InputStreamReader(htc.getInputStream()));
 				StringBuffer rslt = new StringBuffer();
 				String line;
-				while((line = in.readLine()) != null)
-				{
+				while ((line = in.readLine()) != null) {
 					rslt.append(line);
 				}
 				in.close();
 				return rslt.toString();
 			}
-		}
-		catch(Exception e)
-		{
-			System.out.println("Coudln't perform POST request on "+address+", ("+e.getMessage()+") stack trace above :");
-			return "request failed : "+e.getMessage()+"";
+		} catch (Exception e) {
+			System.out.println("Coudln't perform POST request on " + address + ", (" + e.getMessage() + ") stack trace above :");
+			return "request failed : " + e.getMessage() + "";
 		}
 	}
 }

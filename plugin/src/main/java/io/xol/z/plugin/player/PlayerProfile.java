@@ -1,3 +1,10 @@
+//
+// This file is a part of the XolioZ Mod for Chunk Stories
+// Check out README.md for more information
+// Website: https://chunkstories.xyz
+// Github: https://github.com/Hugobros3/xolioz
+//
+
 package io.xol.z.plugin.player;
 
 import java.io.BufferedReader;
@@ -16,7 +23,7 @@ import io.xol.chunkstories.api.player.Player;
 import io.xol.z.plugin.XolioZPlugin;
 import io.xol.z.plugin.loot.LootCategory;
 
-//(c) 2014 XolioWare Interactive
+// (c) 2014 XolioWare Interactive
 
 public class PlayerProfile {
 
@@ -74,13 +81,13 @@ public class PlayerProfile {
 
 	public void reloadProfile() {
 
-		File userProfile = new File(XolioZPlugin.pluginFolder+"users/" + uuid + ".dz");
+		File userProfile = new File(XolioZPlugin.pluginFolder + "users/" + uuid + ".dz");
 		userProfile.getParentFile().mkdirs();
 
 		if (userProfile.exists()) {
 			String result = "";
-			
-			//Reads the ordeal
+
+			// Reads the ordeal
 			try {
 				InputStream ips = new FileInputStream(userProfile);
 				InputStreamReader ipsr = new InputStreamReader(ips, "UTF-8");
@@ -96,14 +103,13 @@ public class PlayerProfile {
 
 			String[] data = result.split("\n");
 
-			if(name == null)
-			{
+			if (name == null) {
 				name = data[2];
-				System.out.println("Loaded name from disk: "+name);
+				System.out.println("Loaded name from disk: " + name);
 			}
-			
+
 			dateOfJoin = Integer.parseInt(data[3]);
-			//??? 4
+			// ??? 4
 
 			if (timeConnected == 0) {
 				timeConnected = Long.parseLong(data[5]);
@@ -116,7 +122,7 @@ public class PlayerProfile {
 
 			playersKilled = Integer.parseInt(data[10]);
 			playersKilled_thisLife = Integer.parseInt(data[11]);
-			
+
 			deaths = Integer.parseInt(data[12]);
 
 			inGame = data[13].equals("1");
@@ -144,27 +150,27 @@ public class PlayerProfile {
 	public void saveProfile() {
 		timeCalc();
 
-		File userProfile = new File(XolioZPlugin.pluginFolder+"users/" + uuid + ".dz");
+		File userProfile = new File(XolioZPlugin.pluginFolder + "users/" + uuid + ".dz");
 		try {
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(userProfile), "UTF-8"));
-			
-			out.write("XolioZ user file format 1.0\n"); //0
-			out.write(this.uuid+"\n"); //1
-			out.write(this.name+"\n"); //2
-			out.write(this.dateOfJoin+"\n"); //3
-			out.write(System.currentTimeMillis()+"\n"); //4
-			out.write(this.timeConnected+"\n"); //5
-			out.write(this.timeSurvivedTotal+"\n"); //6
-			out.write(this.timeSurvivedLife+"\n"); //7
-			out.write(this.zombiesKilled+"\n"); //8
-			out.write(this.zombiesKilled_thisLife+"\n"); //9
-			out.write(this.playersKilled+"\n"); //10
-			out.write(this.playersKilled_thisLife+"\n"); //11
-			out.write(this.deaths+"\n"); //12
-			out.write(this.inGame ? "1" : "0" + "\n"); //13
-			out.write("\n"); //15
-			out.write("\n"); //16
-			
+
+			out.write("XolioZ user file format 1.0\n"); // 0
+			out.write(this.uuid + "\n"); // 1
+			out.write(this.name + "\n"); // 2
+			out.write(this.dateOfJoin + "\n"); // 3
+			out.write(System.currentTimeMillis() + "\n"); // 4
+			out.write(this.timeConnected + "\n"); // 5
+			out.write(this.timeSurvivedTotal + "\n"); // 6
+			out.write(this.timeSurvivedLife + "\n"); // 7
+			out.write(this.zombiesKilled + "\n"); // 8
+			out.write(this.zombiesKilled_thisLife + "\n"); // 9
+			out.write(this.playersKilled + "\n"); // 10
+			out.write(this.playersKilled_thisLife + "\n"); // 11
+			out.write(this.deaths + "\n"); // 12
+			out.write(this.inGame ? "1" : "0" + "\n"); // 13
+			out.write("\n"); // 15
+			out.write("\n"); // 16
+
 			out.close();
 		} catch (FileNotFoundException e) {
 		} catch (IOException e) {

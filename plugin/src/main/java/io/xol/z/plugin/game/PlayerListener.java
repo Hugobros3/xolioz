@@ -1,3 +1,10 @@
+//
+// This file is a part of the XolioZ Mod for Chunk Stories
+// Check out README.md for more information
+// Website: https://chunkstories.xyz
+// Github: https://github.com/Hugobros3/xolioz
+//
+
 package io.xol.z.plugin.game;
 
 import io.xol.chunkstories.api.Location;
@@ -106,11 +113,11 @@ public class PlayerListener implements Listener {
 					if (context.getVoxel() instanceof VoxelChest) {
 						PlayerProfile profile = plugin.getPlayerProfiles().getPlayerProfile(player.getUUID());
 
-						//TODO use Vector3i here
+						// TODO use Vector3i here
 						String loot_coordinates = selectedLocation.x() + ":" + selectedLocation.y() + ":" + selectedLocation.z();
 
 						if (profile.adding && profile.activeCategory != null) {
-							
+
 							LootPlace lootPlace = new LootPlace(plugin, selectedLocation, profile.activeCategory, profile.currentMin, profile.currentMax);
 							if (plugin.getLootPlaces().add(loot_coordinates, lootPlace, player.getWorld()))
 								player.sendMessage(ChatColor.AQUA + "Loot point added " + lootPlace.toString());

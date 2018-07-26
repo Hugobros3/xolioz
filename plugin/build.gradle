@@ -1,22 +1,22 @@
+
+
 buildscript {
   ext.kotlin_version = '1.2.51'
   repositories {
     mavenCentral()
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
   }
   dependencies {
-    classpath "com.diffplug.spotless:spotless-plugin-gradle:3.14.0"
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
+}
+plugins {
+  id "com.diffplug.gradle.spotless" version "3.14.0"
 }
 
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'java-library'
 apply plugin: "kotlin"
-apply plugin: "com.diffplug.gradle.spotless"
 
 //TODO Make version depend on Git ?
 version = rootProject.version
@@ -28,6 +28,28 @@ repositories {
 	maven {
 		url "http://maven.xol.io/repository/public/"
 	}
+}
+
+
+spotless {
+  java {
+    licenseHeaderFile '../codequality/header-include-notice.txt'		// License header file
+    // Obviously, you can't specify both licenseHeader and licenseHeaderFile at the same time
+
+    importOrder 'java', 'javax', 'org', 'com', 'com.diffplug', ''	// A sequence of package names
+    //importOrderFile 'spotless.importorder'				// An import ordering file, exported from Eclipse
+    // As before, you can't specify both importOrder and importOrderFile at the same time
+    // You probably want an empty string at the end - all of the imports you didn't specify
+    // explicitly will go there.
+
+    //removeUnusedImports() // removes any unused imports
+
+    eclipse().configFile '../codequality/style.xml'	// XML file dumped out by the Eclipse formatter
+	//eclipse('4.7.1')
+    // If you have Eclipse preference or property files, you can use them too.
+    // eclipse('4.7.1') to specify a specific version of eclipse,
+    // available versions are: https://github.com/diffplug/spotless/tree/master/lib-extra/src/main/resources/com/diffplug/spotless/extra/config/eclipse_jdt_formatter
+  }
 }
 
 jar {

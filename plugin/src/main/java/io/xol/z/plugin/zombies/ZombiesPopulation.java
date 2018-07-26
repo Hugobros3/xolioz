@@ -1,3 +1,10 @@
+//
+// This file is a part of the XolioZ Mod for Chunk Stories
+// Check out README.md for more information
+// Website: https://chunkstories.xyz
+// Github: https://github.com/Hugobros3/xolioz
+//
+
 package io.xol.z.plugin.zombies;
 
 import io.xol.chunkstories.api.Location;
@@ -88,7 +95,9 @@ public class ZombiesPopulation {
 	public void spawnZombie(Location location) {
 		WorldMaster world = plugin.getGameWorld();
 
-		//EntityZombie zombie = new EntityZombie(plugin.getPluginExecutionContext().getContent().entities().getEntityDefinition("zombie"), location);
+		// EntityZombie zombie = new
+		// EntityZombie(plugin.getPluginExecutionContext().getContent().entities().getEntityDefinition("zombie"),
+		// location);
 		EntityZombie zombie = (EntityZombie) plugin.getPluginExecutionContext().getContent().entities().getEntityDefinition("zombie").create(location);
 		zombie.traits.with(TraitHealth.class, eh -> {
 			eh.setHealth((float) (eh.getHealth() * (0.5 + Math.random())));

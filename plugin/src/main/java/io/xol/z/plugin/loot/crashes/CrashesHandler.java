@@ -1,3 +1,10 @@
+//
+// This file is a part of the XolioZ Mod for Chunk Stories
+// Check out README.md for more information
+// Website: https://chunkstories.xyz
+// Github: https://github.com/Hugobros3/xolioz
+//
+
 package io.xol.z.plugin.loot.crashes;
 
 import java.util.HashMap;
@@ -17,61 +24,60 @@ import io.xol.chunkstories.api.input.Input;
 import io.xol.chunkstories.api.player.Player;
 import io.xol.chunkstories.api.voxel.Voxel;
 import io.xol.chunkstories.api.world.cell.CellData;
+import io.xol.z.mod.voxels.StaticVehicleVoxel;
 import io.xol.z.plugin.XolioZPlugin;
 import io.xol.z.plugin.loot.LootCategory;
-import io.xol.z.mod.voxels.StaticVehicleVoxel;
 
-/** 
- * Remebers where, when and what was inside of a crash site 
- * Responsible for creating and (eventually ?) removing them
- */
+/** Remebers where, when and what was inside of a crash site Responsible for
+ * creating and (eventually ?) removing them */
 public class CrashesHandler implements Listener {
 
 	private final XolioZPlugin xolioZGamemodePlugin;
 	private final Set<StaticVehicleVoxel> registeredVoxels = new HashSet<StaticVehicleVoxel>();
-	
+
 	private Map<Location, Crash> crashes = new HashMap<>();
-	
+
 	public CrashesHandler(XolioZPlugin xolioZGamemodePlugin) {
 		this.xolioZGamemodePlugin = xolioZGamemodePlugin;
-		
+
 		Iterator<Voxel> i = xolioZGamemodePlugin.getPluginExecutionContext().getContent().voxels().all();
-		while(i.hasNext()) {
+		while (i.hasNext()) {
 			Voxel voxel = i.next();
-			if(voxel instanceof StaticVehicleVoxel) {
+			if (voxel instanceof StaticVehicleVoxel) {
 				registeredVoxels.add((StaticVehicleVoxel) voxel);
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerPoke(PlayerVoxelModificationEvent event) {
-		if(!event.getContext().getVoxel().isAir()) {
+		if (!event.getContext().getVoxel().isAir()) {
 			Voxel placed = event.getContext().getVoxel();
-			if(registeredVoxels.contains(placed)) {
-				if(event.getContext().getMetaData() == 0) {
-					StaticVehicleVoxel vehicleType = (StaticVehicleVoxel)placed;
+			if (registeredVoxels.contains(placed)) {
+				if (event.getContext().getMetaData() == 0) {
+					StaticVehicleVoxel vehicleType = (StaticVehicleVoxel) placed;
 					LootCategory category = xolioZGamemodePlugin.getLootTypes().getCategory(vehicleType.lootCategoryName);
-					
-					if(category == null)
+
+					if (category == null)
 						return;
-					
+
 					System.out.println("Created crash object, calling spawnLoot");
-					Crash crash = new Crash(xolioZGamemodePlugin, event.getContext().getLocation(), category, vehicleType.lootAmountMin, vehicleType.lootAmountMax);
-					//crash.spawnLoot();
+					Crash crash = new Crash(xolioZGamemodePlugin, event.getContext().getLocation(), category, vehicleType.lootAmountMin,
+							vehicleType.lootAmountMax);
+					// crash.spawnLoot();
 					crashes.put(event.getContext().getLocation(), crash);
 				}
 			}
 		} else {
 			Voxel removed = event.getContext().getVoxel();
-			if(registeredVoxels.contains(removed)) {
-				if(event.getContext().getMetaData() == 0) {
+			if (registeredVoxels.contains(removed)) {
+				if (event.getContext().getMetaData() == 0) {
 					crashes.remove(event.getContext().getLocation());
 				}
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerInput(PlayerInputPressedEvent event) {
 
@@ -87,33 +93,33 @@ public class CrashesHandler implements Listener {
 
 		if (selectedLocation != null) {
 			CellData context = player.getWorld().peekSafely(selectedLocation);
-		
+
 			// loot regeneration
 			Voxel voxel = player.getWorld().peekSafely(selectedLocation).getVoxel();
 			if (voxel instanceof StaticVehicleVoxel) {
-				StaticVehicleVoxel vehicleType = (StaticVehicleVoxel)voxel;
-				System.out.println("lookin for the crash "+crashes.size());
-				
+				StaticVehicleVoxel vehicleType = (StaticVehicleVoxel) voxel;
+				System.out.println("lookin for the crash " + crashes.size());
+
 				int x = context.getX();
 				int y = context.getY();
 				int z = context.getZ();
-				
-				//Backpedal to find the root block
+
+				// Backpedal to find the root block
 				int meta = context.getMetaData();
-				
+
 				int ap = (meta >> vehicleType.xShift) & vehicleType.xMask;
 				int bp = (meta >> vehicleType.yShift) & vehicleType.yMask;
 				int cp = (meta >> vehicleType.zShift) & vehicleType.zMask;
-				
+
 				int startX = x - ap;
 				int startY = y - bp;
 				int startZ = z - cp;
-				
+
 				Crash crash = crashes.get(new Location(context.getWorld(), startX, startY, startZ));
-				if(crash != null) {
+				if (crash != null) {
 					crash.update();
 				}
-			} 
+			}
 		}
 
 	}
