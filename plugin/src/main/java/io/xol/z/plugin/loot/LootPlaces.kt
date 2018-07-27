@@ -44,7 +44,7 @@ class LootPlaces(val plugin: XolioZPlugin) {
             val ips = FileInputStream(file)
             val ipsr = InputStreamReader(ips, "UTF-8")
             val br = BufferedReader(ipsr)
-            var ligne: String = br.readLine()
+            var ligne: String? = br.readLine()
             while (ligne != null) {
 
                 val split = ligne.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -152,25 +152,27 @@ class LootPlaces(val plugin: XolioZPlugin) {
     }
 
     fun generateLootPointsArroundPlayer(player: Player, radius: Int, forceReplace: Boolean): Int {
+        val profile = player.profile
+        val category = profile.activeCategory ?: return -1
+
         val places = getData(player.controlledEntity!!.getWorld())
+
         var count = 0
-        val pp = player.profile
+
         val loc = player.location
         var x = (loc.x() - radius).toInt()
         while (x < loc.x() + radius) {
             var z = (loc.z() - radius).toInt()
             while (z < loc.z() + radius) {
                 for (y in 0..254) {
-                    val v = player.world.peekSafely(x, y, z).voxel// XolioZPlugin.getServer().getContent().voxels().getVoxelById(player.getControlledEntity().getWorld().getVoxelData(x,
-                    // y, z));
+                    val v = player.world.peekSafely(x, y, z).voxel
 
-                    if (v != null && v is VoxelChest && pp.activeCategory != null) {
+                    if (v != null && v is VoxelChest) {
                         val coords = x.toString() + ":" + y + ":" + z
 
-                        val lp = LootPlace(plugin, Location(player.world, x.toDouble(), y.toDouble(), z.toDouble()), pp.activeCategory, pp.currentMin, pp.currentMax)
-                        // new LootPlace(this,
-                        // coords+":"+pp.activeCategory+":"+pp.currentMin+":"+pp.currentMax,player.getControlledEntity().getWorld());
-                        if (forceReplace || !places.containsKey(coords)) {
+                        val lp = LootPlace(plugin, Location(player.world, x.toDouble(), y.toDouble(), z.toDouble()), category, profile.currentMin, profile.currentMax)
+
+                         if (forceReplace || !places.containsKey(coords)) {
                             if (places.containsKey(coords))
                                 places.remove(coords)
                             places[coords] = lp

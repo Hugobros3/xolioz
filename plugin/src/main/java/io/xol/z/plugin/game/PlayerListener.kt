@@ -88,6 +88,8 @@ class PlayerListener(private val plugin: XolioZPlugin) : Listener {
             return
 
         val player = event.player
+        val profile = with(plugin.playerProfiles) { player.profile }
+        val category = profile.activeCategory
 
         val playerEntity = player.controlledEntity
         val selectedLocation = playerEntity!!.traits.tryWith<TraitVoxelSelection, Location>(TraitVoxelSelection::class.java) { tvs -> tvs.getBlockLookingAt(true, false) }
@@ -102,14 +104,13 @@ class PlayerListener(private val plugin: XolioZPlugin) : Listener {
                 if (itemInHand != null && itemInHand.item.name == "dz_loot_tool") {
 
                     if (context.voxel is VoxelChest) {
-                        val profile =  with(plugin.playerProfiles) {player.profile }
 
                         // TODO use Vector3i here
                         val loot_coordinates = selectedLocation.x().toString() + ":" + selectedLocation.y() + ":" + selectedLocation.z()
 
-                        if (profile.adding && profile.activeCategory != null) {
+                        if (profile.adding) {
 
-                            val lootPlace = LootPlace(plugin, selectedLocation, profile.activeCategory, profile.currentMin, profile.currentMax)
+                            val lootPlace = LootPlace(plugin, selectedLocation, category!!, profile.currentMin, profile.currentMax)
                             if (plugin.lootPlaces.add(loot_coordinates, lootPlace, player.world))
                                 player.sendMessage(ChatColor.AQUA.toString() + "Loot point added " + lootPlace.toString())
                             else
